@@ -1,9 +1,10 @@
 import java.io.*;
 import be.baur.sda.*;
+import be.baur.sda.parser.SyntaxException;
 
-/** For unit testing only. 
+/** Test for our default parser. 
  */
-public class unittest {
+public class TestDefaultParser {
 
 	public static void main(String[] args) 
 	throws IOException, SyntaxException {

@@ -1,11 +1,13 @@
-package be.baur.sda;
+package be.baur.sda.parser;
 
 import java.io.IOException;
 import java.io.Reader;
 
+import be.baur.sda.SDA;
+
 /** 
  * The <code>Scanner</code> scans an input stream and supplies tokens to the parser.
- * Because it is used in the SDA package only, everything has package visibility. 
+ * Because it is used in the parser package only, everything has package visibility. 
  */
 final class Scanner {
     
