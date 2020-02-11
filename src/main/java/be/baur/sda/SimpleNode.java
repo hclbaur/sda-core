@@ -6,8 +6,8 @@ package be.baur.sda;
  */
 public final class SimpleNode extends Node {
 
-	/** The simple content (string value) of this node. */
-    private final String value;
+	/** The (immutable) value has public visibility, and there is no getter for it. */
+    public final String value;
 	
     
 	/** Creates a simple node with a name and value. */
@@ -16,15 +16,14 @@ public final class SimpleNode extends Node {
 	}
 
 	
-	/** Returns the node value (there is no getValue() method). */
+	/** Returns the node value (as-is). */
 	public String toString() { return value; }
 
-	
-	/** Renders the node as an SDA element, properly escaping backslashes and quotes. */
 	
 	private final static String ESCAPE = "" + (char)SDA.ESCAPE;
 	private final static String QUOTE = "" + (char)SDA.QUOTE;
 	
+	/** Renders the node as an SDA element, properly escaping backslashes and quotes. */
 	public String render() {
 		
 		String val = value.replace(ESCAPE, ESCAPE + ESCAPE);
