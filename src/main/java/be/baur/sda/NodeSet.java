@@ -3,6 +3,8 @@ package be.baur.sda;
 import java.io.StringReader;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import be.baur.sda.parser.Parser;
+
 /** A <code>NodeSet</code> represents an collection of {@link Node} objects. 
  * Amongst others, it is used in a {@link ComplexNode} to hold child nodes.
  * It extends a CopyOnWriteArraySet but I doubt that's a good choice.
@@ -57,7 +59,8 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 		String v2 = "vector{ " + p3 + p4 + " }";
 		String vs = "set{ " + v1 + v2 + " }";
 	    
-		ComplexNode ns = (ComplexNode) SDA.Parse(new StringReader(vs)) ;
+		Parser parser = new Parser();
+		ComplexNode ns = (ComplexNode) parser.Parse(new StringReader(vs)) ;
 		
 	    System.out.println("NodeSet.main():");
 		System.out.println("set : " + ns.render());
@@ -72,13 +75,5 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 		System.out.println("(vector/point)[2] : " + points.get(2));
 		System.out.println("vector[2]/point   : " + ((ComplexNode) vectors.get(2)).children().get("point").render());
 		System.out.println("vector[2]/point[2]: " + ((ComplexNode) vectors.get(2)).children().subset("point").get(2).render());		
-	
-		//System.out.println("\nvector/point/x         : " + point.$("x"));
-		//System.out.println("vector/point/x[2]      : " + point.$("x",2));
-		//System.out.println("vector/point/*[2]      : " + point.$("*",2));
-		//System.out.println("(vector/point/*)[2]    : " + point.$("*").$(2));
-		//System.out.println("vector/point[2]/x      : " + vector.$("point",2).$("x"));
-		//System.out.println("vector[2]/point/x      : " + vector.$(2).$("point").$("x"));
-		//System.out.println("vector[2]/point[2]/x   : " + set.$("vector",2).$("point",2).$("x"));
 	}
 }

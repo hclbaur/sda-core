@@ -1,13 +1,13 @@
 import java.io.*;
 import be.baur.sda.*;
+import be.baur.sda.parser.Parser;
 import be.baur.sda.parser.SyntaxException;
 
 /** Test for our default parser. 
  */
 public class TestDefaultParser {
 
-	public static void main(String[] args) 
-	throws IOException, SyntaxException {
+	public static void main(String[] args) throws IOException, SyntaxException {
         
 		/* test valid SDA */
 		
@@ -42,9 +42,11 @@ public class TestDefaultParser {
 
 	}
 	
+	static Parser parser = new Parser();
+	
 	static void TestParseError(String name, String in, String out) {
         
-		try { SDA.Parse(new StringReader(in)); }
+		try { parser.Parse(new StringReader(in)); }
         catch (Exception e) { 
         	if (e.getMessage().equals(out)) 
         		System.out.print(name + " ");
@@ -61,7 +63,7 @@ public class TestDefaultParser {
 	static void TestParseAndRender(String name, String in, String out) 
 	throws IOException, SyntaxException {
         
-		Node e = SDA.Parse(new StringReader(in));
+		Node e = parser.Parse(new StringReader(in));
 		StringWriter s = new StringWriter(); 
 		SDA.Render(s, e);
 		
