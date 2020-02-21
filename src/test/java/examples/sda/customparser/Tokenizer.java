@@ -152,8 +152,7 @@ final class Tokenizer {
         return getClass().getName() + "[state=" + state + ",pos=" + pos + "]";
     }
     
-    /** For unit testing only. Make public to run.
-    */
+    /** For unit testing only. Make public to run. */
     static void main(String[] args) throws Exception {
     	
     	Tokenizer lexer = new Tokenizer(

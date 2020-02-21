@@ -16,15 +16,11 @@ public final class SimpleNode extends Node {
 	}
 
 	
-	/** Returns the node value (as-is). */
-	public String toString() { return value; }
-
-	
 	private final static String ESCAPE = "" + (char)SDA.ESCAPE;
 	private final static String QUOTE = "" + (char)SDA.QUOTE;
 	
 	/** Renders the node as an SDA element, properly escaping backslashes and quotes. */
-	public String render() {
+	public String toString() {
 		
 		String val = value.replace(ESCAPE, ESCAPE + ESCAPE);
 		return name + " " + QUOTE + val.replace(QUOTE, ESCAPE + QUOTE) + QUOTE;

@@ -53,11 +53,8 @@ public final class ComplexNode extends Node {
 
 	
 	/** Renders the node as an SDA element (including any children). */
-	public String render() {
-		return name + (char)SDA.LBRACE + " " + childnodes.render() + (char)SDA.RBRACE;
+	public String toString() {
+		return name + (char)SDA.LBRACE + " " + childnodes.toString() + (char)SDA.RBRACE;
 	}
-	
-	
-	/** Returns a concatenation of the string value of all child nodes (not very useful). */
-	public String toString() { return "" + childnodes; }
+
 }

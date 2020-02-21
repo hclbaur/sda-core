@@ -136,11 +136,10 @@ public final class Parser {
     }
     
    
-    /** For unit testing only. Make public to run.
-    */
-    public static void main(String[] args) throws Exception {
+    /** For unit testing only. Make public to run. */
+    static void main(String[] args) throws Exception {
 
         Node e = (new Parser()).Parse(new StringReader("greeting{message\"hello world\"}"));
-        System.out.print("e: " + e.render()); 
+        System.out.print("e: " + e);
     }
 }

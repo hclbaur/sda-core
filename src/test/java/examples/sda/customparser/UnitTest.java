@@ -1,3 +1,4 @@
+package examples.sda.customparser;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -6,11 +7,10 @@ import java.io.StringWriter;
 import be.baur.sda.Node;
 import be.baur.sda.SDA;
 import be.baur.sda.parser.SyntaxException;
-import examples.sda.customparser.Parser;
 
 /** For unit testing only. 
  */
-public class TestCustomParser {
+class UnitTest {
 
 	public static void main(String[] args) throws IOException, SyntaxException {
         

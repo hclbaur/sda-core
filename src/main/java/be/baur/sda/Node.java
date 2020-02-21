@@ -32,7 +32,5 @@ public abstract class Node {
 		return parent;
 	}
 
-	abstract public String render();
-
 	abstract public String toString();
 }

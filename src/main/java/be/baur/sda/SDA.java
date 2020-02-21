@@ -14,13 +14,12 @@ public final class SDA {
 	public static final int QUOTE = '"'; 
 	/** The escape character: a back slash. */
 	public static final int ESCAPE = '\\';
-	/** The end of file character. */
-	public static final int EOF = -1;	
+
 	
 	/** Recursively render a <code>Node</code> as an SDA element to an output stream. */
     public static final void Render(Writer output, Node node) throws IOException {
     		
-    	output.write( node.render() ); output.close();
+    	output.write( node.toString() ); output.close();
     }
 	
 }

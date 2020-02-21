@@ -36,14 +36,8 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 
 	
 	/** Renders the set as a list of SDA elements. */
-	public String render() {
-		String s = ""; for (Node node : this) s = s + node.render() + " "; return s;
-	}
-	
-	
-	/** Returns a concatenation of the string value of all nodes (not very useful). */
 	public String toString() {
-		String s = ""; for (Node node : this) s = s + node; return s;
+		String s = ""; for (Node node : this) s = s + node.toString() + " "; return s;
 	}
 
 
@@ -63,17 +57,17 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 		ComplexNode ns = (ComplexNode) parser.Parse(new StringReader(vs)) ;
 		
 	    System.out.println("NodeSet.main():");
-		System.out.println("set : " + ns.render());
+		System.out.println("set : " + ns);
 	
 		NodeSet vectors = ns.children().subset("vector");
-		System.out.println("\n/set/vector   : " + vectors.render());
-		System.out.println("/set/vector[2]: " + vectors.get(2).render());	
+		System.out.println("\n/set/vector   : " + vectors);
+		System.out.println("/set/vector[2]: " + vectors.get(2));	
 		
 		NodeSet points = vectors.subset("point");
 		System.out.println("\nvector/point      : " + points);
 		System.out.println("vector/point[2]   : " + vectors.subset("point").get(2));
 		System.out.println("(vector/point)[2] : " + points.get(2));
-		System.out.println("vector[2]/point   : " + ((ComplexNode) vectors.get(2)).children().get("point").render());
-		System.out.println("vector[2]/point[2]: " + ((ComplexNode) vectors.get(2)).children().subset("point").get(2).render());		
+		System.out.println("vector[2]/point   : " + ((ComplexNode) vectors.get(2)).children().get("point"));
+		System.out.println("vector[2]/point[2]: " + ((ComplexNode) vectors.get(2)).children().subset("point").get(2));		
 	}
 }

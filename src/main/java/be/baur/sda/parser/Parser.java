@@ -34,7 +34,7 @@ public final class Parser {
     	
     	scanner = new Scanner(input); 
     	Node node = getNode(); scanner.skipwhite(); 
-    	if (scanner.c != SDA.EOF) 
+    	if (scanner.c != Scanner.EOF) 
     		throw new SyntaxException(scanner.p, "excess input after root node");
     	return node;
     }
@@ -66,13 +66,13 @@ public final class Parser {
     }
 	
 	   
-    /** For unit testing only. */
-    public static void main(String[] args) throws Exception {
+    /** For unit testing only. Make public to run. */
+    static void main(String[] args) throws Exception {
     	
     	Parser parser = new Parser();
         Node s = parser.Parse(new StringReader("greeting{message\"hello world\"}"));
         Node f = parser.Parse(new FileReader("D:\\home\\hb\\files\\projects\\SDA\\samples\\sample.sda"));
-        System.out.println("s: " + s.render());
-        System.out.println("f: " + f.render());
+        System.out.println("s: " + s);
+        System.out.println("f: " + f);
     }
 }

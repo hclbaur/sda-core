@@ -9,12 +9,13 @@ import be.baur.sda.SDA;
  * The <code>Scanner</code> scans an input stream and supplies tokens to the parser.
  * Because it is used in the parser package only, everything has package visibility. 
  */
+
 final class Scanner {
     
     private Reader input; // the input stream
 	int c; // current character in the stream
 	long p; // current position in the stream
-	    
+	
     
     /** Create and initialize a scanner. */
     Scanner(Reader input) throws IOException {
@@ -28,8 +29,9 @@ final class Scanner {
     }
     
     /** Check and abort when EOF is reached. */
+    static final int EOF = -1;
     void checkEOF() throws SyntaxException {
-    	if (c == SDA.EOF) throw new SyntaxException(p, "unexpected end of input");
+    	if (c == EOF) throw new SyntaxException(p, "unexpected end of input");
     }
 
 	
