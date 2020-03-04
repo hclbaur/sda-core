@@ -30,27 +30,20 @@ public final class ComplexNode extends Node {
 	}
 	
 	
-	/** Adds all nodes from an input set as children. */
-	public void addAll(NodeSet children) {
-		for (Node child : children) this.add(child);
+	/** Adds all nodes from an input set as children. 
+     * @return true if all are added, false otherwise.
+     */
+	public boolean addAll(NodeSet children) {
+
+		boolean result = true;
+		for (Node child : children) result &= this.add(child);
+		return result;
 	}
 
 	
 	/** Returns a reference to the child node set. */
 	public NodeSet children() { return childnodes; }
 	
-	
-	/** Removes a child node (if it is a child).
-     * @return true on success, false otherwise.
-     *
-	public boolean removeChild(Node child) {
-
-        if ( child != null && children.remove(child) ) {
-			child.setParent(null); return true;
-        }
-		return false;
-	}*/
-
 	
 	/** Renders the node as an SDA element (including any children). */
 	public String toString() {

@@ -7,7 +7,7 @@ import be.baur.sda.parser.Parser;
 
 /** A <code>NodeSet</code> represents an collection of {@link Node} objects. 
  * Amongst others, it is used in a {@link ComplexNode} to hold child nodes.
- * It extends a CopyOnWriteArraySet but I doubt that's a good choice.
+ * It extends a CopyOnWriteArraySet and defines a few convenience methods.
  */
 @SuppressWarnings("serial")
 public final class NodeSet extends CopyOnWriteArraySet<Node> {
@@ -28,7 +28,7 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	
 	
 	/** Get all nodes with a particular name from a set, obviously returns a subset. */
-	NodeSet subset(String name) {
+	NodeSet getAll(String name) {
 
 		NodeSet sub = new NodeSet();
 		for (Node node : this) if (node.name.equals(name)) sub.add(node); return sub;
@@ -54,20 +54,20 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 		String vs = "set{ " + v1 + v2 + " }";
 	    
 		Parser parser = new Parser();
-		ComplexNode ns = (ComplexNode) parser.Parse(new StringReader(vs)) ;
+		ComplexNode set = (ComplexNode) parser.Parse(new StringReader(vs)) ;
 		
-	    System.out.println("NodeSet.main():");
-		System.out.println("set : " + ns);
+		System.out.println("set: " + set);
 	
-		NodeSet vectors = ns.children().subset("vector");
-		System.out.println("\n/set/vector   : " + vectors);
+		NodeSet vectors = set.children().getAll("vector");
+		System.out.println("\n/set/vector: " + vectors);
 		System.out.println("/set/vector[2]: " + vectors.get(2));	
 		
-		NodeSet points = vectors.subset("point");
+		NodeSet points = vectors.getAll("point");
 		System.out.println("\nvector/point      : " + points);
-		System.out.println("vector/point[2]   : " + vectors.subset("point").get(2));
+		System.out.println("vector/point[2]   : " + vectors.getAll("point").get(2));
 		System.out.println("(vector/point)[2] : " + points.get(2));
+
 		System.out.println("vector[2]/point   : " + ((ComplexNode) vectors.get(2)).children().get("point"));
-		System.out.println("vector[2]/point[2]: " + ((ComplexNode) vectors.get(2)).children().subset("point").get(2));		
+		System.out.println("vector[2]/point[2]: " + ((ComplexNode) vectors.get(2)).children().getAll("point").get(2));		
 	}
 }
