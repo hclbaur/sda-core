@@ -2,12 +2,15 @@ package be.baur.sda;
 
 /**
  * A <code>Node</code> represents an SDA element. It has a name and a reference
- * to an (optional) parent. This a an abstract base class.
+ * to an (optional) parent node. This is an abstract base class.
+ * To understand the SDA package, you should start here.
+ * Next, have a look at a {@link SimpleNode}.
  */
 public abstract class Node {
 
 	/** The (immutable) name has public visibility, and there is no getter for it. */
 	public final String name;
+	
 	/** A reference to the parent node. */
 	private Node parent;
 
@@ -20,8 +23,8 @@ public abstract class Node {
 
 	/**
 	 * Sets the parent reference. Potentially dangerous, as this method does
-	 * not actually update the parent. To be called from <code>ComplexNode</code>
-	 * when adding or removing a child node. Do not make this method public.
+	 * not actually update the parent. We call this from <code>ComplexNode</code>
+	 * when adding a child node. Do not make this method public!
 	 */
 	void setParent(Node parent) {
 		this.parent = parent;

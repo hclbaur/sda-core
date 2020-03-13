@@ -1,8 +1,8 @@
 package be.baur.sda;
 
 /** A <code>SimpleNode</code> represents a simple SDA element; 
- * a node with a value of a simple type and no children - as
- * opposed to a {@link ComplexNode}.
+ * a node with a value of a simple type. Typically, these nodes
+ * are children of a parent {@link ComplexNode}.
  */
 public final class SimpleNode extends Node {
 

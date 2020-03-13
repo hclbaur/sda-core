@@ -1,5 +1,5 @@
 
-package examples.sda.customparser;
+package examples.parsers.sda;
 
 import java.io.IOException;
 import java.io.Reader;

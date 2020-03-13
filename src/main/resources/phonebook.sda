@@ -1,0 +1,14 @@
+phonebook {
+	contact {
+		name "Harold"
+		number "06-52659869"
+	}
+	contact {
+		name "Bertha"
+		number "06-30489981"
+	}
+	contact {
+		name "Home"
+		number "040-2529247"
+	}
+}

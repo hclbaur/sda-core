@@ -1,7 +1,8 @@
 package be.baur.sda.parser;
 
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -58,7 +59,7 @@ public final class Parser {
 
 			scanner.advance(); scanner.skipwhite(); // skip right brace and whitespace
 
-			if (children.size()>0) parent.addAll(children);
+			if (children.size()>0) parent.add(children);
 			return parent; 
 		}
 		else // simple content ahead, return a simple node
@@ -71,10 +72,11 @@ public final class Parser {
 	/** For unit testing only. Make public to run. */
 	static void main(String[] args) throws Exception {
 
-		Node sr = (new Parser()).Parse(new StringReader("greeting{message\"hello world\"}"));
-		Node fr = (new Parser()).Parse(new FileReader("D:\\home\\hb\\files\\projects\\SDA\\samples\\sample.sda"));
-		System.out.println("sr: " + sr);
-		System.out.println("fr: " + fr);
+		Node hello = (new Parser()).Parse(new StringReader("greeting{message\"hello world\"}"));
+		InputStream in = Parser.class.getResourceAsStream("/sample.sda");
+		Node sample = (new Parser()).Parse(new InputStreamReader(in,"UTF-8"));
+		System.out.println("sr: " + hello);
+		System.out.println("fr: " + sample);
 
 		/* test valid SDA */
 
