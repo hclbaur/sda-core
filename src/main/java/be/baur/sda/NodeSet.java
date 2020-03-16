@@ -49,7 +49,7 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 
 		System.out.println("book: " + book);
 
-		NodeSet contacts = book.get("contact");
+		NodeSet contacts = book.get();
 
 		System.out.println("\n/book/contact: " + contacts);
 		System.out.println("\n/book/contact[2]: " + contacts.get(2));
@@ -59,6 +59,6 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 
 		System.out.println("\n/book/contact/name: " + names);
 		System.out.println("\n(/book/contact/name)[2]: " + names.get(2));
-		System.out.println("\n/book/contact[2]/name: " + ((ComplexNode)contacts.get(2)).get("name"));
+		System.out.println("\n/book/contact[2]/number: " + ((ComplexNode)contacts.get(2)).get("number"));
 	}
 }
