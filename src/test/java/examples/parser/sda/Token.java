@@ -1,5 +1,5 @@
 
-package examples.parsers.sda;
+package examples.parser.sda;
 
 /** A generic token, returned by a {@link Tokenizer}. Tokens are fairly
  * simple objects that do not evolve once they have been created, so they
