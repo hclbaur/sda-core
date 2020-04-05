@@ -42,11 +42,11 @@ public final class ComplexNode extends Node {
 
 
 	/** Get a single child, by an index in the range 1 .. size(). */
-	Node get(int index) { return children.get(index); }
+	public Node get(int index) { return children.get(index); }
 
 
 	/** Get one or more children with a particular name.*/
-	NodeSet get(String name) { return children.get(name); }
+	public NodeSet get(String name) { return children.get(name); }
 
 	
 	/** Returns a reference to all child nodes. */

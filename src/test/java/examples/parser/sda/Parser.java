@@ -12,10 +12,10 @@ import be.baur.sda.parser.SyntaxException;
 
 public final class Parser {
 
-	/** Parse SDA input and return a top level <code>Node</code>.
-	 * Internally, this method uses a {@link Tokenizer} to obtain and validate 
-	 * input {@link Token} objects and reduced them to {@link Node} objects. 
-	 * <br>For example, when associated with the following SDA input<br><br>
+	/** Example of an alternative parser (actually the first version I wrote).
+	 * It uses a {@link Tokenizer} to read and validate input {@link Token}s
+	 * and reduces them to {@link Node}s.
+	 * <br>For example, after processing the following SDA input<br><br>
 	 * <code>greeting { message "hello" }</code>
 	 * <br><br>it returns a <code>ComplexNode</code> 'greeting' with a
 	 * <code>SimpleNode</code> child 'message' that has a value of "greeting".

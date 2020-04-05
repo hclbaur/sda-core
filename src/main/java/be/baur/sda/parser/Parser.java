@@ -10,8 +10,8 @@ import be.baur.sda.SDA;
 import be.baur.sda.SimpleNode;
 
 
-/** Expects an (SDA) input stream and returns a root <code>Node</code>.
- * For example, when associated with the following SDA input<br><br>
+/** The default parser. Reads SDA input and returns a root <code>Node</code>.
+ * For example, when processing the following input<br><br>
  * <code>greeting { message "hello" }</code>
  * <br><br>it returns a <code>ComplexNode</code> 'greeting' with a
  * <code>SimpleNode</code> child 'message' with a value of "hello".

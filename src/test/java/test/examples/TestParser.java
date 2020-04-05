@@ -2,6 +2,8 @@
 package test.examples;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.StringWriter;
 
@@ -12,11 +14,13 @@ import examples.parser.sda.Parser;
 
 public final class TestParser {
 
-	/** For unit testing only. Make public to run. */
 	public static void main(String[] args) throws Exception {
 
-		Node e = (new Parser()).Parse(new StringReader("greeting{message\"hello world\"}"));
-		System.out.println("\nStringReader: " + e);
+		Node helloworld = (new Parser()).Parse(new StringReader("greeting{message\"hello world\"}"));
+		InputStream in = Parser.class.getResourceAsStream("/sample.sda");
+		Node samplefile = (new Parser()).Parse(new InputStreamReader(in,"UTF-8"));
+		System.out.println("helloworld: " + helloworld);
+		System.out.println("samplefile: " + samplefile);
 
 		/* test valid SDA */
 
