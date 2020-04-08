@@ -9,8 +9,8 @@ import java.io.StringWriter;
 
 import be.baur.sda.Node;
 import be.baur.sda.SDA;
-import be.baur.sda.parser.SyntaxException;
-import examples.parser.sda.Parser;
+import be.baur.sda.parse.SyntaxException;
+import examples.parse.sda.Parser;
 
 public final class TestParser {
 

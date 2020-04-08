@@ -1,5 +1,5 @@
 
-package examples.parser.sda;
+package examples.parse.sda;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -8,7 +8,7 @@ import java.util.Stack;
 import be.baur.sda.ComplexNode;
 import be.baur.sda.Node;
 import be.baur.sda.SimpleNode;
-import be.baur.sda.parser.SyntaxException;
+import be.baur.sda.parse.SyntaxException;
 
 public final class Parser {
 

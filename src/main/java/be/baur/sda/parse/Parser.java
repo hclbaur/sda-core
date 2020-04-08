@@ -1,4 +1,4 @@
-package be.baur.sda.parser;
+package be.baur.sda.parse;
 
 import java.io.IOException;
 import java.io.Reader;

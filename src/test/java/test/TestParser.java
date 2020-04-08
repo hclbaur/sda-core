@@ -8,8 +8,8 @@ import java.io.StringWriter;
 
 import be.baur.sda.Node;
 import be.baur.sda.SDA;
-import be.baur.sda.parser.Parser;
-import be.baur.sda.parser.SyntaxException;
+import be.baur.sda.parse.Parser;
+import be.baur.sda.parse.SyntaxException;
 
 public final class TestParser {
 

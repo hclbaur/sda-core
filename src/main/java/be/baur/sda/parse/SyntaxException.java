@@ -1,4 +1,4 @@
-package be.baur.sda.parser;
+package be.baur.sda.parse;
 
 /** To be thrown if the SDA syntax is violated. */
 @SuppressWarnings("serial")

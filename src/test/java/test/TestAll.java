@@ -10,7 +10,14 @@ public final class TestAll {
 		System.out.println("\n\nTestNodeSet: ");
 		test.TestNodeSet.main(args);
 
+<<<<<<< HEAD
 		System.out.println("\n\nExamples TestParser: ");
+=======
+		System.out.println("\nTestRenderer: ");
+		test.TestRenderer.main(args);
+
+		System.out.println("\nExamples TestParser: ");
+>>>>>>> feature
 		test.examples.TestParser.main(args);
 
 	}

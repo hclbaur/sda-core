@@ -32,8 +32,12 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	public String toString() {
 
 		String s = ""; 
+<<<<<<< HEAD
 		if (this.size() > 0)
 			for (Node node : this) s = s + node.toString() + " ";
+=======
+		for (Node node : this) s = s + node.toString() + " ";
+>>>>>>> feature
 		return s;
 	}
 	

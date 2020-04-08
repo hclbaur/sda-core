@@ -1,11 +1,11 @@
 
-package examples.parser.sda;
+package examples.parse.sda;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 
-import be.baur.sda.parser.SyntaxException;
+import be.baur.sda.parse.SyntaxException;
 
 /** 
  * A <code>Tokenizer</code> (or lexical analyzer) is associated with an 
