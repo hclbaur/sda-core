@@ -6,11 +6,7 @@ import java.io.InputStreamReader;
 import be.baur.sda.ComplexNode;
 import be.baur.sda.Node;
 import be.baur.sda.NodeSet;
-<<<<<<< HEAD
-import be.baur.sda.parser.Parser;
-=======
 import be.baur.sda.parse.Parser;
->>>>>>> feature
 
 /** A <code>NodeSet</code> is an collection of {@link Node} objects. 
  * It extends a CopyOnWriteArraySet and defines a convenience methods
