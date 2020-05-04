@@ -4,10 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.io.StringWriter;
 
 import be.baur.sda.Node;
-import be.baur.sda.SDA;
 import be.baur.sda.parse.Parser;
 import be.baur.sda.parse.SyntaxException;
 
@@ -72,19 +70,17 @@ public final class TestParser {
 		System.out.println(name + ": FAIL - exception expected");
 	}
 
-	private static void TestParseAndRender(String name, String in, String out) 
+	private static void TestParseAndRender(String scenario, String in, String out) 
 			throws IOException, SyntaxException {
 
 		Node e = parser.Parse(new StringReader(in));
-		StringWriter s = new StringWriter(); 
-		SDA.Render(s, e);
 
-		if (s.toString().equals(out)) 
-			System.out.print(name + " ");
+		if (e.toString().equals(out)) 
+			System.out.print(scenario + " ");
 		else {
-			System.out.println(name + " FAILED!");
+			System.out.println(scenario + " FAILED!");
 			System.out.println("EXPECTED: " + out);
-			System.out.println("RETURNED: " + s);
+			System.out.println("RETURNED: " + e);
 		}
 		return;
 	}
