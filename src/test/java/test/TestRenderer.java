@@ -17,11 +17,11 @@ public final class TestRenderer {
 		
 		Node node;
 		PrintWriter stdout = new PrintWriter(System.out);
-        node = (new Parser()).Parse(new StringReader("complex{ simple\"\"empty{} }"));
+        node = (new Parser()).parse(new StringReader("complex{ simple\"\"empty{} }"));
 		(new Renderer()).Render(stdout, node, 4);
 		InputStream in = Parser.class.getResourceAsStream("/addressbook.sda");
-		node = (new Parser()).Parse(new InputStreamReader(in,"UTF-8"));
-		(new Renderer()).Render(stdout, node);
+		node = (new Parser()).parse(new InputStreamReader(in,"UTF-8"));
+		(new Renderer()).render(stdout, node);
 		//stdout.close();
 
 	}

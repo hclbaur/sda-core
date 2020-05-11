@@ -13,9 +13,9 @@ public final class TestParser {
 
 	public static void main(String[] args) throws Exception {
 
-		Node helloworld = (new Parser()).Parse(new StringReader("greeting{message\"hello world\"}"));
+		Node helloworld = (new Parser()).parse(new StringReader("greeting{message\"hello world\"}"));
 		InputStream in = Parser.class.getResourceAsStream("/sample.sda");
-		Node samplefile = (new Parser()).Parse(new InputStreamReader(in,"UTF-8"));
+		Node samplefile = (new Parser()).parse(new InputStreamReader(in,"UTF-8"));
 		System.out.println("helloworld: " + helloworld);
 		System.out.println("samplefile: " + samplefile);
 
@@ -56,7 +56,7 @@ public final class TestParser {
 	
 	private static void TestParseError(String name, String in, String out) {
 
-		try { parser.Parse(new StringReader(in)); }
+		try { parser.parse(new StringReader(in)); }
 		catch (Exception e) { 
 			if (e.getMessage().equals(out)) 
 				System.out.print(name + " ");
@@ -73,7 +73,7 @@ public final class TestParser {
 	private static void TestParseAndRender(String scenario, String in, String out) 
 			throws IOException, SyntaxException {
 
-		Node e = parser.Parse(new StringReader(in));
+		Node e = parser.parse(new StringReader(in));
 
 		if (e.toString().equals(out)) 
 			System.out.print(scenario + " ");

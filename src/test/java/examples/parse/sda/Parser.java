@@ -20,7 +20,7 @@ public final class Parser {
 	 * <br><br>it returns a <code>ComplexNode</code> 'greeting' with a
 	 * <code>SimpleNode</code> child 'message' that has a value of "greeting".
 	 */
-	public Node Parse(Reader input) 
+	public Node parse(Reader input) 
 			throws IOException, SyntaxException {
 
 		Tokenizer lexer = new Tokenizer(input);

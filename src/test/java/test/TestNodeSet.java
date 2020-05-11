@@ -17,7 +17,7 @@ public final class TestNodeSet {
 	public static void main(String[] args) throws Exception {
 
 		InputStream in = Parser.class.getResourceAsStream("/addressbook.sda");
-		ComplexNode addressbook = (ComplexNode) (new Parser()).Parse(new InputStreamReader(in,"UTF-8"));
+		ComplexNode addressbook = (ComplexNode) (new Parser()).parse(new InputStreamReader(in,"UTF-8"));
 
 		System.out.println("/addressbook: " + addressbook);
 

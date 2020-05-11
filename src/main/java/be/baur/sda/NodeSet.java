@@ -28,6 +28,16 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	}
 
 
+	/** Get one or more nodes of a particular class from a set.*/
+	public NodeSet get(Class<?> cls) {
+
+		NodeSet sub = new NodeSet();
+		for (Node node : this)
+			if (node.getClass() == cls) sub.add(node);
+		return sub;
+	}
+
+
 	/** Renders the set as a list of SDA elements. */
 	public String toString() {
 
@@ -36,9 +46,13 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 		return s;
 	}
 	
-	/** Overwrite inherited method to prevent adding null */
+	/** Add a node to a set. */
 	public boolean add(Node node) {
-		
+		/*
+		 * Design choice: override the super method to prevent adding null references,
+		 * which may cause null pointer exceptions downstream. There would be no point
+		 * of adding "nothing" to a node set anyway.
+		 */
 		if (node == null) return false;
 		return super.add(node);
 	}

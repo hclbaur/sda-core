@@ -1,0 +1,10 @@
+addressbook {
+	contact {
+		firstname "Alice"
+		phonenumber "06-21438709"
+	}
+	contact {
+		firstname "Bob"
+		phonenumber "06-90784523"
+	}
+}

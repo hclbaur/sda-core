@@ -3,7 +3,6 @@ package examples.parse.sda;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.io.StringReader;
 
 import be.baur.sda.parse.SyntaxException;
 
@@ -152,17 +151,17 @@ final class Tokenizer {
         return getClass().getName() + "[state=" + state + ",pos=" + pos + "]";
     }
     
-    /** For unit testing only. Make public to run. */
-    static void main(String[] args) throws Exception {
-    	
-    	Tokenizer lexer = new Tokenizer(
-    		new StringReader("greeting{ message \"hello world\" }"));
-    	
-        Token token;
-        do {
-            token = lexer.getToken();
-            System.out.println("Tokenizer.main(): " + token + " at position " + lexer.getPos());
-        } 
-        while (token.type != Tokenizer.EOF);
-    }
+//    public static void main(String[] args) throws Exception {
+//
+//    	Tokenizer lexer = new Tokenizer(
+//    		new StringReader("greeting{ message \"hello world\" }"));
+//
+//        Token token;
+//        do {
+//            token = lexer.getToken();
+//            System.out.println("Tokenizer.main(): " + token + " at position " + lexer.getPos());
+//        }
+//        while (token.type != Tokenizer.EOF);
+//    }
+
 }
