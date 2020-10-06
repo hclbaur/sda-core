@@ -29,18 +29,28 @@ public abstract class Node {
 	}
 
 	/**
-	 * Sets the parent reference. Potentially dangerous, as this method does not
-	 * actually update the parent. We call this from <code>ComplexNode</code> when
-	 * adding a child node. Do not make this method public!
+	 * Sets the parent node. Potentially dangerous, as this method does not
+	 * actually update the parent. We call this from <code>ComplexNode</code> 
+	 * when adding a child node. Do not make this method public!
 	 */
 	void setParent(Node parent) {
 		this.parent = parent;
 	}
 
-	/** Returns a reference to the parent. */
+	/** Returns the parent of this node. */
 	public Node getParent() {
 		return parent;
 	}
+	
+	/** Returns the ultimate parent (or root) of this node or itself if it is <em>is</em> the root. */
+	public Node getRoot() {
+		return ((parent != null) ? parent.getRoot() : this);	
+	}
 
+	/** Returns the "pathname" of this node in directory-style, like Xpath. */
+	public String path() {
+		return ((parent != null) ? parent.path() : "") + "/" + name;	
+	}
+	
 	abstract public String toString();
 }

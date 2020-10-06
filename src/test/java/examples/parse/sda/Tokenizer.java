@@ -44,17 +44,17 @@ final class Tokenizer {
     /** The current state that the <code>Tokenizer</code> is in. */
     private short state;
     /** The position in the input (number of characters read). */
-    private long pos;
+    private int pos;
     
-    /** Constructs a <code>Tokenizer</code> and assign an input. */
+    /** Construct a <code>Tokenizer</code> and assign an input. */
     Tokenizer(Reader input) {  
         this.input = input;
         state = UNDEFINED;
-        pos = 0L;
+        pos = 0;
     }
 
     /** Returns the current position (number of characters read). */
-    long getPos() {
+    int getPos() {
         return pos;
     }
     
@@ -94,7 +94,7 @@ final class Tokenizer {
                     state = STRING; return new Token(IDENTIFIER, value); 
                 }
                 // otherwise it must be an invalid character
-                throw new SyntaxException(pos, "identifier cannot contain '" + (char)c + "'");
+                throw new SyntaxException("identifier cannot contain '" + (char)c + "'", pos);
             }
             
             if (state == STRING) {
@@ -127,7 +127,7 @@ final class Tokenizer {
                     state = IDENTIFIER; value += (char)c; continue;
                 }
 				if ( !Character.isWhitespace(c) ) // skip whitespace
-                    throw new SyntaxException(pos, "identifier cannot start with '" + (char)c + "'");
+                    throw new SyntaxException("identifier cannot start with '" + (char)c + "'", pos);
             }
         }
         
@@ -138,9 +138,9 @@ final class Tokenizer {
 		}
 		
         if (state == STRING) 
-            throw new SyntaxException(pos, "trailing or pending quote");
+            throw new SyntaxException("trailing or pending quote", pos);
         else if (state != UNDEFINED) 
-            throw new SyntaxException(pos, "unexpected end of input");
+            throw new SyntaxException("unexpected end of input", pos);
         
         input.close();
         return new Token(EOF);

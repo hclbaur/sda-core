@@ -12,4 +12,12 @@ public final class SDA {
 	/** The escape character: a back slash. */
 	public static final int ESCAPE = '\\';
 	
+	
+	private final static String escape = "" + (char)SDA.ESCAPE;
+	private final static String quote = "" + (char)SDA.QUOTE;
+
+	/** Encodes the string as an SDA value, properly escaping backslashes and quotes. */
+	public static String escape(String s) {
+		return s.replace(escape, escape + escape).replace(quote, escape + quote);
+	}
 }

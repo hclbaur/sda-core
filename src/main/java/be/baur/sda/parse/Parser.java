@@ -34,7 +34,7 @@ public final class Parser {
 
 		scanner.skipwhite();
 		if (scanner.c != Scanner.EOF)
-			throw new SyntaxException(scanner.p, "excess input after root node");
+			throw new SyntaxException("excess input after root node", scanner.p);
 
 		return node;
 	}

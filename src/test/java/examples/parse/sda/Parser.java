@@ -44,7 +44,7 @@ public final class Parser {
 				if ( stack.empty() ) {
 					// a root element, check whether it is the first (and only)
 					if (context != null) 
-						throw new SyntaxException(lexer.getPos(), "too many root elements");
+						throw new SyntaxException("too many root elements", lexer.getPos());
 					stack.push(token); continue;
 				}
 
@@ -52,7 +52,7 @@ public final class Parser {
 					stack.push(token); continue; // identifier of a child element, put on the stack
 				}
 				// cannot have identifiers without a context (except the root)
-				throw new SyntaxException(lexer.getPos(), "unexpected identifier \"" + token.value + "\"");
+				throw new SyntaxException("unexpected identifier \"" + token.value + "\"", lexer.getPos());
 			}
 
 			// we got a string, must be value to an element
@@ -75,7 +75,7 @@ public final class Parser {
 					}
 				}
 				// cannot have a value without preceding identifier
-				throw new SyntaxException(lexer.getPos(), "value \"" + token.value + "\" has no identifier");
+				throw new SyntaxException("value \"" + token.value + "\" has no identifier", lexer.getPos());
 			}
 
 			// we got the start of a block, must be a complex element then
@@ -98,7 +98,7 @@ public final class Parser {
 					}
 				}
 				// cannot start a block without preceding identifier
-				throw new SyntaxException(lexer.getPos(), "block has no identifier");
+				throw new SyntaxException("block has no identifier", lexer.getPos());
 			}
 
 			// we got the end of a block, parent of context becomes context
@@ -114,22 +114,22 @@ public final class Parser {
 					}
 				}
 				// cannot start a block without preceding identifier
-				throw new SyntaxException(lexer.getPos(), "unexpected block end");
+				throw new SyntaxException("unexpected block end", lexer.getPos());
 			}
 
 			// no more input, check if we are done
 			if (token.type == Tokenizer.EOF) {
 
 				if ( !stack.empty() ) // still tokens left to reduce
-					throw new SyntaxException(lexer.getPos(), "unexpected end of input");
+					throw new SyntaxException("unexpected end of input", lexer.getPos());
 
 				if ( context == null ) // no nodes created
-					throw new SyntaxException(lexer.getPos(), "input has no data");
+					throw new SyntaxException("input has no data", lexer.getPos());
 
 				return context; // should be the top level node
 			}
 			// should never be reached
-			throw new SyntaxException(lexer.getPos(), "impossible error");
+			throw new SyntaxException("impossible error", lexer.getPos());
 		} 
 		while (true);
 	}

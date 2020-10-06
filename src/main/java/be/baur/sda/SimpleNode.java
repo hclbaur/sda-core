@@ -25,13 +25,8 @@ public class SimpleNode extends Node {
 	}
 
 	
-	private final static String ESCAPE = "" + (char)SDA.ESCAPE;
-	private final static String QUOTE = "" + (char)SDA.QUOTE;
-	
-	/** Renders the node as an SDA element, properly escaping backslashes and quotes. */
+	/** Renders the node as an SDA element. */
 	public String toString() {
-		
-		String val = value.replace(ESCAPE, ESCAPE + ESCAPE);
-		return name + " " + QUOTE + val.replace(QUOTE, ESCAPE + QUOTE) + QUOTE;
+		return name + " " + (char)SDA.QUOTE + SDA.escape(value) + (char)SDA.QUOTE;
 	}
 }

@@ -19,21 +19,23 @@ public final class TestNodeSet {
 		InputStream in = Parser.class.getResourceAsStream("/addressbook.sda");
 		ComplexNode addressbook = (ComplexNode) (new Parser()).parse(new InputStreamReader(in,"UTF-8"));
 
-		System.out.println("/addressbook: " + addressbook);
+		System.out.println(addressbook.path() + ": " + addressbook);
 
 		NodeSet contacts = addressbook.get();
-
-		System.out.println("/addressbook/contact: " + contacts);
-		System.out.println("/addressbook/contact[2]: " + contacts.get(2));
+		Node contact2 = contacts.get(2);
+		
+		System.out.println(contact2.path() + "[2]: " + contact2);
 
 		NodeSet firstnames = new NodeSet();
 		for (Node contact : contacts)
 			firstnames.add(((ComplexNode)contact).get("firstname").get(1));
-
-		System.out.println("/addressbook/contact/firstname: " + firstnames);
-		System.out.println("(/addressbook/contact/name)[2]: " + firstnames.get(2));
+		Node firstname2 = firstnames.get(2);
+		
+		System.out.println(firstname2.path() + "[2]: " + firstname2);
+		
 		NodeSet phonenumbers = ((ComplexNode)contacts.get(1)).get("phonenumber");
-		System.out.println("/addressbook/contact[1]/phonenumber: " + phonenumbers);
-		System.out.println("/addressbook/contact[1]/phonenumber[1]: " + phonenumbers.get(1));
+		Node phonenumber1 = phonenumbers.get(1);
+		
+		System.out.println(phonenumber1.path() + "[1]: " + phonenumber1);
 	}
 }

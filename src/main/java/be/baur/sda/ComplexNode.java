@@ -50,11 +50,14 @@ public class ComplexNode extends Node {
 	public Node get(int index) { return children.get(index); }
 
 
-	/** Get one or more children with a particular name.*/
+	/**
+	 * Get one or more children with a particular name.<br>
+	 * Returns an empty set if none are found.
+	 */
 	public NodeSet get(String name) { return children.get(name); }
 
 	
-	/** Returns a reference to all child nodes. */
+	/** Returns all child nodes. */
 	public NodeSet get() { return children; }
 	
 	

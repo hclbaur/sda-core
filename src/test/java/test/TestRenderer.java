@@ -18,7 +18,7 @@ public final class TestRenderer {
 		Node node;
 		PrintWriter stdout = new PrintWriter(System.out);
         node = (new Parser()).parse(new StringReader("complex{ simple\"\"empty{} }"));
-		(new Renderer()).Render(stdout, node, 4);
+		(new Renderer()).render(stdout, node, 4);
 		InputStream in = Parser.class.getResourceAsStream("/addressbook.sda");
 		node = (new Parser()).parse(new InputStreamReader(in,"UTF-8"));
 		(new Renderer()).render(stdout, node);

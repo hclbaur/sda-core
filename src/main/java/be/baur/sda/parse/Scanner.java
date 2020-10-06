@@ -14,7 +14,7 @@ final class Scanner {
     
     private Reader input; // the input stream
 	int c; // current character in the stream
-	long p; // current position in the stream
+	int p; // current position in the stream
 	
     
     /** Create and initialize a scanner. */
@@ -31,7 +31,7 @@ final class Scanner {
     /** Check and abort when EOF is reached. */
     static final int EOF = -1;
     void checkEOF() throws SyntaxException {
-    	if (c == EOF) throw new SyntaxException(p, "unexpected end of input");
+    	if (c == EOF) throw new SyntaxException("unexpected end of input", p);
     }
 
 	
@@ -49,7 +49,7 @@ final class Scanner {
     	skipwhite(); checkEOF();
     	
     	if (!Character.isUnicodeIdentifierStart(c)) 
-    		throw new SyntaxException(p, "node name cannot start with '" + (char)c + "'");
+    		throw new SyntaxException("node name cannot start with '" + (char)c + "'", p);
     	
     	do { // add to result until we get something that is not part of a node name
     		s = s + (char)c; advance();
@@ -67,7 +67,7 @@ final class Scanner {
     	String s = ""; boolean escape = false;
     	
     	if (c != SDA.QUOTE)  // must start with quote
-    		throw new SyntaxException(p, "unexpected character '" + (char)c + "'");
+    		throw new SyntaxException("unexpected character '" + (char)c + "'", p);
     	
     	// add to result until we get the end quote or EOF, handle escaped characters  	
     	while (true) {

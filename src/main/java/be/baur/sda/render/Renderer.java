@@ -27,7 +27,7 @@ public final class Renderer {
 	}
 
 	/** Render with indentation size <code>indent</code> */
-	public void Render(Writer output, Node node, int indent) throws IOException {
+	public void render(Writer output, Node node, int indent) throws IOException {
 		
 		this.indstr = new String(new char[indent]).replace("\0", " "); 
 		render(output, node);

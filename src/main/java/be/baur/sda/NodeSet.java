@@ -10,7 +10,11 @@ import java.util.concurrent.CopyOnWriteArraySet;
 public final class NodeSet extends CopyOnWriteArraySet<Node> {
 
 
-	/** Get a single node from a set, by an index in the range 1 .. size(). */
+	/**
+	 * Get a single node from a set, by its index in the range 1 .. size().
+	 * Possibly a questionable design choice; usually an index starts at 0.
+	 * @return <code>Node</code> or null if no such node exists.
+	 */
 	public Node get(int index) {
 
 		if (this.size() < index || index < 1) return null;
@@ -18,7 +22,10 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	}
 
 
-	/** Get one or more nodes with a particular name from a set.*/
+	/**
+	 * Get one or more nodes with a particular name from a set.<br>
+	 * Returns an empty set if none is found.
+	 */
 	public NodeSet get(String name) {
 
 		NodeSet sub = new NodeSet();
@@ -39,6 +46,7 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 
 
 	/** Renders the set as a list of SDA elements. */
+	@Override
 	public String toString() {
 
 		String s = ""; 
@@ -47,6 +55,7 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	}
 	
 	/** Add a node to a set. */
+	@Override
 	public boolean add(Node node) {
 		/*
 		 * Design choice: override the super method to prevent adding null references,
