@@ -1,30 +1,40 @@
 package be.baur.sda;
 
+import java.util.Arrays;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-/** A <code>NodeSet</code> is an collection of {@link Node} objects. 
- * It extends a CopyOnWriteArraySet and defines a convenience methods
- * to get a reference to specific member nodes by index or name.
+/**
+ * A <code>NodeSet</code> is an collection of {@link Node} objects. It extends a
+ * {@link CopyOnWriteArraySet} and defines a convenience methods to get a
+ * reference to specific member nodes by index or name.
  */
 @SuppressWarnings("serial")
 public final class NodeSet extends CopyOnWriteArraySet<Node> {
-
+/*
+ * This class should overwrite some of the standard set methods to make them safe! 
+ */
 
 	/**
-	 * Get a single node from a set, by its index in the range 1 .. size().
-	 * Possibly a questionable design choice; usually an index starts at 0.
-	 * @return <code>Node</code> or null if no such node exists.
+	 * Returns a node by its position in the range [1 .. set.size()],<br>
+	 * or <code>null</code> if no such node exists in the set.
 	 */
-	public Node get(int index) {
+	public Node get(int position) {
 
-		if (this.size() < index || index < 1) return null;
-		return (Node)this.toArray()[index-1];
+		if (this.size() < position || position < 1) return null;
+		return (Node)this.toArray()[position-1];
+	}
+	
+	/**
+	 * Returns the position of node in the range [1 .. set.size()],<br>
+	 * or 0 if no such node exists in the set.
+	 */
+	public int find(Node node) {
+		return Arrays.asList(this.toArray()).indexOf(node) + 1;
 	}
 
 
 	/**
-	 * Get one or more nodes with a particular name from a set.<br>
-	 * Returns an empty set if none is found.
+	 * Returns all nodes with a particular name from the set, or an empty set if none is found.
 	 */
 	public NodeSet get(String name) {
 
@@ -35,7 +45,9 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	}
 
 
-	/** Get one or more nodes of a particular class from a set.*/
+	/**
+	 * Returns all nodes of a particular class from the set, or an empty set if none is found.
+	 */
 	public NodeSet get(Class<?> cls) {
 
 		NodeSet sub = new NodeSet();
@@ -54,7 +66,7 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 		return s;
 	}
 	
-	/** Add a node to a set. */
+	/** Adds a node to the set. */
 	@Override
 	public boolean add(Node node) {
 		/*

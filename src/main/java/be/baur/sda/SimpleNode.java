@@ -18,7 +18,7 @@ public class SimpleNode extends Node {
 		/*
 		 * Design choice: turn null values into an empty string to prevent null pointer
 		 * exceptions downstream. Since SDA does not support explicit nil, there is no
-		 * valid reason to supply null other than to create an empty node (and which is
+		 * valid reason to supply null other than to create an empty node (and this is
 		 * exactly what a value of "" means).
 		 */
 		super(name); this.value = (value != null) ? value : "";

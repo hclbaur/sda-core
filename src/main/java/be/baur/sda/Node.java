@@ -7,17 +7,14 @@ package be.baur.sda;
  */
 public abstract class Node {
 
-	/**
-	 * The (immutable) name has public visibility, and there is no getter for it.
-	 * Questionable design choice, I will probably fix this before I go public :)
-	 */
-	public final String name;
+	/** The (mutable) name has public visibility. Must fix! */
+	public String name;
 	
-	/** A reference to the parent node. */
-	private Node parent;
+	/** A reference to the parent node (by definition a complex node). */
+	private ComplexNode parent;
 
 	
-	/** Creates a node and sets the name. */
+	/** Creates a node with a specified name. */
 	public Node(String name) {
 		/*
 		 * Design choice: turn null or empty names into "null" as the actual name, to
@@ -28,17 +25,31 @@ public abstract class Node {
 		this.name = (name == null || name.isEmpty()) ? "null" : name;
 	}
 
+	/** Sets the name of this node. */
+	public void setName(String name) {
+		/*
+		 * This method should check if the name is valid according to SDA syntax rules
+		 * and throw a runtime exception otherwise! See also constructor comments.
+		 */
+		this.name = name;
+	}
+	
+	/** Returns the name of this node. */
+	public String getName() {
+		return name;
+	}
+	
 	/**
 	 * Sets the parent node. Potentially dangerous, as this method does not
-	 * actually update the parent. We call this from <code>ComplexNode</code> 
+	 * actually update the parent. We call this from a <code>ComplexNode</code> 
 	 * when adding a child node. Do not make this method public!
 	 */
-	void setParent(Node parent) {
+	void setParent(ComplexNode parent) {
 		this.parent = parent;
 	}
 
-	/** Returns the parent of this node. */
-	public Node getParent() {
+	/** Returns the parent of this node or <code>null</code>. */
+	public ComplexNode getParent() {
 		return parent;
 	}
 	
@@ -47,9 +58,17 @@ public abstract class Node {
 		return ((parent != null) ? parent.getRoot() : this);	
 	}
 
-	/** Returns the "pathname" of this node in directory-style, like Xpath. */
+	/**
+	 * Returns the "pathname" of this node in X-path style. When a node occurs more
+	 * than once in the same context, its position is indicated in square brackets,
+	 * for example: <code>/root/message[3]/text</code> refers to the first (and
+	 * only) text node in the third message node.
+	 */
 	public String path() {
-		return ((parent != null) ? parent.path() : "") + "/" + name;	
+		NodeSet similar = parent != null ? parent.get(name) : null;
+		int pos = (similar != null && similar.size() > 1) ? similar.find(this) : 0;
+		return (parent != null ? parent.path() : "") + "/" 
+			+ name + (pos > 0 ? "[" + pos + "]" : "");	
 	}
 	
 	abstract public String toString();

@@ -16,10 +16,7 @@ public final class TestParser {
 	public static void main(String[] args) throws Exception {
 
 		Node helloworld = (new Parser()).parse(new StringReader("greeting{message\"hello world\"}"));
-		InputStream in = Parser.class.getResourceAsStream("/sample.sda");
-		Node samplefile = (new Parser()).parse(new InputStreamReader(in,"UTF-8"));
-		System.out.println("helloworld: " + helloworld);
-		System.out.println("samplefile: " + samplefile);
+		System.out.println(helloworld);
 
 		Test t = new Test(s -> {
 			try {

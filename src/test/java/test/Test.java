@@ -5,16 +5,18 @@ import java.util.function.Function;
 /** A convenience class with testing methods that accept Lamba expressions */
 public class Test {
 
-	Function<String, String> function;
+	Function<String, String> strfun;
 	
-	public Test(Function<String, String> function) {
-		this.function = function;
+	public Test(Function<String, String> strfun) {
+		this.strfun = strfun;
 	}
+
 	
 	public void test(String scenario, String input, String expected) {
 		
-		String result = function.apply(input);
+		String result = strfun.apply(input);
 
+		if (expected == null) expected = input;
 		if (result.equals(expected)) 
 			System.out.print(scenario + " ");
 		else {
@@ -27,7 +29,7 @@ public class Test {
 	public void testError(String scenario, String input, String expected) {
 		
 		try { 
-			function.apply(input);
+			strfun.apply(input);
 		}
 		catch (Exception e) { 
 			if (e.getMessage().equals(expected)) 

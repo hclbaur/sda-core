@@ -1,8 +1,6 @@
 package test;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.StringReader;
 
 import be.baur.sda.Node;
@@ -11,13 +9,12 @@ import be.baur.sda.parse.SyntaxException;
 
 public final class TestParser {
 
+	private static Parser parser = new Parser();
+	
 	public static void main(String[] args) throws Exception {
 
 		Node helloworld = (new Parser()).parse(new StringReader("greeting{message\"hello world\"}"));
-		InputStream in = Parser.class.getResourceAsStream("/sample.sda");
-		Node samplefile = (new Parser()).parse(new InputStreamReader(in,"UTF-8"));
-		System.out.println("helloworld: " + helloworld);
-		System.out.println("samplefile: " + samplefile);
+		System.out.println(helloworld);
 
 		Test t = new Test(s -> {
 			try {
@@ -55,8 +52,6 @@ public final class TestParser {
 		t.test("F16", "a{} b{}", s + "5: excess input after root node");
 		t.test("F17", "a{ b{} } }", s + "10: excess input after root node");
 		t.test("F18", "a \"b\" c \"d\"", s + "7: excess input after root node");
-
 	}
 
-	private static Parser parser = new Parser();
 }

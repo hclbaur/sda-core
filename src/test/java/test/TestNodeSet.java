@@ -16,26 +16,27 @@ public final class TestNodeSet {
 
 	public static void main(String[] args) throws Exception {
 
+		Test t = new Test(s -> {
+			return s;
+		});
+		
 		InputStream in = Parser.class.getResourceAsStream("/addressbook.sda");
 		ComplexNode addressbook = (ComplexNode) (new Parser()).parse(new InputStreamReader(in,"UTF-8"));
-
-		System.out.println(addressbook.path() + ": " + addressbook);
-
 		NodeSet contacts = addressbook.get();
-		Node contact2 = contacts.get(2);
-		
-		System.out.println(contact2.path() + "[2]: " + contact2);
-
 		NodeSet firstnames = new NodeSet();
-		for (Node contact : contacts)
-			firstnames.add(((ComplexNode)contact).get("firstname").get(1));
-		Node firstname2 = firstnames.get(2);
+		NodeSet numbers = new NodeSet();
 		
-		System.out.println(firstname2.path() + "[2]: " + firstname2);
+		contacts.forEach( n -> firstnames.add( ((ComplexNode) n).get("firstname").get(1)) );
+		contacts.stream().flatMap(n -> ((ComplexNode) n).get("phonenumber").stream()).forEach(n -> numbers.add(n));
 		
-		NodeSet phonenumbers = ((ComplexNode)contacts.get(1)).get("phonenumber");
-		Node phonenumber1 = phonenumbers.get(1);
-		
-		System.out.println(phonenumber1.path() + "[1]: " + phonenumber1);
+		t.test("S01", addressbook.path(), "/addressbook");
+		t.test("S02", contacts.get(1).path(), "/addressbook/contact[1]");
+		t.test("S03", contacts.get(2).path(), "/addressbook/contact[2]");
+		t.test("S04", firstnames.get(1).path(), "/addressbook/contact[1]/firstname");
+		t.test("S05", firstnames.get(2).path(), "/addressbook/contact[2]/firstname");
+		t.test("S06", numbers.get(1).path(), "/addressbook/contact[1]/phonenumber[1]");
+		t.test("S07", numbers.get(2).path(), "/addressbook/contact[1]/phonenumber[2]");
+		t.test("S08", numbers.get(3).path(), "/addressbook/contact[2]/phonenumber[1]");
+		t.test("S09", numbers.get(4).path(), "/addressbook/contact[2]/phonenumber[2]");
 	}
 }
