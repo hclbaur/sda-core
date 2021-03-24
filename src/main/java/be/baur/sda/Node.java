@@ -1,75 +1,83 @@
 package be.baur.sda;
 
 /**
- * A <code>Node</code> represents an SDA element. It has a name and a reference
- * to an (optional) parent node. This is an abstract base class. To understand
- * the SDA package, you should start here. Next, look at a {@link SimpleNode}.
+ * A <code>Node</code> represents an SDA element. It has a <code>name</code> and
+ * an (optional) reference to a <code>parent</code> node. To understand the SDA
+ * package, you should start at this abstract base class. Next, have a look at a
+ * {@link SimpleNode}.
  */
 public abstract class Node {
 
-	/** The (mutable) name has public visibility. Must fix! */
-	public String name;
+	private String name; 		// the name tag of this node
+	private ComplexNode parent; // a reference to a parent
 	
-	/** A reference to the parent node (by definition a complex node). */
-	private ComplexNode parent;
-
 	
-	/** Creates a node with a specified name. */
+	/**
+	 * Creates a node with the specified <code>name</code>, or throws an exception
+	 * in case of an invalid node name. See {@link SDA#isName}.
+	 * @throws IllegalArgumentException
+	 */
 	public Node(String name) {
-		/*
-		 * Design choice: turn null or empty names into "null" as the actual name, to
-		 * prevent null pointer exceptions downstream. Since SDA does not support
-		 * anonymous nodes, all nodes must have a name, and "null" will be a clear
-		 * indication that no proper name was supplied.
-		 */
-		this.name = (name == null || name.isEmpty()) ? "null" : name;
+		this.setName(name);
 	}
-
-	/** Sets the name of this node. */
-	public void setName(String name) {
-		/*
-		 * This method should check if the name is valid according to SDA syntax rules
-		 * and throw a runtime exception otherwise! See also constructor comments.
-		 */
+	
+	/* Note that most of the methods in this class are final! */
+	
+	/**
+	 * Sets the <code>name</code> of this node.
+	 * @throws IllegalArgumentException if <code>name</code> is invalid.
+	 */
+	public final void setName(String name) {
+		if (! SDA.isName(name)) 
+			throw new IllegalArgumentException("invalid node name ("+ name + ")");
 		this.name = name;
 	}
 	
-	/** Returns the name of this node. */
-	public String getName() {
+	
+	/** Returns the <code>name</code> of this node. */
+	public final String getName() {
 		return name;
 	}
 	
-	/**
-	 * Sets the parent node. Potentially dangerous, as this method does not
-	 * actually update the parent. We call this from a <code>ComplexNode</code> 
-	 * when adding a child node. Do not make this method public!
+	
+	/*
+	 * Sets the parent. This is called from a NodeSet to maintain parent-child
+	 * integrity when adding or removing child nodes. Do not make this public!
 	 */
-	void setParent(ComplexNode parent) {
+	final void setParent(ComplexNode parent) {
 		this.parent = parent;
 	}
 
-	/** Returns the parent of this node or <code>null</code>. */
-	public ComplexNode getParent() {
+	
+	/** Returns the <code>parent</code> of this node or <code>null</code>. */
+	public final ComplexNode getParent() {
 		return parent;
 	}
 	
-	/** Returns the ultimate parent (or root) of this node or itself if it is <em>is</em> the root. */
-	public Node getRoot() {
-		return ((parent != null) ? parent.getRoot() : this);	
+	
+	/**
+	 * Returns the ultimate ancestor (root) of this node or the node itself if it
+	 * has no parent.
+	 */
+	public final Node root() {
+		return ((parent != null) ? parent.root() : this);	
 	}
-
+	
+	
 	/**
 	 * Returns the "pathname" of this node in X-path style. When a node occurs more
 	 * than once in the same context, its position is indicated in square brackets,
 	 * for example: <code>/root/message[3]/text</code> refers to the first (and
 	 * only) text node in the third message node.
 	 */
-	public String path() {
-		NodeSet similar = parent != null ? parent.get(name) : null;
+	public final String path() {
+		NodeSet similar = parent != null ? parent.nodes.get(name) : null;
 		int pos = (similar != null && similar.size() > 1) ? similar.find(this) : 0;
 		return (parent != null ? parent.path() : "") + "/" 
 			+ name + (pos > 0 ? "[" + pos + "]" : "");	
 	}
 	
+	
+	/** Returns the string representation of this node in SDA syntax. */
 	abstract public String toString();
 }

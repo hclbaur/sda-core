@@ -1,5 +1,5 @@
 
-package examples.parse.sda;
+package samples.parser;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -8,26 +8,30 @@ import java.util.Stack;
 import be.baur.sda.ComplexNode;
 import be.baur.sda.Node;
 import be.baur.sda.SimpleNode;
-import be.baur.sda.parse.SyntaxException;
+import be.baur.sda.serialization.Parser;
+import be.baur.sda.serialization.SyntaxException;
 
-public final class Parser {
+public final class SDAParser implements Parser {
 
-	/** Example of an alternative parser (actually the first version I wrote).
-	 * It uses a {@link Tokenizer} to read and validate input {@link Token}s
-	 * and reduces them to {@link Node}s.
-	 * <br>For example, after processing the following SDA input<br><br>
-	 * <code>greeting { message "hello" }</code>
-	 * <br><br>it returns a <code>ComplexNode</code> 'greeting' with a
+	/**
+	 * Example of an alternative parser (actually the first one I wrote). It uses a
+	 * {@link Tokenizer} to read and validate input and create {@link Node} objects.
+	 * For example, after processing the following SDA input:
+	 * 
+	 * <pre>
+	 * greeting { message "hello" }
+	 * </pre>
+	 * 
+	 * it returns a <code>ComplexNode</code> 'greeting' with a
 	 * <code>SimpleNode</code> child 'message' that has a value of "greeting".
 	 */
-	public Node parse(Reader input) 
-			throws IOException, SyntaxException {
+	public Node parse(Reader input) throws IOException, SyntaxException {
 
 		Tokenizer lexer = new Tokenizer(input);
 		Stack<Token> stack = new Stack<Token>();
 		Token token;	// the context token
 
-		/* The context node is where we recursively addChild elements from
+		/* The context node is where we recursively add child elements from
 		 * the input. When a complex node is created, it becomes the 
 		 * new context node. When all input has been parsed, the context
 		 * node (representing the root element) is returned.
@@ -63,13 +67,17 @@ public final class Parser {
 					if (stack.peek().type == Tokenizer.IDENTIFIER) {
 
 						// pop identifier, create a simple node
-						Node e = new SimpleNode(stack.pop().value, token.value);
-
+						Node e; String name = stack.pop().value;
+						try {
+							e = new SimpleNode(name, token.value);
+						} catch (IllegalArgumentException x) {
+							throw new SyntaxException("invalid node name '" + name +"'", lexer.getPos());
+						}
+						
 						if (context == null) context = e;
 						else { 
 							// if we get here, context should be complex!
-							ComplexNode c = (ComplexNode) context;
-							c.add(e); // addChild to the context context
+							((ComplexNode) context).nodes.add(e); // add child to context node
 						}                		
 						continue;
 					}
@@ -86,12 +94,17 @@ public final class Parser {
 					if (stack.peek().type == Tokenizer.IDENTIFIER) {
 
 						// pop identifier, create a complex node
-						Node c = new ComplexNode(stack.pop().value);
+						Node c; String name = stack.pop().value;
+						try {
+							c = new ComplexNode(name);
+						} catch (IllegalArgumentException x) {
+							throw new SyntaxException("invalid node name '" + name +"'", lexer.getPos());
+						}
+						
 						stack.push(token); // push block start on the stack
 
 						if (context != null) {
-							ComplexNode p = (ComplexNode) context;
-							p.add(c); // addChild to the context context
+							((ComplexNode) context).nodes.add(c); // add child to context node
 						}
 						context = c;  // new becomes context context
 						continue;

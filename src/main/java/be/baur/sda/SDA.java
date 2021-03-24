@@ -1,23 +1,136 @@
 package be.baur.sda;
 
-/** General class to hold some constants and static convenience methods */
+import java.util.Date;
+
+import be.baur.sda.serialization.Formatter;
+import be.baur.sda.serialization.Parser;
+import be.baur.sda.serialization.SDAFormatter;
+import be.baur.sda.serialization.SDAParser;
+
+/** This is a general class to define some constants and static convenience methods. */
 public final class SDA {
+
 	
 	/** A left brace (starts a node list). */
 	public static final int LBRACE = '{'; 
+	
 	/** A right brace (ends a node list). */
 	public static final int RBRACE = '}'; 
+	
 	/** A quote (encloses simple content). */
 	public static final int QUOTE = '"'; 
-	/** The escape character: a back slash. */
-	public static final int ESCAPE = '\\';
+	
+	/** A back slash (the escape character). */
+	public static final int BSLASH = '\\';
+	
+	/** An underscore (the only non-alphanumeric allowed in node names). */
+	public static final int USCORE = '_';
 	
 	
-	private final static String escape = "" + (char)SDA.ESCAPE;
-	private final static String quote = "" + (char)SDA.QUOTE;
+	/** Returns <code>true</code> if the specified character is a valid SDA digit. */
+	private static boolean isDigit(int c) {
+		return (c >= '0' && c <= '9');
+	}
 
-	/** Encodes the string as an SDA value, properly escaping backslashes and quotes. */
-	public static String escape(String s) {
-		return s.replace(escape, escape + escape).replace(quote, escape + quote);
+
+	/** Returns <code>true</code> if the specified character is a valid SDA letter. */
+	private static boolean isLetter(int c) {
+		return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+	}
+	
+	
+	/** Returns <code>true</code> if the specified character is a valid first character of an SDA node name. */
+	public static boolean isNameStart(int c) {
+		return (isLetter(c) || c == USCORE);
+	}
+	
+	
+	/** Returns <code>true</code> if the specified if the specified character is valid in an SDA node name. */
+	public static boolean isNamePart(int c) {
+		return (isLetter(c) || isDigit(c) || c == USCORE);
+	}
+	
+	
+	/** Returns <code>true</code> if the argument is a valid SDA node name. */
+//	public static boolean isName(String name) {
+//		return (name == null) ? false : SourceVersion.isIdentifier(name);
+//	}
+	public static boolean isName(String name) {
+		
+		if (name == null || name.isEmpty()) return false;
+
+		int c = name.codePointAt(0);
+		if (! isNameStart(c)) return false;
+		
+		int i = Character.charCount(c);
+		int alfanum = (c == USCORE) ? 0 : 1;
+		
+		while (i < name.length()) {
+			c = name.codePointAt(i);
+			if (!isNamePart(c))	return false;
+			i += Character.charCount(c);
+			if (c != USCORE) ++alfanum;
+		}
+		
+		return (alfanum > 0);
+	}
+	
+	
+	public static void main(String[] args) {
+
+//		String s;
+//		s="@"; System.out.println(s + ": " + isName(s));
+//		s="2"; System.out.println(s + ": " + isName(s));
+//		s="_"; System.out.println(s + ": " + isName(s));
+//		s="_@"; System.out.println(s + ": " + isName(s));
+//		s="__"; System.out.println(s + ": " + isName(s));
+//		
+//		s="a"; System.out.println(s + ": " + isName(s));
+//		s="aa"; System.out.println(s + ": " + isName(s));
+//		s="_a"; System.out.println(s + ": " + isName(s));
+//		s="a_"; System.out.println(s + ": " + isName(s));
+//		s="a2"; System.out.println(s + ": " + isName(s));
+//		
+//		s="a a"; System.out.println(s + ": " + isName(s));	
+//		s="___"; System.out.println(s + ": " + isName(s));	
+//		
+//		s="_a_"; System.out.println(s + ": " + isName(s));	
+//		s="a_a"; System.out.println(s + ": " + isName(s));	
+		
+		long runs = 20;
+		long total = 0, r = runs;
+		while (r > 0) {
+			long i = 10000000;
+			long start = new Date().getTime();
+			while (i > 0) {
+				isName("_A1b_2C3_");
+				--i;
+			}
+			long duration = new Date().getTime() - start;
+			System.out.print(" " + duration);
+			total += duration; --r;
+		}
+		System.out.print(" avg: " + (total/runs));
+	}
+	
+	
+	private static final String bslash = "" + (char)SDA.BSLASH;
+	private static final String quote = "" + (char)SDA.QUOTE;
+
+	/** Encodes the argument as an SDA value, properly escaping backslashes and quotes. */
+	public static String encode (String value) {
+		return value.replace(bslash, bslash + bslash).replace(quote, bslash + quote);
+	}
+	
+	
+	/** Returns a new instance of the default SDA parser. */
+	public static Parser parser() {
+		return new SDAParser();
+	}
+	
+	
+	/** Returns a new instance of the default SDA formatter. */
+	public static Formatter formatter() {
+		return new SDAFormatter();
 	}
 }

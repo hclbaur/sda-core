@@ -1,15 +1,14 @@
-package be.baur.sda.parse;
+package be.baur.sda.serialization;
 
 import java.io.IOException;
 import java.io.Reader;
 
 import be.baur.sda.SDA;
 
-/** 
- * The <code>Scanner</code> scans an input stream and supplies tokens to the parser.
- * Because it is used in the parser package only, everything has package visibility. 
+/**
+ * The <code>Scanner</code> scans an input stream and supplies tokens to the
+ * <code>Parser</code>.
  */
-
 final class Scanner {
     
     private Reader input; // the input stream
@@ -48,12 +47,12 @@ final class Scanner {
     	
     	skipwhite(); checkEOF();
     	
-    	if (!Character.isUnicodeIdentifierStart(c)) 
+    	if (! SDA.isNameStart(c)) 
     		throw new SyntaxException("node name cannot start with '" + (char)c + "'", p);
     	
     	do { // add to result until we get something that is not part of a node name
     		s = s + (char)c; advance();
-    	} while (Character.isUnicodeIdentifierPart(c));
+    	} while (SDA.isNamePart(c));
     	
     	skipwhite(); checkEOF();  // dangling node names are not allowed
  
@@ -72,7 +71,7 @@ final class Scanner {
     	// add to result until we get the end quote or EOF, handle escaped characters  	
     	while (true) {
     		advance(); checkEOF();
-    		if (!escape && c == SDA.ESCAPE) {escape = true; continue; };
+    		if (!escape && c == SDA.BSLASH) {escape = true; continue; };
     		if (escape) { s = s + (char)c; escape = false; continue; }
     		if (c == SDA.QUOTE) break;
     		s = s + (char)c;

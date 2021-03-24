@@ -1,32 +1,44 @@
 package be.baur.sda;
 
-/** A <code>SimpleNode</code> represents a simple SDA element; 
- * a node with a value of a simple type. <br>Typically, these 
+/**
+ * A <code>SimpleNode</code> represents a simple SDA element; a node with a
+ * value of a simple content type, represented as a string. Typically, these
  * nodes are children of a parent {@link ComplexNode}.
  */
 public class SimpleNode extends Node {
 
-	/**
-	 * The (immutable) value has public visibility, and there is no getter for it.
-	 * Questionable design choice, I will probably fix this before I go public :)
-	 */
-    public final String value;
-	
+    private String value; // the value of this node
     
-	/** Creates a simple node with a name and value. */
+    
+	/**
+	 * Creates a simple node with the specified <code>name</code> and
+	 * <code>value</code>.
+	 * @throws IllegalArgumentException if <code>name</code> is invalid.
+	 */
 	public SimpleNode(String name, String value) {
-		/*
-		 * Design choice: turn null values into an empty string to prevent null pointer
-		 * exceptions downstream. Since SDA does not support explicit nil, there is no
-		 * valid reason to supply null other than to create an empty node (and this is
-		 * exactly what a value of "" means).
-		 */
-		super(name); this.value = (value != null) ? value : "";
+		super(name); this.setValue(value);
+	}
+	
+	/* Note that most of the methods in this class are final! */
+	
+	/**
+	 * Sets the <code>value</code> of this node. A value of <code>null</code> is
+	 * turned into an empty string to prevent null pointer exceptions downstream.
+	 * Since SDA does not support explicit nil, there is no valid reason to supply
+	 * null other than to create an empty value.
+	 */
+	public final void setValue(String value) {
+		this.value = (value != null) ? value : "";
+	}
+	
+	
+	/** Returns the <code>value</code> of this node. */
+	public final String getValue() {
+		return value;
 	}
 
 	
-	/** Renders the node as an SDA element. */
 	public String toString() {
-		return name + " " + (char)SDA.QUOTE + SDA.escape(value) + (char)SDA.QUOTE;
+		return getName() + " " + (char)SDA.QUOTE + SDA.encode(value) + (char)SDA.QUOTE;
 	}
 }

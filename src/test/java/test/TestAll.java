@@ -4,16 +4,16 @@ public final class TestAll {
 
 	public static void main(String[] args) throws Exception {
 
-		System.out.println("TestRenderer: ");
-		test.TestRenderer.main(args);
+		System.out.print("TestSDAFormatter: ");
+		test.TestFormatter.main(args);
 		
-		System.out.print("TestParser: ");
-		test.TestParser.main(args);
+		System.out.print("\nTestSDAParser: ");
+		test.TestSDAParser.main(args);
 
 		System.out.print("\nTestNodeSet: ");
 		test.TestNodeSet.main(args);
 
-		System.out.print("\nExamples TestParser: ");
-		test.examples.TestParser.main(args);
+		System.out.print("\nTestSDAParserAlt: ");
+		test.TestSDAParserAlt.main(args);
 	}
 }

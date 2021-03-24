@@ -1,48 +1,48 @@
 
-package examples.parse.sda;
+package samples.parser;
 
 import java.io.IOException;
 import java.io.Reader;
 
-import be.baur.sda.parse.SyntaxException;
+import be.baur.sda.SDA;
+import be.baur.sda.serialization.SyntaxException;
 
 /** 
  * A <code>Tokenizer</code> (or lexical analyzer) is associated with an 
  * input and returns {@link Token}s through the <code>getToken()</code>
  * method. When associated with the following SDA input<br><br>
  * <code>greeting { message "hello" }</code>
- * <br><br>it returns <code>Tokens</code> with type IDENTIFIER (greeting), 
+ * <br><br>it returns the following tokens with type IDENTIFIER (greeting), 
  * BLOCK_START, IDENTIFIER (message), STRING (hello), BLOCK_END, and EOF.
  */
 final class Tokenizer {
     
-	/** block start: an opening brace. */
-	static final int BLS = '{'; 
-	/** block end: a closing brace. */
-	static final int BLE = '}'; 
-	/** quote: a double quote. */
-	static final int QUO = '"'; 
-	/** escape: a reverse slash. */
-	static final int ESC = '\\'; 
-	
     /** End of input. Returned when the end of the input is reached. */    
     static final short EOF = -1;
+    
     /** Initial or undefined state. This type should never be returned. */
     static final short UNDEFINED = 0;
+    
     /** Identifier string token. An quoted string without whitespace. */
     static final short IDENTIFIER = 1;
+    
     /** Start of a block token. */
     static final short BLOCK_START = 2;
+    
     /** End of a block token. */
     static final short BLOCK_END = 3;
+    
     /** Quoted string token. Quoted strings may contain whitespace and 
 	 * embedded quotes (which must be escaped with a reverse slash). */
     static final short STRING = 4;
     
+    
     /** The input associated with the <code>Tokenizer</code>. */
     private Reader input;
+    
     /** The current state that the <code>Tokenizer</code> is in. */
     private short state;
+    
     /** The position in the input (number of characters read). */
     private int pos;
     
@@ -70,14 +70,14 @@ final class Tokenizer {
         String value = "";
         boolean escape = false;
         
-        // read until read() returns -1 (EOF)
-        for (int c = input.read(); c != -1; c = input.read()) {
+        // read until EOF
+        for (int c = input.read(); c != EOF; c = input.read()) {
             
             ++pos; // increase position
             
             if (state == IDENTIFIER) {
                 
-				if ( Character.isUnicodeIdentifierPart(c) ) {
+				if ( SDA.isNamePart(c) ) {
                     // part of an identifier, add it to the current value
                     value += (char)c; continue;
                 }				
@@ -85,11 +85,11 @@ final class Tokenizer {
                     // white-space ends an identifier
                     state = UNDEFINED; return new Token(IDENTIFIER, value); 
                 }
-                if (c == BLS) {
+                if (c == SDA.LBRACE) {
                     // block start ends an identifier
                     state = BLOCK_START; return new Token(IDENTIFIER, value); 
                 }
-                if (c == QUO) {
+                if (c == SDA.QUOTE) {
                     // quote ends an identifier, starts a string
                     state = STRING; return new Token(IDENTIFIER, value); 
                 }
@@ -99,10 +99,10 @@ final class Tokenizer {
             
             if (state == STRING) {
                 
-                if (c == ESC && escape == false) {
+                if (c == SDA.BSLASH && escape == false) {
                     escape = true; continue;
                 }
-                if (c == QUO && escape == false) {
+                if (c == SDA.QUOTE && escape == false) {
                     // quote ends a string
                     state = UNDEFINED; return new Token(STRING, value); 
                 }
@@ -112,17 +112,17 @@ final class Tokenizer {
             
             if (state == UNDEFINED) {
                
-                if (c == BLS) // start a block
+                if (c == SDA.LBRACE) // start a block
                     return new Token(BLOCK_START);
                                 
-                if (c == BLE) // end a block
+                if (c == SDA.RBRACE) // end a block
                     return new Token(BLOCK_END);
                 
-                if (c == QUO) {
+                if (c == SDA.QUOTE) {
                     // quote starts a string
                     state = STRING; continue;
                 }
-                if ( Character.isUnicodeIdentifierStart(c) ) {
+                if ( SDA.isNameStart(c) ) {
                     // start of an identifier
                     state = IDENTIFIER; value += (char)c; continue;
                 }
@@ -150,18 +150,5 @@ final class Tokenizer {
     public String toString() {
         return getClass().getName() + "[state=" + state + ",pos=" + pos + "]";
     }
-    
-//    public static void main(String[] args) throws Exception {
-//
-//    	Tokenizer lexer = new Tokenizer(
-//    		new StringReader("greeting{ message \"hello world\" }"));
-//
-//        Token token;
-//        do {
-//            token = lexer.getToken();
-//            System.out.println("Tokenizer.main(): " + token + " at position " + lexer.getPos());
-//        }
-//        while (token.type != Tokenizer.EOF);
-//    }
 
 }
