@@ -61,5 +61,4 @@ public final class SDAFormatter implements Formatter {
 			output.write((children ? indent : "") + (char)SDA.RBRACE + "\n");
 		}
 	}
-
 }

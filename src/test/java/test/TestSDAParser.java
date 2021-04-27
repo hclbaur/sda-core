@@ -63,10 +63,10 @@ public final class TestSDAParser {
 		t.test("F06", "b@d", s + "2: unexpected character '@'");
 		t.test("F07", "trailing\"", s + "10: unexpected end of input");
 		t.test("F08", "{", s + "1: node name cannot start with '{'");
-		t.test("F09", "_{", s + "2: invalid node name '_'");
+		t.test("F09", "_{", s + "2: invalid node name (_)");
 		t.test("F10", "trailing{", s + "10: unexpected end of input");
 		t.test("F11", "abc{ { ", s + "6: node name cannot start with '{'");
-		t.test("F12", "abc{ _\"\"", s + "9: invalid node name '_'");
+		t.test("F12", "abc{ _\"\"", s + "9: invalid node name (_)");
 		t.test("F13", "abc{ \"", s + "6: node name cannot start with '\"'");
 		t.test("F14", " }", s + "2: node name cannot start with '}'");
 		t.test("F15", "noright {", s + "10: unexpected end of input");

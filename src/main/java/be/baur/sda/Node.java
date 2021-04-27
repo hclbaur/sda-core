@@ -79,5 +79,6 @@ public abstract class Node {
 	
 	
 	/** Returns the string representation of this node in SDA syntax. */
+	@Override 
 	abstract public String toString();
 }

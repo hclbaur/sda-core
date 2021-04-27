@@ -62,11 +62,11 @@ public final class TestSDAParserAlt {
 		t.test("F04", "2bad", s + "1: identifier cannot start with '2'");
 		t.test("F05", "b@d", s + "2: identifier cannot contain '@'");
 		t.test("F06", "\"string\"", s + "8: value \"string\" has no identifier");
-		t.test("F07", "_ \"string\"", s + "10: invalid node name '_'");
+		t.test("F07", "_ \"string\"", s + "10: invalid node name (_)");
 		t.test("F08", "\"pending", s + "8: trailing or pending quote");
 		t.test("F09", "trailing\"", s + "9: trailing or pending quote");
 		t.test("F10", "{", s + "1: block has no identifier");
-		t.test("F11", "_ {", s + "3: invalid node name '_'");
+		t.test("F11", "_ {", s + "3: invalid node name (_)");
 		t.test("F12", " }", s + "2: unexpected block end");
 		t.test("F13", "noright {", s + "9: unexpected end of input");
 		t.test("F14", "noleft }", s + "8: unexpected block end");

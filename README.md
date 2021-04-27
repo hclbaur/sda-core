@@ -1,5 +1,8 @@
 # SDA Release Notes
 
+2021-04-27 v1.5.1:
+- Deprecated NodeSet.from() in favor of NodeSet.of().
+
 2021-03-24 v1.5.0 (hardening release):
 - Added NodeSet.from() and override of inherited methods to maintain parent-child integrity.
 - Encapsulation of most core class fields. Added validation of node names.

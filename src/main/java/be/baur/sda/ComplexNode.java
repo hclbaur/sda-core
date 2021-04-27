@@ -26,5 +26,4 @@ public class ComplexNode extends Node {
 	public String toString() {
 		return getName() + (char)SDA.LBRACE + " " + nodes.toString() + (char)SDA.RBRACE;
 	}
-
 }

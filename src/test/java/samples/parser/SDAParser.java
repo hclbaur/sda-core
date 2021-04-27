@@ -71,7 +71,7 @@ public final class SDAParser implements Parser {
 						try {
 							e = new SimpleNode(name, token.value);
 						} catch (IllegalArgumentException x) {
-							throw new SyntaxException("invalid node name '" + name +"'", lexer.getPos());
+							throw new SyntaxException(x.getMessage(), lexer.getPos());
 						}
 						
 						if (context == null) context = e;
@@ -98,7 +98,7 @@ public final class SDAParser implements Parser {
 						try {
 							c = new ComplexNode(name);
 						} catch (IllegalArgumentException x) {
-							throw new SyntaxException("invalid node name '" + name +"'", lexer.getPos());
+							throw new SyntaxException(x.getMessage(), lexer.getPos());
 						}
 						
 						stack.push(token); // push block start on the stack

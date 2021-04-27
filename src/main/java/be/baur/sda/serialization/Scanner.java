@@ -80,6 +80,5 @@ final class Scanner {
     	advance(); skipwhite(); // skip the end quote and whitespace
 
     	return s;
-    }
-    
+    }   
 }

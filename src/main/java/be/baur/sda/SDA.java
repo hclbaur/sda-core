@@ -1,7 +1,5 @@
 package be.baur.sda;
 
-import java.util.Date;
-
 import be.baur.sda.serialization.Formatter;
 import be.baur.sda.serialization.Parser;
 import be.baur.sda.serialization.SDAFormatter;
@@ -75,27 +73,27 @@ public final class SDA {
 		return (alfanum > 0);
 	}
 	
-	
+/*
 	public static void main(String[] args) {
 
-//		String s;
-//		s="@"; System.out.println(s + ": " + isName(s));
-//		s="2"; System.out.println(s + ": " + isName(s));
-//		s="_"; System.out.println(s + ": " + isName(s));
-//		s="_@"; System.out.println(s + ": " + isName(s));
-//		s="__"; System.out.println(s + ": " + isName(s));
-//		
-//		s="a"; System.out.println(s + ": " + isName(s));
-//		s="aa"; System.out.println(s + ": " + isName(s));
-//		s="_a"; System.out.println(s + ": " + isName(s));
-//		s="a_"; System.out.println(s + ": " + isName(s));
-//		s="a2"; System.out.println(s + ": " + isName(s));
-//		
-//		s="a a"; System.out.println(s + ": " + isName(s));	
-//		s="___"; System.out.println(s + ": " + isName(s));	
-//		
-//		s="_a_"; System.out.println(s + ": " + isName(s));	
-//		s="a_a"; System.out.println(s + ": " + isName(s));	
+		String s;
+		s="@"; System.out.println(s + ": " + isName(s));
+		s="2"; System.out.println(s + ": " + isName(s));
+		s="_"; System.out.println(s + ": " + isName(s));
+		s="_@"; System.out.println(s + ": " + isName(s));
+		s="__"; System.out.println(s + ": " + isName(s));
+		
+		s="a"; System.out.println(s + ": " + isName(s));
+		s="aa"; System.out.println(s + ": " + isName(s));
+		s="_a"; System.out.println(s + ": " + isName(s));
+		s="a_"; System.out.println(s + ": " + isName(s));
+		s="a2"; System.out.println(s + ": " + isName(s));
+		
+		s="a a"; System.out.println(s + ": " + isName(s));	
+		s="___"; System.out.println(s + ": " + isName(s));	
+		
+		s="_a_"; System.out.println(s + ": " + isName(s));	
+		s="a_a"; System.out.println(s + ": " + isName(s));	
 		
 		long runs = 20;
 		long total = 0, r = runs;
@@ -112,7 +110,7 @@ public final class SDA {
 		}
 		System.out.print(" avg: " + (total/runs));
 	}
-	
+*/	
 	
 	private static final String bslash = "" + (char)SDA.BSLASH;
 	private static final String quote = "" + (char)SDA.QUOTE;

@@ -10,6 +10,7 @@ import java.text.ParseException;
 @SuppressWarnings("serial")
 public final class SyntaxException extends ParseException {
 
+	/** Creates an SDA syntax error. */
 	public SyntaxException(String message, int offset) {
 		super("SDA syntax violation at position " + offset + ": " + message, offset);
 	}

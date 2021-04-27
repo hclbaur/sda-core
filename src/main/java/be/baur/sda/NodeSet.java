@@ -40,11 +40,11 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 
 
 	/**
-	 * Returns a new set containing the specified <code>node</code> or an empty set
-	 * in case of a <code>null</code> argument.
+	 * @deprecated Since 1.5.1 for removal in 1.6. Use {@link NodeSet#of} instead.
 	 */
+	@Deprecated
 	public static NodeSet from(Node node) {
-		NodeSet set = new NodeSet(); set.add(node); return set;
+		return NodeSet.of(node);
 	}
 
 
@@ -57,6 +57,7 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	 * no parent yet. Also, this method will never add a <code>null</code> reference.
 	 * @return true if the set was modified.
 	 */
+	@Override
 	public boolean add(Node node) {
         if (node != null) {
         	if (parent == null) return super.add(node);
@@ -73,6 +74,7 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	 * are not already present. Will ignore a <code>null</code> argument.
 	 * @return true if the set was modified.
 	 */
+	@Override
 	public boolean addAll(Collection<? extends Node> collection) {
 		boolean result = false;
 		if (collection != null) 
@@ -85,6 +87,7 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	 * Removes all nodes from this set. If this is a parent set, all nodes will be
 	 * detached from the parent. The set will be empty after this call returns.
 	 */
+	@Override
 	public void clear() {
 		for (Node node : this) this.remove(node);
 	}
@@ -134,11 +137,21 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 
 	
 	/**
+	 * Returns a new set containing the specified <code>node</code> or an empty set
+	 * in case of a <code>null</code> argument.
+	 */
+	public static NodeSet of(Node node) {
+		NodeSet set = new NodeSet(); set.add(node); return set;
+	}
+	
+	
+	/**
 	 * Removes the specified <code>object</code> from this set if it is present. If
 	 * this is a parent set and the object is a child node of that parent, this will
 	 * detach the node from its parent. Will ignore a <code>null</code> argument.
 	 * @return true if the set was modified.
 	 */
+	@Override
 	public boolean remove(Object object) {
 		
 		boolean result = false;
@@ -157,6 +170,7 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	 * this set if they are present. Will ignore a <code>null</code> argument.
 	 * @return true if the set was modified.
 	 */
+	@Override
 	public boolean removeAll(Collection<?> collection) {
 		boolean result = false;
 		if (collection != null) 
@@ -169,6 +183,7 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	 * Removes all nodes that satisfy the given <code>predicate</code> from this set.
 	 * @return true if the set was modified.
 	 */
+	@Override
 	public boolean removeIf(Predicate<? super Node> predicate) {
 		return this.removeAll(
 			this.stream().filter(predicate).collect(Collectors.toCollection(NodeSet::new))
@@ -183,6 +198,7 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	 * <code>null</code> argument.
 	 * @return true if the set was modified.
 	 */
+	@Override
 	public boolean retainAll(Collection<?> collection) {
 		return this.removeAll(
 			this.stream().filter(n -> !collection.contains(n)).collect(Collectors.toCollection(NodeSet::new))
@@ -191,6 +207,7 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	
 	
 	/** Renders this set as a list of SDA elements. */
+	@Override
 	public String toString() {
 		String result = ""; 
 		for (Node node : this) 

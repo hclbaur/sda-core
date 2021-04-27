@@ -58,7 +58,7 @@ public final class SDAParser implements Parser {
 			try {
 				complexNode = new ComplexNode(name);
 			} catch (IllegalArgumentException e) {
-				throw new SyntaxException("invalid node name '" + name +"'", scanner.p);
+				throw new SyntaxException(e.getMessage(), scanner.p);
 			}
 			
 			scanner.advance(); scanner.skipwhite(); // skip left brace and whitespace
@@ -72,8 +72,7 @@ public final class SDAParser implements Parser {
 		else try { // simple content ahead, create a simple node
 			return new SimpleNode(name, scanner.getQuotedString());
 		} catch (IllegalArgumentException e) {
-			throw new SyntaxException("invalid node name '" + name +"'", scanner.p);
+			throw new SyntaxException(e.getMessage(), scanner.p);
 		}
 	}
-
 }
