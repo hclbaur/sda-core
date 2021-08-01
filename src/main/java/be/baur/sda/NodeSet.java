@@ -39,15 +39,6 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	}
 
 
-	/**
-	 * @deprecated Since 1.5.1 for removal in 1.6. Use {@link NodeSet#of} instead.
-	 */
-	@Deprecated
-	public static NodeSet from(Node node) {
-		return NodeSet.of(node);
-	}
-
-
 	// NOTE: some inherited methods are overwritten to maintain parent-child integrity. 
 
 
@@ -125,7 +116,7 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 
 	
 	/**
-	 * Returns a sub-set of all nodes of the specified class in the set, or an empty
+	 * Returns a sub-set of all nodes of the specified class in this set, or an empty
 	 * set if none are found.
 	 */
 	public NodeSet get(Class<?> cls) {
@@ -133,6 +124,15 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 		for (Node node : this)
 			if (node.getClass() == cls) sub.add(node);
 		return sub;
+	}
+
+
+	/**
+	 * Returns a sub-set of all nodes that satisfy the given <code>predicate</code>
+	 * in this set, or an empty set if none are found.
+	 */
+	public NodeSet get(Predicate<? super Node> predicate) {
+		return this.stream().filter(predicate).collect(Collectors.toCollection(NodeSet::new));
 	}
 
 	

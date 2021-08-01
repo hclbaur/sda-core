@@ -61,9 +61,9 @@ public final class SDAParser implements Parser {
 				throw new SyntaxException(e.getMessage(), scanner.p);
 			}
 			
-			scanner.advance(); scanner.skipwhite(); // skip left brace and whitespace
-			while (scanner.c != SDA.RBRACE) {	// until end of complex content...
-				complexNode.nodes.add( getNode() );	// ... get the next node and add it
+			scanner.advance(); scanner.skipwhite();			// skip left brace and whitespace
+			while (scanner.c != SDA.RBRACE) {				// until end of complex content...
+				complexNode.getNodes().add( getNode() );	// ... get the next node and add it
 			}
 
 			scanner.advance(); scanner.skipwhite(); // skip right brace and whitespace

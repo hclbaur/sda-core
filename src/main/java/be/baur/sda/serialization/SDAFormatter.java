@@ -52,7 +52,7 @@ public final class SDAFormatter implements Formatter {
 		
 		else if (node instanceof ComplexNode) {
 			
-			NodeSet childnodes = ((ComplexNode)node).nodes; 
+			NodeSet childnodes = ((ComplexNode)node).getNodes(); 
 			boolean children = childnodes.size() > 0;
 			
 			output.write(indent + node.getName() + " " + (char)SDA.LBRACE + (children ? "\n" : ""));

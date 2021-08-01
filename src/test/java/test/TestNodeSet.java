@@ -22,12 +22,12 @@ public final class TestNodeSet {
 		
 		InputStream in = TestNodeSet.class.getResourceAsStream("/addressbook.sda");
 		ComplexNode addressbook = (ComplexNode) SDA.parser().parse(new InputStreamReader(in,"UTF-8"));
-		NodeSet contacts = addressbook.nodes;
+		NodeSet contacts = addressbook.getNodes();
 		NodeSet names = new NodeSet();
 		NodeSet numbers = new NodeSet();
 		
-		contacts.forEach( n -> names.add( ((ComplexNode) n).nodes.get("firstname").get(1)) );
-		contacts.stream().flatMap(n -> ((ComplexNode) n).nodes.get("phonenumber").stream()).forEach(n -> numbers.add(n));
+		contacts.forEach( n -> names.add( ((ComplexNode) n).getNodes().get("firstname").get(1)) );
+		contacts.stream().flatMap(n -> ((ComplexNode) n).getNodes().get("phonenumber").stream()).forEach(n -> numbers.add(n));
 		
 		t.test("S01", addressbook.path(), "/addressbook");
 		t.test("S02", contacts.get(1).path(), "/addressbook/contact[1]");

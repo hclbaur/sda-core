@@ -7,12 +7,9 @@ package be.baur.sda;
  */
 public class ComplexNode extends Node {
 
-	/**
-	 * A public, immutable reference to the set of child <code>nodes</code>; the
-	 * reference cannot be changed after creation, but the set can be changed (add
-	 * or remove child nodes).
-	 */
-	public final NodeSet nodes;
+	// An immutable reference to the set of child <code>nodes</code>; the reference
+	// cannot change after creation, but the set itself can (add or remove nodes).
+	private final NodeSet nodes;
 
 	/**
 	 * Creates a complex node with the specified <code>name</code>.
@@ -21,8 +18,16 @@ public class ComplexNode extends Node {
 	public ComplexNode(String name) {
 		super(name); nodes = new NodeSet(this);
 	}
-	
 
+
+	/**
+	 * Returns the child nodes. The set may be empty, but not <code>null</code>.
+	 */
+	public NodeSet getNodes() {
+		return nodes;
+	}
+
+	
 	public String toString() {
 		return getName() + (char)SDA.LBRACE + " " + nodes.toString() + (char)SDA.RBRACE;
 	}

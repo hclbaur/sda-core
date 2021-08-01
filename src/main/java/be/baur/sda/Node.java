@@ -71,7 +71,7 @@ public abstract class Node {
 	 * only) text node in the third message node.
 	 */
 	public final String path() {
-		NodeSet similar = parent != null ? parent.nodes.get(name) : null;
+		NodeSet similar = parent != null ? parent.getNodes().get(name) : null;
 		int pos = (similar != null && similar.size() > 1) ? similar.find(this) : 0;
 		return (parent != null ? parent.path() : "") + "/" 
 			+ name + (pos > 0 ? "[" + pos + "]" : "");	
