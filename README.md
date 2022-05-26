@@ -1,9 +1,19 @@
-# SDA Release Notes
+# SDA Core Implementation
+
+The SDA project was conceived in 2008 and aims to produce Java libraries 
+that (ultimately) support parsing, validation and transformation of SDA 
+content. The SDA core library supplies classes that make up the basic 
+building blocks of SDA (nodes) as well as a parser and formatter.
+For more information, refer to /docs.
+
+Author: Harold C.L. Baur
+
+## Release Notes
 
 ISSUES/IDEAS
 - change underlying collection of NodeSet?
 
-2021-08-01 v1.6.0:
+2021-08-01 v1.6.0 (first public release):
 - Added: NodeSet.get(<predicate>).
 - Added: ComplexNode.getNodes().
 - Removed NodeSet.from().
