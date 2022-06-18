@@ -1,83 +1,116 @@
-# SDA Core Implementation
+# SDA Core
 
 The SDA project was conceived in 2008 and aims to produce Java libraries 
-that (ultimately) support parsing, validation and transformation of SDA 
-content. The SDA core library supplies classes that make up the basic 
-building blocks of SDA (nodes) as well as a parser and formatter.
-For more information, refer to /docs.
+that (ultimately) support parsing, formatting, processing, validation and 
+transformation of SDA content. The SDA core library supplies the classes 
+that make up the basic building blocks of SDA (nodes) as well as a parser 
+and formatter.
 
-Author: Harold C.L. Baur
+## What is SDA
 
-## Release Notes
+SDA is a way of representing Structured DAta in a fashion that pleases both 
+humans and machines. Unlike XML, it is *just* a data format, and much less 
+powerful. On the other hand, it is faster to process, simpler to learn, and 
+easier on the eye. It's more like JSON, but with fewer punctuation and weakly 
+typed.
 
-ISSUES/IDEAS
-- change underlying collection of NodeSet?
+For example:
 
-2021-08-01 v1.6.0 (first public release):
-- Added: NodeSet.get(<predicate>).
-- Added: ComplexNode.getNodes().
-- Removed NodeSet.from().
-- Removed public access to ComplexNode.nodes.
 
-2021-04-27 v1.5.1:
-- Deprecated NodeSet.from() in favor of NodeSet.of().
+	addressbook {
+		contact {
+			firstname "Alice"
+			phonenumber "06-11111111"
+			phonenumber "06-22222222"
+		}
+		contact {
+			firstname "Bob"
+			phonenumber "06-33333333"
+			phonenumber "06-44444444"
+		}
+	}
 
-2021-03-24 v1.5.0 (hardening release):
-- Added: NodeSet.from().
-- Override of NodeSet methods to maintain parent-child integrity.
-- Encapsulation of most core class fields. Added validation of node names.
-- Refactored package hierarchy, added Parser/Formatter interfaces.
+As you can see the format borders on self-explanatory. But for completeness' 
+sake, I wrote some [documentation](docs/).
 
-2021-03-02 v1.4.2:
-- Added: Node.getName() and setName().
-- Added: NodeSet.find() and improved Node.path().
+## Running the demo
 
-2020-10-06 v1.4.1:
-- Added: Node.getRoot().
-- Added: Node.path() and SDA.escape().
-- SyntaxException now extends ParseException.
+Assuming you are on a windows system you can clone the project, open a 
+command window and switch to the [demo](src/test/demo) directory, where you 
+will find a batch script to build the demo. On a UN\*X flavoured system you 
+will have to make some minor changes but I'm sure you'll manage.
+	
+Once built, run it like this
 
-2020-05-11 v1.4.0:
-- Added: NodeSet.get(<class>), override add().
-- Removed Render from SDA class.
-- Renamed Parse/Render methods to parse/render.
+	java -cp .;sda-core.jar demo book.sda
+	
+which will output the following
 
-2020-04-08 v1.3.0:
-- Lots of rework, added test packages and renderer.
+	Alice has 2 phone number(s).
+	  Number 1: 06-11111111
+	  Number 2: 06-22222222
+	Bob has 2 phone number(s).
+	  Number 1: 06-33333333
+	  Number 2: 06-44444444
 
-2020-02-10 v1.2.1:
-- Moved the parser(s) to sub-packages.
-- Removed render() methods and (code) cleanup.
+When you look at the [code](src/test/java/demo.java) you will see that 
+parsing the input file takes a single line of code, after which you can 
+iterate the data nodes.
 
-2016 v1.2.0:
-- Renamed package namespace to baur.be.
-- Added position to SyntaxException.
-- SimpleNode: removed getValue() added render().
-- SDA: replaced fancy parser with a simpler one.
-- Removed explicit Render class.
+However, there is a catch. The parser does not *validate* the input; it 
+merely checks that it's *well-formed*. Basically, if all the curly braces 
+properly match, all values are quoted, and node names have no funny 
+characters, it doesn't really care what the data represents. 
 
-2016 v1.1.2:
-- Parse and Render in a static utility class (SDA).
+Therefor, it's easy to upset the demo if you feed it something that can be 
+parsed without problems, but fails to meet its expectations, such as
 
-2008 v1.1.1:
-- NodeSet extends CopyOnWriteArraySet<Node> to hold children of ComplexNode, replaces Spath.
-- Render now writes to a stream instead of a string.
-- PoC implementation of Spath methods to support nodeset selection.
+	addressbook {
+		contact {
+			firstname "Alice"
+			phonynumber "06-11111111"
+			phonenumber "06-22222222"
+		}
+		contact {
+			phonenumber "06-33333333"
+			phonenumber "06-44444444"
+		}
+	}
 
-2008 v1.1.0:
-- Render now writes to a stream instead of a string.
-- PoC implementation of Spath methods to support nodeset selection.
-- Parse: eliminates unnamed root node (introduced by 1.0.0).
+No need to type that in, just run
 
-2008 v1.0.2:
-- Node: revert back to 1.0.0 (parent is a node).
-- Parse: revert back to 1.0.0 (return a node).
-- ComplexNode: returns Iterator to children (wise?).
-- Spath: first attempt at Spatch methods.
+	java -cp .;sda-core.jar demo badbook.sda
+	
+and it will output
 
-2008 v1.0.1:
-- Node: a parent is by definition a complex node (forward declaration).
-- Parse: always returns a complex node (implies that root nodes are always of complex type).
+	Alice has 1 phone number(s).
+	  Number 1: 06-22222222
+	Exception in thread "main" java.lang.NullPointerException
+			at demo.main(demo.java:24)
+	
+Oops. The demo expects all contacts to be properly named, but as it happens, 
+the second one is anonymous. And the programmer (that would me) failed to 
+write more defensive code!
 
-2008 v1.0.0:
-- Parse: introduces an unnamed root node to hold the root element (changes rendering code).
+Actually, a safer version is in the comments of `demo.java` so duh, but the 
+point, really, is that defensive code goes only so far. Have a closer look 
+at the output. Alice seems to have only one number, and it's actually the 
+second number that gets printed there.
+
+This is because there is a more subtle (and potentially more dangerous) 
+issue. The node carrying the first number is misspelled "phonynumber", which 
+the demo does not look for, and the parser does not care about.   
+
+It is easy to write code that checks for the absence of something you know 
+you need, but more cumbersome to check for the presence of something you do 
+not expect, in particular when your data structure becomes larger than this 
+trivial example.
+
+Enter *schema*. This is a formal description of what the data should look 
+like, so the parser can check for missing or incorrect data *before* it is 
+processed and able to mess up things.
+
+Luckily, it is possible to write such a schema for SDA content. But that's 
+another story, and in fact, another [project](https://github.com/hclbaur/sds-core) :)
+
+----

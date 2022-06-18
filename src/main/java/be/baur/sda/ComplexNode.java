@@ -21,7 +21,7 @@ public class ComplexNode extends Node {
 
 
 	/**
-	 * Returns the child nodes. The set may be empty, but not <code>null</code>.
+	 * Returns the child nodes. The set could be empty, but is never <code>null</code>.
 	 */
 	public NodeSet getNodes() {
 		return nodes;
