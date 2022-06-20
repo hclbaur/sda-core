@@ -28,6 +28,10 @@ of the following element[^1]:
 
 	<name>John Doe</name>
 
+[^1]: In XML, elements are a specific type of node. There are also comment 
+nodes, text nodes, attribute nodes, processing instructions, etc. In SDA 
+there is only nodes (or elements if you like, but I will call them nodes).
+
 In both, the `name` tag describes the nature of the data, in this case, a 
 name. As you can see, SDA does not have start and end tags to enclose 
 content: it uses double quotes instead.
@@ -56,10 +60,6 @@ alarming.
 SDA syntax does not get more complicated than this. Of course, there are some 
 rules that we adhere to in order to produce proper (or *well-formed* if you 
 like) SDA. These are the subject of the next section.
-
-[^1]: In XML, elements are a specific type of node. There are also comment 
-nodes, text nodes, attribute nodes, processing instructions, etc. In SDA 
-there is only nodes (or elements if you like, but I will call them nodes).
 
 ## The rules
 
@@ -130,7 +130,7 @@ desired. It might be used to minimize storage, though.
 
 ### The root of all…
 
-The top level or root[^2]  node is special in the sense that there must be 
+The top level or root[^2] node is special in the sense that there must be 
 exactly one. This means that
 
 	given_name "John"

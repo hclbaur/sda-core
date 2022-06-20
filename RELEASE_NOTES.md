@@ -1,16 +1,23 @@
 # Release Notes
 
-## [1.6.0] - 2021-08-01 (first public release)
-- `Added` NodeSet.get(<predicate>).
-- `Added` ComplexNode.getNodes().
-- `Removed` NodeSet.from().
-- `Removed` public access to ComplexNode.nodes.
+## [1.6.1] - 2022-06-20
+- `Improved` performance of default SDA parser.
+- `Fixed` offsets in SyntaxException.
+- `Added` demo and documentation in markdown.
+- `Removed` documentation in ODT format.
 
 ## Compatibility
 
 - Requires at least Java 8.
+- Backwards compatible down to SDA 1.6.0.
 
 ## Previous releases
+
+### [1.6.0] - 2021-08-01 (first public release)
+- `Added` NodeSet.get(<predicate>).
+- `Added` ComplexNode.getNodes().
+- `Removed` NodeSet.from().
+- `Removed` public access to ComplexNode.nodes.
 
 ### [1.5.1] - 2021-04-27
 - Deprecated NodeSet.from() in favor of NodeSet.of().

@@ -16,7 +16,12 @@ all time, one might consider use of resources a non-issue all together.
 But even if resources are abundant, it does not mean we should not care what they 
 are used for. And if a lot of smart people spent a lot of time debating the 
 appropriate use of a certain feature, then maybe it is too complicated. Sometimes, 
-XML just seems overkill.
+XML just seems overkill[^1].
+
+[^1]: when this document was nearly finished, I Googled for “alternatives for XML” 
+and learned several things. First, that I should check Google before doing anything 
+else. Second, that I am not alone (google for “xml sucks”). And third, that for 
+data exchange there is at least one well-known alternative, called JSON.
 
 In any case, that morning, SDA became my pet project. It obviously was not going to 
 replace XML ever, but I was curious how far I could take it, and whether it could 
@@ -29,8 +34,4 @@ SDA means Structured Data, or more affectionately, Simple Data.
 
 **Harold C.L. Baur, November 2008**
 
-----
-PS: when this document was nearly finished, I Googled for “alternatives for XML” 
-and learned several things. First, that I should check Google before doing anything 
-else. Second, that I am not alone (google for “xml sucks”). And third, that for 
-data exchange there is at least one well-known alternative, called JSON.
+---

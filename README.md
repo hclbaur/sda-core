@@ -8,14 +8,13 @@ and formatter.
 
 ## What is SDA
 
-SDA is a way of representing Structured DAta in a fashion that pleases both 
-humans and machines. Unlike XML, it is *just* a data format, and much less 
-powerful. On the other hand, it is faster to process, simpler to learn, and 
-easier on the eye. It's more like JSON, but with fewer punctuation and weakly 
-typed.
+SDA (Simple DAta) is a way of representing structured data in a fashion that 
+pleases both humans and machines. Unlike XML, it is *just* a data format, and 
+much less powerful. On the other hand, it is faster to process, simpler to 
+learn, and easier on the eye. It's more like JSON, but with fewer punctuation 
+and weakly typed.
 
 For example:
-
 
 	addressbook {
 		contact {
@@ -37,8 +36,8 @@ sake, I wrote some [documentation](docs/).
 
 Assuming you are on a windows system you can clone the project, open a 
 command window and switch to the [demo](src/test/demo) directory, where you 
-will find a batch script to build the demo. On a UN\*X flavoured system you 
-will have to make some minor changes but I'm sure you'll manage.
+will find a build script. On a UN\*X flavoured system you have to make some 
+minor changes but I'm sure you'll manage.
 	
 Once built, run it like this
 
@@ -59,11 +58,11 @@ iterate the data nodes.
 
 However, there is a catch. The parser does not *validate* the input; it 
 merely checks that it's *well-formed*. Basically, if all the curly braces 
-properly match, all values are quoted, and node names have no funny 
+properly match, all values are quoted, and the node names have no funny 
 characters, it doesn't really care what the data represents. 
 
-Therefor, it's easy to upset the demo if you feed it something that can be 
-parsed without problems, but fails to meet its expectations, such as
+Therefor, it's easy to upset the demo if you feed it something that can 
+be parsed without problems, but fails to meet its expectations, such as
 
 	addressbook {
 		contact {
@@ -97,7 +96,7 @@ point, really, is that defensive code goes only so far. Have a closer look
 at the output. Alice seems to have only one number, and it's actually the 
 second number that gets printed there.
 
-This is because there is a more subtle (and potentially more dangerous) 
+This is because there is a more subtle (and potentially even more dangerous) 
 issue. The node carrying the first number is misspelled "phonynumber", which 
 the demo does not look for, and the parser does not care about.   
 
@@ -106,11 +105,11 @@ you need, but more cumbersome to check for the presence of something you do
 not expect, in particular when your data structure becomes larger than this 
 trivial example.
 
-Enter *schema*. This is a formal description of what the data should look 
-like, so the parser can check for missing or incorrect data *before* it is 
-processed and able to mess up things.
+Enter *schema* validation. A schema is a formal description of what the data 
+should look like, so the parser can check for missing, incorrect or unknown
+data *before* it is processed and cause a problem.
 
-Luckily, it is possible to write such a schema for SDA content. But that's 
-another story, and in fact, another [project](https://github.com/hclbaur/sds-core) :)
+It is possible to write such a schema for SDA content. But that's another 
+story, and in fact, another [project](https://github.com/hclbaur/sds-core) :)
 
 ----

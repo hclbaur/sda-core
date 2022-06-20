@@ -18,25 +18,26 @@ final class Scanner {
     
     /** Create and initialize a scanner. */
     Scanner(Reader input) throws IOException {
-    	this.input = input; p=0; advance();
+    	this.input = input; p=0;
     }
 
 	
-    /** Advance the scanner. */
-    void advance() throws IOException {
-    	c = input.read(); ++p;
+	/**
+	 * Advance the scanner to the next character in the input stream.
+	 * If <code>skipWhite</code> is true, whitespace will be skipped.
+	 */
+    void advance(boolean skipWhite) throws IOException {
+    	do {
+    		c = input.read(); ++p;
+    	} 
+    	while (skipWhite && Character.isWhitespace(c));
     }
     
-    /** Check and abort when EOF is reached. */
-    static final int EOF = -1;
-    void checkEOF() throws SyntaxException {
-    	if (c == EOF) throw new SyntaxException("unexpected end of input", p);
-    }
 
-	
-    /** Advance while skipping over whitespace. */
-    void skipwhite() throws IOException {
-    	while (Character.isWhitespace(c)) advance();
+    static final int EOF = -1;
+    /** Check and abort when EOF is reached. */
+    void checkEOF() throws SyntaxException {
+    	if (c == EOF) throw new SyntaxException("unexpected end of input", p-1);
     }
     
     
@@ -45,16 +46,16 @@ final class Scanner {
     	
     	String s = "";
     	
-    	skipwhite(); checkEOF();
-    	
+    	checkEOF();
     	if (! SDA.isNameStart(c)) 
     		throw new SyntaxException("node name cannot start with '" + (char)c + "'", p);
     	
     	do { // add to result until we get something that is not part of a node name
-    		s = s + (char)c; advance();
+    		s = s + (char)c; advance(false);
     	} while (SDA.isNamePart(c));
-    	
-    	skipwhite(); checkEOF();  // dangling node names are not allowed
+
+    	if (Character.isWhitespace(c)) advance(true);
+    	checkEOF();  // dangling node names are not allowed
  
     	return s;
     }
@@ -70,15 +71,14 @@ final class Scanner {
     	
     	// add to result until we get the end quote or EOF, handle escaped characters  	
     	while (true) {
-    		advance(); checkEOF();
+    		advance(false); checkEOF();
     		if (!escape && c == SDA.BSLASH) {escape = true; continue; };
     		if (escape) { s = s + (char)c; escape = false; continue; }
     		if (c == SDA.QUOTE) break;
     		s = s + (char)c;
     	}
     	
-    	advance(); skipwhite(); // skip the end quote and whitespace
-
+    	advance(true); // skip over the end quote and white-space that follows
     	return s;
     }   
 }

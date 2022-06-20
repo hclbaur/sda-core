@@ -37,9 +37,9 @@ public final class SDAParser implements Parser {
 
 		scanner = new Scanner(input);
 		
-		Node node = getNode();
+		scanner.advance(true); // advance to the first non-whitespace character
+		Node node = getNode(); // and get the root node
 
-		scanner.skipwhite();
 		if (scanner.c != Scanner.EOF)
 			throw new SyntaxException("excess input after root node", scanner.p);
 
@@ -61,18 +61,22 @@ public final class SDAParser implements Parser {
 				throw new SyntaxException(e.getMessage(), scanner.p);
 			}
 			
-			scanner.advance(); scanner.skipwhite();			// skip left brace and whitespace
-			while (scanner.c != SDA.RBRACE) {				// until end of complex content...
-				complexNode.getNodes().add( getNode() );	// ... get the next node and add it
+			scanner.advance(true);  						// skip left brace and whitespace
+			while (scanner.c != SDA.RBRACE) {				// until end of complex content,
+				complexNode.getNodes().add( getNode() );	// get the next node and add it
 			}
 
-			scanner.advance(); scanner.skipwhite(); // skip right brace and whitespace
+			scanner.advance(true); // skip right brace and whitespace
 			return complexNode; 
 		}
-		else try { // simple content ahead, create a simple node
-			return new SimpleNode(name, scanner.getQuotedString());
-		} catch (IllegalArgumentException e) {
-			throw new SyntaxException(e.getMessage(), scanner.p);
+		else { // simple content ahead, create a simple node
+			int pos = scanner.p;
+			try { 
+				return new SimpleNode(name, scanner.getQuotedString());
+			} 
+			catch (IllegalArgumentException e) {
+				throw new SyntaxException(e.getMessage(), pos);
+			}
 		}
 	}
 }

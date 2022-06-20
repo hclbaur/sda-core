@@ -55,29 +55,29 @@ public final class TestSDAParser {
 
 		// test invalid SDA
 		String s = "SDA syntax violation at position ";
-		t.test("F01", "", s + "1: unexpected end of input");
-		t.test("F02", "  ", s + "3: unexpected end of input");
-		t.test("F03", "bad", s + "4: unexpected end of input");
-		t.test("F04", "bad  ", s + "6: unexpected end of input");
+		t.test("F01", "", s + "0: unexpected end of input");
+		t.test("F02", "  ", s + "2: unexpected end of input");
+		t.test("F03", "bad", s + "3: unexpected end of input");
+		t.test("F04", "bad  ", s + "5: unexpected end of input");
 		t.test("F05", "2bad", s + "1: node name cannot start with '2'");
 		t.test("F06", "b@d", s + "2: unexpected character '@'");
-		t.test("F07", "trailing\"", s + "10: unexpected end of input");
-		t.test("F08", "{", s + "1: node name cannot start with '{'");
-		t.test("F09", "_{", s + "2: invalid node name (_)");
-		t.test("F10", "trailing{", s + "10: unexpected end of input");
+		t.test("F07", "trailing \"", s + "10: unexpected end of input");
+		t.test("F08", "trailing \"abc", s + "13: unexpected end of input");
+		t.test("F09", "{", s + "1: node name cannot start with '{'");
+		t.test("F10", "_{", s + "2: invalid node name (_)");
 		t.test("F11", "abc{ { ", s + "6: node name cannot start with '{'");
-		t.test("F12", "abc{ _\"\"", s + "9: invalid node name (_)");
+		t.test("F12", "abc{ _\"\"", s + "7: invalid node name (_)");
 		t.test("F13", "abc{ \"", s + "6: node name cannot start with '\"'");
 		t.test("F14", " }", s + "2: node name cannot start with '}'");
-		t.test("F15", "noright {", s + "10: unexpected end of input");
+		t.test("F15", "noright {", s + "9: unexpected end of input");
 		t.test("F16", "noleft }", s + "8: unexpected character '}'");
-		t.test("F17", "a{ b{}", s + "7: unexpected end of input");
+		t.test("F17", "a{ b{}", s + "6: unexpected end of input");
 		t.test("F18", "a{} b{}", s + "5: excess input after root node");
 		t.test("F19", "a{ b{} } }", s + "10: excess input after root node");
 		t.test("F20", "a \"b\" c \"d\"", s + "7: excess input after root node");
 		
 		// test performance
-		p.testPerf("\nP01", samplesda, 50000, 20);
+		p.testPerf("\nP01", samplesda, 25000, 25);
 	}
 
 }

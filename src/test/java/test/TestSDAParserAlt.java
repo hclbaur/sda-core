@@ -75,7 +75,7 @@ public final class TestSDAParserAlt {
 		t.test("F17", "a \"b\" c \"d\"", s + "8: too many root elements");
 		
 		// test performance
-		p.testPerf("\nP01", samplesda, 50000, 20);
+		p.testPerf("\nP01", samplesda, 25000, 25);
 	}
 
 }

@@ -56,19 +56,17 @@ public final class Test {
 	public void testPerf(String scenario, String input, long iterations, long runs) {
 
 		System.out.print(scenario);
-		long total = 0, r = runs;
-		while (r > 0) {
+		long total = 0, r = 0;
+		while (r < runs) {
 			
-			long i = iterations;
+			long i = iterations; ++r;
 			long start = new Date().getTime();
 			while (i > 0) {
 				strcon.accept(input); --i;
 			}
 			long duration = new Date().getTime() - start;
-			System.out.print(" " + duration);
-			total += duration; --r;
+			total += duration; System.out.print(" " + total/r);
 		}
-		System.out.print(" avg: " + (total/runs));
 	}
 
 }
