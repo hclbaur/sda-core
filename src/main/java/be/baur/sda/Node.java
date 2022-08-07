@@ -8,13 +8,15 @@ package be.baur.sda;
  */
 public abstract class Node {
 
-	private String name; 		// name (tag) of this node
-	private String value; 		// the value of this node
-	private ComplexNode parent; // reference to parent node
+	private String name; 	// name (tag) of this node
+	private String value; 	// the value of this node
+	private Node parent; 	// reference to parent node
+	private NodeSet nodes;	// reference to child nodes
 	
 	
 	/**
 	 * Creates a node with the specified <code>name</code> and an empty value.
+	 * 
 	 * @throws IllegalArgumentException see also {@link #setName}.
 	 */
 	public Node(String name) {
@@ -25,6 +27,7 @@ public abstract class Node {
 	/**
 	 * Creates a node with the specified <code>name</code> and <code>value</code>.
 	 * Accepts a <code>null</code> value, refer to {@link #setValue} for details.
+	 * 
 	 * @throws IllegalArgumentException see also {@link #setName}.
 	 */
 	public Node(String name, String value) {
@@ -36,7 +39,9 @@ public abstract class Node {
 	
 	/**
 	 * Sets the <code>name</code> of this node.
-	 * @throws IllegalArgumentException if <code>name</code> is invalid. See {@link SDA#isName}.
+	 * 
+	 * @throws IllegalArgumentException if <code>name</code> is invalid. See
+	 *                                  {@link SDA#isName}.
 	 */
 	public final void setName(String name) {
 		if (! SDA.isName(name)) 
@@ -72,13 +77,13 @@ public abstract class Node {
 	 * Sets the parent. This is called from a NodeSet to maintain parent-child
 	 * integrity when adding or removing child nodes. Do not make this public!
 	 */
-	final void setParent(ComplexNode parent) {
+	final void setParent(Node parent) {
 		this.parent = parent;
 	}
 
 	
 	/** Returns the <code>parent</code> of this node or <code>null</code>. */
-	public final ComplexNode getParent() {
+	public final Node getParent() {
 		return parent;
 	}
 	
@@ -89,6 +94,29 @@ public abstract class Node {
 	 */
 	public final Node root() {
 		return ((parent != null) ? parent.root() : this);	
+	}
+
+
+	/**
+	 * Returns the set of child nodes. May return a <code>null</code> reference if
+	 * the node is not a parent node!
+	 */
+	public NodeSet getNodes() {
+		return nodes;
+	}
+	
+	
+	/**
+	 * Adds a child <code>node</code> provided it has no parent yet. Adding a
+	 * <code>null</code> reference turns this node in a "vacant parent" with an
+	 * empty set of child nodes.
+	 * 
+	 * @return true if the set was modified.
+	 */
+	public boolean add(Node node) {
+		if (node != null && node.getParent() != null) return false;
+		if (nodes == null) nodes = new NodeSet(this);
+        return nodes.add(node);
 	}
 	
 	

@@ -20,7 +20,7 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	 * reference is kept to maintain parent-child integrity when adding or removing
 	 * child nodes from the set.
 	 */
-	private final ComplexNode parent;
+	private final Node parent;
 
 	
 	/** Creates an empty node set. */
@@ -31,10 +31,10 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	
 	/*
 	 * Creates an empty node set with a parent reference. It is called upon creation
-	 * of a ComplexNode to establish the unbreakable double bond between this set
-	 * and the parent for which it holds any child nodes. Do not make this public!
+	 * of a parent set to establish the unbreakable double bond between this set and
+	 * the parent which child nodes it holds. Do not make this public!
 	 */
-	NodeSet(ComplexNode parent) {
+	NodeSet(Node parent) {
 		super(); this.parent = parent;
 	}
 
@@ -43,9 +43,10 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 
 
 	/**
-	 * Adds a <code>node</code> to this set. In case this is a parent set (e.g. it is
-	 * holding child nodes for a particular parent) the node is added only if it has 
-	 * no parent yet. Also, this method will never add a <code>null</code> reference.
+	 * Adds a <code>node</code> to this set. A <code>null</code> reference is
+	 * silently ignored. If the set is a parent set, nodes that already have a
+	 * parent will not be added.
+	 * 
 	 * @return true if the set was modified.
 	 */
 	@Override
