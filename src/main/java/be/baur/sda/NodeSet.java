@@ -9,16 +9,16 @@ import java.util.stream.Collectors;
 /**
  * A <code>NodeSet</code> is an collection of {@link Node} objects. It extends a
  * {@link CopyOnWriteArraySet} and defines several convenience methods to find
- * or manipulate member nodes. Its use includes housing the child nodes of a
- * ComplexNode, but is not limited to that.
+ * or manipulate member nodes. Internally, a NodeSet is used to hold the child
+ * nodes of a parent node, in which case it is referred to as a "parent set".
  */
 @SuppressWarnings("serial")
 public final class NodeSet extends CopyOnWriteArraySet<Node> {
 
 	/*
-	 * The parent is the node for which this set is holding any child nodes. This
+	 * The parent is the node for that the set is holding child nodes for. This
 	 * reference is kept to maintain parent-child integrity when adding or removing
-	 * child nodes from the set.
+	 * nodes from the set. If the parent is null, the set is not a parent set.
 	 */
 	private final Node parent;
 
@@ -63,7 +63,9 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	
 	/**
 	 * Adds all nodes in the specified <code>collection</code> to this set if they
-	 * are not already present. Will ignore a <code>null</code> argument.
+	 * are not already present. Will ignore a <code>null</code> argument. If the set
+	 * is a parent set, nodes that already have a parent will not be added.
+	 * 
 	 * @return true if the set was modified.
 	 */
 	@Override
@@ -76,8 +78,8 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 
 
 	/**
-	 * Removes all nodes from this set. If this is a parent set, all nodes will be
-	 * detached from the parent. The set will be empty after this call returns.
+	 * Removes all nodes from this set. If this is a parent set, removed nodes will
+	 * be detached from their parent. The set will be empty after this call returns.
 	 */
 	@Override
 	public void clear() {
@@ -105,8 +107,8 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	
 	
 	/**
-	 * Returns a sub-set of all nodes with the specified <code>name</code> in this
-	 * set, or an empty set if none are found.
+	 * Returns a sub-set of all nodes with the specified <code>name</code>, or an
+	 * empty set if none are found.
 	 */
 	public NodeSet get(String name) {
 		NodeSet sub = new NodeSet();

@@ -49,9 +49,9 @@ public final class TestSDAParserAlt {
 		// test valid SDA
 		t.test("S01", "empty\"\"", "empty \"\"");
 		t.test("S02", "  empty  \"\"  ", "empty \"\"");
-		t.test("S03", "empty{}", "empty{ }");
-		t.test("S04", "  empty  {  }  ", "empty{ }");
-		t.test("S05", "_c1 { s_1 \"hello  world\" } ", "_c1{ s_1 \"hello  world\" }");
+		t.test("S03", "empty{}", "empty { }");
+		t.test("S04", "  empty  {  }  ", "empty { }");
+		t.test("S05", "_c1 { s_1 \"hello  world\" } ", "_c1 { s_1 \"hello  world\" }");
 		t.test("S06", "example \"The \\\\ is called a \\\"backslash\\\" in English.\"", "example \"The \\\\ is called a \\\"backslash\\\" in English.\"");
 		
 		/* test valid SDA */
