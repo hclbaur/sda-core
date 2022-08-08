@@ -5,6 +5,7 @@ package be.baur.sda;
  * contains zero or more child nodes (of complex or simple type). Any child
  * nodes are held in a {@link NodeSet}.
  */
+@Deprecated
 public class ComplexNode extends Node {
 
 	// An immutable reference to the set of child <code>nodes</code>; the reference

@@ -5,6 +5,7 @@ package be.baur.sda;
  * value of a simple content type, represented as a string. Typically, these
  * nodes are children of a parent {@link ComplexNode}.
  */
+@Deprecated
 public class SimpleNode extends Node {
 
 //    private String value; // the value of this node 

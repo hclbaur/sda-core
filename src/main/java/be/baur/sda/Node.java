@@ -88,6 +88,12 @@ public abstract class Node {
 	public final Node getParent() {
 		return parent;
 	}
+
+
+	/** Returns <code>true</code> if this node has one or more child nodes. */
+	public final boolean isParent() {
+		return ! (nodes == null || nodes.isEmpty());
+	}
 	
 	
 	/**
