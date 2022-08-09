@@ -28,13 +28,13 @@ public class demo {
 		
 //		A (somewhat) more defensive version	
 //	
-//		if (! root.isParent()) return;
-//		NodeSet contacts = root.getNodes().get("contact").get(n -> n.isParent());
+//		if (! root.hasNodes()) return;
+//		NodeSet contacts = root.getNodes().get("contact").get(n -> n.hasNodes());
 //		
 //		for (Node contact : contacts) {
 //			
-//			Node name = contact.getNodes().get("firstname").get(n -> !n.isParent()).get(1);
-//			NodeSet numbers = contact.getNodes().get("phonenumber").get(n -> !n.isParent());
+//			Node name = contact.getNodes().get("firstname").get(n -> !n.hasNodes()).get(1);
+//			NodeSet numbers = contact.getNodes().get("phonenumber").get(n -> !n.hasNodes());
 //			
 //			System.out.println((name == null ? "An unnamed contact" : name.getValue()) 
 //					+ " has " + numbers.size() + " phone number(s).");

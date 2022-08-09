@@ -88,12 +88,6 @@ public abstract class Node {
 	public final Node getParent() {
 		return parent;
 	}
-
-
-	/** Returns <code>true</code> if this node has one or more child nodes. */
-	public final boolean isParent() {
-		return ! (nodes == null || nodes.isEmpty());
-	}
 	
 	
 	/**
@@ -114,6 +108,12 @@ public abstract class Node {
 	}
 	
 	
+	/** Returns <code>true</code> if this node has one or more child nodes. */
+	public final boolean hasNodes() {
+		return ! (nodes == null || nodes.isEmpty());
+	}
+
+
 	/**
 	 * Adds a child <code>node</code>, provided it has no parent yet. Adding a
 	 * <code>null</code> reference turns this node in a "vacant parent" with an

@@ -6,14 +6,11 @@ package be.baur.sda.serialization;
 import java.io.IOException;
 import java.io.Writer;
 
-import be.baur.sda.ComplexNode;
 import be.baur.sda.Node;
-import be.baur.sda.NodeSet;
 import be.baur.sda.SDA;
-import be.baur.sda.SimpleNode;
 
 /**
- * This is the default formatter, that renders a <code>Node</code> (and its
+ * This is the default formatter, which renders a <code>Node</code> (and any
  * child nodes) as SDA content in a pretty - or at least human readable - way.
  */
 public final class SDAFormatter implements Formatter {
@@ -30,6 +27,7 @@ public final class SDAFormatter implements Formatter {
 	/**
 	 * Creates a formatter with the specified indentation <code>depth</code>, using
 	 * consecutive blanks for indentation.
+	 * 
 	 * @throws IllegalArgumentException if depth is less than 0.
 	 */
 	public SDAFormatter(int depth) {
@@ -44,21 +42,20 @@ public final class SDAFormatter implements Formatter {
 	}
 
 	
-	/** Private helper to recursively render the node and its children */
+	// Private helper to recursively render the node and its children
 	private void writeIndented(Writer output, Node node, String indent) throws IOException {
 		
-		if (node instanceof SimpleNode) 
+		if (node.getNodes() == null) 
 			output.write(indent + node.toString() + "\n"); 
 		
-		else if (node instanceof ComplexNode) {
+		else {
+			boolean hasNodes = node.hasNodes();
 			
-			NodeSet childnodes = ((ComplexNode)node).getNodes(); 
-			boolean children = childnodes.size() > 0;
-			
-			output.write(indent + node.getName() + " " + (char)SDA.LBRACE + (children ? "\n" : ""));
-			for (Node child : childnodes) 
+			output.write(indent + node.getName() + " " + (char)SDA.LBRACE + (hasNodes ? "\n" : ""));
+			if (hasNodes) for (Node child : node.getNodes()) 
 				writeIndented(output, child, indent + this.indent);
-			output.write((children ? indent : "") + (char)SDA.RBRACE + "\n");
+			output.write((hasNodes ? indent : "") + (char)SDA.RBRACE + "\n");
 		}
 	}
+
 }
