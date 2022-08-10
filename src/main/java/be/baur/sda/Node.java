@@ -100,15 +100,21 @@ public abstract class Node {
 
 
 	/**
-	 * Returns the set of child nodes. May return either a <code>null</code>
-	 * reference or an empty set if the node is not a parent node.
+	 * Returns the set of child nodes. Will return <code>null</code> for a node with
+	 * simple content only (such as <code>node "value"</code>), and an empty set for
+	 * a "vacant parent" (like <code>node { }</code>).
 	 */
 	public NodeSet getNodes() {
 		return nodes;
 	}
 	
 	
-	/** Returns <code>true</code> if this node has one or more child nodes. */
+	/**
+	 * Returns <code>true</code> if this node has one or more child nodes. Will
+	 * return <code>false</code> for a node with simple content only (such as
+	 * <code>node "value"</code>), and for a "vacant parent" (like
+	 * <code>node { }</code>).
+	 */
 	public final boolean hasNodes() {
 		return ! (nodes == null || nodes.isEmpty());
 	}
@@ -172,8 +178,4 @@ public abstract class Node {
 
 		return str;
 	}
-	
-//	public String toString() {
-//		return name + " " + (char)SDA.QUOTE + SDA.encode(value) + (char)SDA.QUOTE;
-//	}
 }
