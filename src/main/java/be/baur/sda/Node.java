@@ -5,7 +5,7 @@ package be.baur.sda;
  * model. It has a name, a value and references to a parent node and/or a child
  * {@link NodeSet}.
  */
-public abstract class Node {
+public class Node {
 
 	private String name; 	// name (tag) of this node
 	private String value; 	// the value of this node
@@ -112,8 +112,8 @@ public abstract class Node {
 	/**
 	 * Returns <code>true</code> if this node has one or more child nodes. Will
 	 * return <code>false</code> for a node with simple content only (such as
-	 * <code>node "value"</code>), and for a "vacant parent" (like
-	 * <code>node { }</code>).
+	 * <code>node "value"</code>), and for a "vacant parent" with an empty child 
+	 * set (like <code>node { }</code>).
 	 */
 	public final boolean hasNodes() {
 		return ! (nodes == null || nodes.isEmpty());
@@ -130,7 +130,7 @@ public abstract class Node {
 	public final boolean add(Node node) {
 		if (node != null && node.getParent() != null) return false;
 		if (nodes == null) nodes = new NodeSet(this);
-        return nodes.add(node);
+		return (node == null) ? false : nodes.add(node);
 	}
 	
 	
