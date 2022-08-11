@@ -1,10 +1,13 @@
 # Release Notes
 
-## [1.6.1] - 2022-06-20
-- `Improved` performance of default SDA parser.
-- `Fixed` offsets in SyntaxException.
-- `Added` demo and documentation in markdown.
-- `Removed` documentation in ODT format.
+This release may be considered a "stepping stone" towards SDA 2.0.
+When refactoring your code, note that Node.getNodes() may return null,
+whereas ComplexNode.getNodes() would always return an empty NodeSet.
+ 
+## [1.6.2] - 2022-08-20
+- `Deprecated` SimpleNode and ComplexNode.
+- `Refactored` Node, which is no longer abstract.
+- `Added` Node.hasNodes() and Node.addNode().
 
 ## Compatibility
 
@@ -12,6 +15,12 @@
 - Backwards compatible down to SDA 1.6.0.
 
 ## Previous releases
+
+## [1.6.1] - 2022-06-20
+- `Improved` performance of default SDA parser.
+- `Fixed` offsets in SyntaxException.
+- `Added` demo and documentation in markdown.
+- `Removed` documentation in ODT format.
 
 ### [1.6.0] - 2021-08-01 (first public release)
 - `Added` NodeSet.get(<predicate>).

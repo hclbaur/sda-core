@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.Stack;
 
-import be.baur.sda.ComplexNode;
 import be.baur.sda.Node;
-import be.baur.sda.SimpleNode;
 import be.baur.sda.serialization.Parser;
 import be.baur.sda.serialization.SyntaxException;
 
@@ -69,7 +67,7 @@ public final class SDAParser implements Parser {
 						// pop identifier, create a simple node
 						Node e; String name = stack.pop().value;
 						try {
-							e = new SimpleNode(name, token.value);
+							e = new Node(name, token.value);
 						} catch (IllegalArgumentException x) {
 							throw new SyntaxException(x.getMessage(), lexer.getPos());
 						}
@@ -77,7 +75,7 @@ public final class SDAParser implements Parser {
 						if (context == null) context = e;
 						else { 
 							// if we get here, context should be complex!
-							((ComplexNode) context).getNodes().add(e); // add child to context node
+							context.getNodes().add(e); // add child to context node
 						}                		
 						continue;
 					}
@@ -96,7 +94,7 @@ public final class SDAParser implements Parser {
 						// pop identifier, create a complex node
 						Node c; String name = stack.pop().value;
 						try {
-							c = new ComplexNode(name);
+							c = new Node(name); c.addNode(null);
 						} catch (IllegalArgumentException x) {
 							throw new SyntaxException(x.getMessage(), lexer.getPos());
 						}
@@ -104,7 +102,7 @@ public final class SDAParser implements Parser {
 						stack.push(token); // push block start on the stack
 
 						if (context != null) {
-							((ComplexNode) context).getNodes().add(c); // add child to context node
+							context.getNodes().add(c); // add child to context node
 						}
 						context = c;  // new becomes context context
 						continue;

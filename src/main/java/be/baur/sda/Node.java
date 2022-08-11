@@ -127,7 +127,7 @@ public class Node {
 	 * 
 	 * @return true if the set was modified.
 	 */
-	public final boolean add(Node node) {
+	public final boolean addNode(Node node) {
 		if (node != null && node.getParent() != null) return false;
 		if (nodes == null) nodes = new NodeSet(this);
 		return (node == null) ? false : nodes.add(node);

@@ -17,7 +17,7 @@ public class ComplexNode extends Node {
 	 * @throws IllegalArgumentException if <code>name</code> is invalid.
 	 */
 	public ComplexNode(String name) {
-		super(name); this.add(null);
+		super(name); this.addNode(null);
 	}
 
 
