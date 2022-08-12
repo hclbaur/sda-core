@@ -85,13 +85,13 @@ and it will output
 	Alice has 1 phone number(s).
 	  Number 1: 06-22222222
 	Exception in thread "main" java.lang.NullPointerException
-			at demo.main(demo.java:24)
+			at demo.main(demo.java:23)
 	
 Oops. The demo expects all contacts to be properly named, but as it happens, 
 the second one is anonymous. And the programmer (that would me) failed to 
 write more defensive code!
 
-Actually, a safer version is in the comments of `demo.java` so duh, but the 
+It's easy to fix this issue by adding a check on a null reference, but the 
 point, really, is that defensive code goes only so far. Have a closer look 
 at the output. Alice seems to have only one number, and it's actually the 
 second number that gets printed there.
@@ -107,9 +107,9 @@ trivial example.
 
 Enter *schema* validation. A schema is a formal description of what the data 
 should look like, so the parser can check for missing, incorrect or unknown
-data *before* it is processed and cause a problem.
+data *before* it is processed and causes a problem.
 
-It is possible to write such a schema for SDA content. But that's another 
+It is possible to write such a schema for SDA content. But that is another 
 story, and in fact, another [project](https://github.com/hclbaur/sds-core) :)
 
 ----
