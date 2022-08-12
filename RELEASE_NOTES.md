@@ -4,7 +4,7 @@ This release may be considered a "stepping stone" towards SDA 2.0.
 When refactoring your code, note that Node.getNodes() may return null,
 whereas ComplexNode.getNodes() would always return an empty NodeSet.
  
-## [1.6.2] - 2022-08-20
+## [1.6.2] - 2022-08-12
 - `Deprecated` SimpleNode and ComplexNode.
 - `Refactored` Node, which is no longer abstract.
 - `Added` Node.hasNodes() and Node.addNode().
@@ -16,7 +16,7 @@ whereas ComplexNode.getNodes() would always return an empty NodeSet.
 
 ## Previous releases
 
-## [1.6.1] - 2022-06-20
+### [1.6.1] - 2022-06-20
 - `Improved` performance of default SDA parser.
 - `Fixed` offsets in SyntaxException.
 - `Added` demo and documentation in markdown.
