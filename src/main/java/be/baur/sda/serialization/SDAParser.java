@@ -3,10 +3,8 @@ package be.baur.sda.serialization;
 import java.io.IOException;
 import java.io.Reader;
 
-import be.baur.sda.ComplexNode;
 import be.baur.sda.Node;
 import be.baur.sda.SDA;
-import be.baur.sda.SimpleNode;
 
 
 /**
@@ -52,27 +50,28 @@ public final class SDAParser implements Parser {
 
 		String name = scanner.getNodeName();  // get the name of the new node
 
-		if (scanner.c == SDA.LBRACE) { // complex content ahead, create a complex node
+		if (scanner.c == SDA.LBRACE) { // complex content ahead
 
-			ComplexNode complexNode;
+			Node complexNode;
 			try {
-				complexNode = new ComplexNode(name);
+				complexNode = new Node(name); 
+				complexNode.addNode(null);
 			} catch (IllegalArgumentException e) {
 				throw new SyntaxException(e.getMessage(), scanner.p);
 			}
 			
-			scanner.advance(true);  						// skip left brace and whitespace
-			while (scanner.c != SDA.RBRACE) {				// until end of complex content,
-				complexNode.getNodes().add( getNode() );	// get the next node and add it
+			scanner.advance(true);  			// skip left brace and whitespace
+			while (scanner.c != SDA.RBRACE) {	// until end of complex content,
+				complexNode.addNode( getNode() );	// get the next node and add it
 			}
 
 			scanner.advance(true); // skip right brace and whitespace
 			return complexNode; 
 		}
-		else { // simple content ahead, create a simple node
+		else { // simple content ahead
 			int pos = scanner.p;
 			try { 
-				return new SimpleNode(name, scanner.getQuotedString());
+				return new Node(name, scanner.getQuotedString());
 			} 
 			catch (IllegalArgumentException e) {
 				throw new SyntaxException(e.getMessage(), pos);
