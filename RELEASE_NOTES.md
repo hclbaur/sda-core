@@ -1,20 +1,26 @@
 # Release Notes
 
-This release may be considered a "stepping stone" towards SDA 2.0.
-When refactoring your code, note that Node.getNodes() may return null,
-whereas ComplexNode.getNodes() would always return an empty NodeSet.
+This release (work in progress !) adds full support for SDA 2.0.
  
-## [1.6.2] - 2022-08-12
-- `Deprecated` SimpleNode and ComplexNode.
-- `Refactored` Node, which is no longer abstract.
-- `Added` Node.hasNodes() and Node.addNode().
+## [2.0.0] - 2022-??-??
+- `Removed` SimpleNode and ComplexNode.
 
 ## Compatibility
 
 - Requires at least Java 8.
-- Backwards compatible down to SDA 1.6.0.
+
 
 ## Previous releases
+
+### [1.6.2] - 2022-08-12
+
+This release may be considered a "stepping stone" towards SDA 2.0.
+When refactoring your code, note that Node.getNodes() may return null,
+whereas ComplexNode.getNodes() would always return an empty NodeSet.
+
+- `Deprecated` SimpleNode and ComplexNode.
+- `Refactored` Node, which is no longer abstract.
+- `Added` Node.hasNodes() and Node.addNode().
 
 ### [1.6.1] - 2022-06-20
 - `Improved` performance of default SDA parser.
