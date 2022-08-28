@@ -9,20 +9,19 @@ import be.baur.sda.Node;
 import be.baur.sda.serialization.Parser;
 import be.baur.sda.serialization.SyntaxException;
 
+/**
+ * Alternative SDA parser (actually the first one I wrote, and lacking support
+ * for SDA 2.0, mind you). For example, when processing the following SDA input:
+ * 
+ * <pre>
+ * greeting { message "hello" }
+ * </pre>
+ * 
+ * the parser returns a node 'greeting', containing a node 'message' with a
+ * value of "hello".<br>
+ */
 public final class SDAParser implements Parser {
 
-	/**
-	 * Example of an alternative parser (actually the first one I wrote). It uses a
-	 * {@link Tokenizer} to read and validate input and create {@link Node} objects.
-	 * For example, after processing the following SDA input:
-	 * 
-	 * <pre>
-	 * greeting { message "hello" }
-	 * </pre>
-	 * 
-	 * it returns a <code>ComplexNode</code> 'greeting' with a
-	 * <code>SimpleNode</code> child 'message' that has a value of "greeting".
-	 */
 	public Node parse(Reader input) throws IOException, SyntaxException {
 
 		Tokenizer lexer = new Tokenizer(input);

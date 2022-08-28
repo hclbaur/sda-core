@@ -9,21 +9,21 @@ import be.baur.sda.SDA;
 
 /**
  * This is the default parser; used to read and parse SDA content into a
- * <code>Node</code> tree. For example, when processing the following input:
+ * {@link Node}. For example, when processing the following input:
  * 
  * <pre>
  * greeting { message "hello" }
  * </pre>
  * 
- * it returns a <code>ComplexNode</code> 'greeting' containing a
- * <code>SimpleNode</code> 'message' with a value of "hello".<br>
+ * the parser returns a node 'greeting', containing a node 'message' with a
+ * value of "hello".<br>
  * <br>
  * SDA is parsed according to the following EBNF:
  * 
  * <pre>
  * SDA = node
- * node = name (simple_content | complex_content)
- * simple_content = '"' string '"'
+ * node = name (simple_content complex_content? | complex_content)
+ * simple_content = '"' char* '"'
  * complex_content = '{' node* '}'
  * </pre>
  */
@@ -45,8 +45,45 @@ public final class SDAParser implements Parser {
 	}
 
 	
-	/** Recursive helper method to get nodes from the input stream, follows straight from BNF. */
+	/** Recursive helper method to get nodes from the input stream, follows straight from EBNF. */
 	private Node getNode() throws SyntaxException, IOException {
+
+		Node node;
+		try {
+			node = new Node( scanner.getNodeName() ); // create a new node
+		} 
+		catch (IllegalArgumentException e) {
+			throw new SyntaxException(e.getMessage(), scanner.p);
+		}
+
+		String value = null;
+		if (scanner.c == SDA.QUOTE) {  // simple content ahead
+			value = scanner.getQuotedString();
+			node.setValue( value );
+		}
+
+		if (scanner.c == SDA.LBRACE) { // complex content ahead
+	
+			scanner.advance(true);  // skip left brace and whitespace
+			
+			node.addNode(null);  // initialize child set, recursively add nodes
+			while (scanner.c != SDA.RBRACE) {
+				node.addNode( getNode() );
+			}
+
+			scanner.advance(true); // skip right brace and whitespace
+		}
+		else { // no complex content
+			if (value == null) // and no simple content either
+				throw new SyntaxException("unexpected character '" + (char)scanner.c + "'", scanner.p);
+		}
+		
+		return node;
+	}
+	
+	
+	/** Recursive helper method to get nodes from the input stream, follows straight from EBNF. */
+	private Node getNode1() throws SyntaxException, IOException {
 
 		String name = scanner.getNodeName();  // get the name of the new node
 
