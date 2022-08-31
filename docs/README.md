@@ -1,4 +1,38 @@
-# Rationale
+# Rationale V2.0
+
+I think it was somewhere in 2021, when I was working on SDS and implementing the 
+schema parser/validator in Java, that I got this nagging feeling that something 
+was not entirely right about SDA. While the syntax lived up to the promise of 
+being simple, I could not wholeheartedly say the same about the use of the Java 
+library I wrote to programatically support it.
+
+Although not overly complicated, writing code to work with SDA nodes required a 
+fair amount of casting, due to the fact that SDA nodes were represented by two 
+distinct classes, each subclassing an abstract Node class.
+
+There was one class to support what I called "a simple node", that could have a 
+(string) value, and another one for "complex nodes", which could contain other 
+nodes (simple or complex ones).
+
+At the time it seemed like this was the "proper" way to implement it, because I 
+felt that - conceptually - these were entirely different entities that warranted 
+different classes with different methods. And yet, there was no denying that it 
+was also a bit of a hassle.
+
+I kept going back and forth about it, trying to find a way to both have my cake 
+and eat it too, until it hit me that maybe the SDA syntax was to uptight about
+nodes .... (to be continued) 
+
+Maybe it was a "cleaner" or "better" design, I really do not 
+
+
+
+
+ 
+**Harold C.L. Baur, September 2022**
+
+
+# Rationale V1.0
 
 SDA was dreamed up when, one day, I was contemplating how much I disliked XML when 
 it comes to exchanging data in integration projects. Although the merits of XML 
