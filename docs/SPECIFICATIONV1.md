@@ -1,4 +1,4 @@
-# SDA 2
+# SDA Specification
 
 - [The basics](/docs/SPECIFICATION.md#the-basics)
 - [The rules](/docs/SPECIFICATION.md#the-rules)
@@ -15,13 +15,6 @@
 	- [... and the rest](/docs/SPECIFICATION.md#-and-the-rest)
 - [Conclusion](/docs/SPECIFICATION.md#conclusion)
 
-## Introduction
-
-This is the specification of the SDA syntax, version 2. Unlike the specification 
-for version 1, I am going to try and keep this more to the point, and focus on 
-what SDA is, rather than what it is *not* and how it relates to XML. But should 
-you feel inclined towards reading my musings on these matters, you can find the 
-original [here](/docs/SPECIFICATIONV1.md). 
 
 ## The basics
 
@@ -29,15 +22,31 @@ Consider the following:
 
 	name "John Doe"
 
-This constitutes about the simplest example of an SDA *node*, consisting of 
-an identifier (or tag) describing the nature of the content, a value enclosed 
-in double quotes. As you may have guessed, the value is a `name`.
+This constitutes about the simplest example of an SDA *node*. If you are at 
+least somewhat familiar with XML, you will recognize this as the equivalent 
+of the following element[^1]:
 
-Let's take this a little further. What if we need to communicate the first and 
-last names as separate entities, and bring some hierarchy into the date?
+	<name>John Doe</name>
 
-Sure enough, SDA supports this, and it uses a block style notation to 
-differentiate between *complex* and *simple* content, like `first` and `last`:
+[^1]: In XML, elements are a specific type of node. There are also comment 
+nodes, text nodes, attribute nodes, processing instructions, etc. In SDA 
+there is only nodes (or elements if you like, but I will call them nodes).
+
+In both, the `name` tag describes the nature of the data, in this case, a 
+name. As you can see, SDA does not have start and end tags to enclose 
+content: it uses double quotes instead.
+
+Let's take this a little further. In XML, elements can contain other elements:
+
+	<name>
+		<first>John</first>
+		<last>Doe</last>
+	</name>
+
+This is used to create a hierarchy in data. Sure enough, SDA supports this, 
+but it uses a block style notation to differentiate between *complex* nodes 
+(with node content) like `name` and nodes with *simple* content, like `first` 
+and `last`:
 
 	name {
 		first "John"
