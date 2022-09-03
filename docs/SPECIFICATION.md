@@ -1,4 +1,4 @@
-# SDA 2
+# SDA Specification, version 2
 
 - [The basics](/docs/SPECIFICATION.md#the-basics)
 - [The rules](/docs/SPECIFICATION.md#the-rules)
@@ -15,6 +15,7 @@
 	- [... and the rest](/docs/SPECIFICATION.md#-and-the-rest)
 - [Conclusion](/docs/SPECIFICATION.md#conclusion)
 
+
 ## Introduction
 
 This is the specification of the SDA syntax, version 2. Unlike the specification 
@@ -23,6 +24,7 @@ what SDA is, rather than what it is *not* and how it relates to XML. But should
 you feel inclined towards reading my musings on these matters, you can find the 
 original [here](/docs/SPECIFICATIONV1.md). 
 
+
 ## The basics
 
 Consider the following:
@@ -30,79 +32,70 @@ Consider the following:
 	name "John Doe"
 
 This constitutes about the simplest example of an SDA *node*, consisting of 
-an identifier (or tag) describing the nature of the content, a value enclosed 
-in double quotes. As you may have guessed, the value is a `name`.
+an identifier describing the nature of the content, a value enclosed in double 
+quotes. As you may have guessed, the value is a name. 
 
-Let's take this a little further. What if we need to communicate the first and 
-last names as separate entities, and bring some hierarchy into the date?
-
-Sure enough, SDA supports this, and it uses a block style notation to 
-differentiate between *complex* and *simple* content, like `first` and `last`:
+Nodes with *simple* content like this are sometimes called "leaf nodes", as 
+opposed to "parent nodes" which contain other nodes, like this: 
 
 	name {
 		first "John"
 		last "Doe"
 	}
 
-By now you must have guessed I have a background in programming. I cannot 
-help myself; this syntax appeals so much more to me than XML, it is almost 
-alarming.
+SDA uses a block style notation to create nodes with *complex* content, and as 
+such, to organise date in hierarchical form. There is (at least in theory) no 
+limit to the level of nesting; nodes can contain nodes, that contain other
+nodes, *ad infinitum*.
 
-SDA syntax does not get more complicated than this. Of course, there are some 
-rules that we adhere to in order to produce proper (or *well-formed* if you 
-like) SDA. These are the subject of the next section.
+Perhaps surprisingly, nodes can have both simple and complex content, as in:
+
+	name "johnd" {
+		first "John"
+		last "Doe"
+	}
+
+SDA syntax does not get more complicated than this. Of course, there are  rules 
+we must adhere to in order to produce proper or *well-formed* SDA. These are the 
+subject of the next section.
+
 
 ## The rules
 
 For SDA to be syntactically sound, the following rules must be followed:
 
-- Node names (tags) are case sensitive identifiers.
-- Simple content is enclosed in double quotes.
-- Complex content is enclosed in matching braces.
+- Node names are case sensitive identifiers.
+- Simple content is enclosed in quotes and must be escaped if applicable.
 - White-space is preserved in simple content only.
-- There is only one top level node.
+- There can only be one top level node.
 
 ### Tags
 
-Node names (or *tags*) are case sensitive. This means that the following
+Node names (or *tags*) are case sensitive tokens (so they cannot contain 
+white-space). This means that the following tags
 
 	myname "John"
 	MYNAME "John"
 	MyName "John"
 
-are all distinct nodes. In order to avoid confusion and keep your SDA as readable 
-as possible, you should choose a convention and stick to it, whether it be lower, 
-upper, sentence or camel case.
+are all distinct. In order to avoid confusion and keep your SDA readable you 
+should choose a convention and stick to it.
 
-Tags are like the *identifiers* in most programming languages. More specific, they 
-may consist only of letters, digits and underscores. They cannot start with a digit 
-and must contain at least one character that's not an underscore. And finally, 
+Tags may consist only of letters, digits and underscores. They cannot start with 
+a digit and must contain at least one character that is not an underscore. Also, 
 non-English letters and digits (like Greek symbols) are all excluded.
 
 ### Content
 
-Simple content is always enclosed in double quotes. Literal quotes (that are 
-*part* of the data) must be escaped with a backslash (\), as must be the 
-literal backslash itself:
+Simple content is always enclosed in double quotes. Literal quotes (that are part 
+of the data) must be escaped with a backslash (\), as must be a literal backslash:
 
 	example "The \\ is called a \"backslash\" in English."
 
-Complex content is enclosed between left and right curly braces. There is (in 
-theory) no limit to the level of nesting, but take care to properly match up 
-all braces:
-
-	Top {
-		Lower {
-			AndLower { ... }
-		}
-	}
-
-### White-space
-
-Only in simple content is white-space considered significant and preserved. 
-This means that if an application was to parse SDA and subsequently render it 
-as text, only white-space enclosed in quotes (including line breaks) is 
-guaranteed to come out unaffected. For example:
+Only in simple content is white-space considered significant and preserved. This 
+means that if an application was to parse SDA and subsequently render it as text, 
+only white-space enclosed in quotes (including line breaks) is guaranteed to come 
+out unaffected. For example:
 
 	person {
 		name    "John   Doe"
@@ -121,55 +114,38 @@ desired. It might be used to minimize storage, though.
 
 ### The root of all…
 
-The top level or root[^2] node is special in the sense that there must be 
+The top level (or *root*) node is special in the sense that there must be 
 exactly one. This means that
 
-	given_name "John"
-	surname "Doe"
+	first "John"
+	last "Doe"
 
-is a valid SDA fragment, but in order to make it a valid SDA *document* it 
-should be hosted by a complex node, like so:
+is a valid SDA fragment, but not a valid SDA *document*.
 
-	full_name { given_name "John" surname "Doe" } 
-
-[^2]: Again, there is a difference between XML and SDA terminology. In XML, 
-the root node is an "invisible" node containing the entire document (and the 
-root element). In SDA, the root node is just the top-level node that holds 
-all other ones.
 
 ## Empty nodes
 
-There is a lot that can be said about empty nodes, and I will return to the 
-subject in the next section. But the bottom line is that SDA supports 
-"emptiness", which means that both
+SDA nodes can be empty, in more than one way in fact. For example, this is a node 
+with an empty value:
 
-	result ""
+	empty ""
 
-and
+and so is this one, except that here we have empty complex content:
 
-	result {}
+	empty {}
+	
+which is short-hand for the semantically equivalent
 
-are perfectly valid. Nevertheless, I feel obliged to point out that you 
-should not clutter your SDA with empty nodes just because you can (if you 
-happen to have no data for a particular node). 
+	empty "" {}
 
-Rather, consider omitting them altogether (unless it is a root node, of course). 
-There is (at least) two good reasons for this:
+By convention, and for the sake of readbility, we shall omit the implied empty 
+value for nodes with complex content only. 
 
-- Empty nodes are not in the interest of conserving resources and readability.
-- They place an additional burden on the consumer (recipient) of the data.
+So, is `empty {}` a leaf node or a parent node? Obviously, it has no child nodes,
+so it must be a leaf node. On the other hand, one might argue it has an empty set 
+of child nodes. Lacking a better term, we might call it a "vacant parent", which
+could have complex content.
 
-To understand the latter, you should realize that data exchange in which empty 
-content is actually *meaningful* is not that common. Usually, empty nodes will have 
-to be ignored – and as a result the application needs to check not only for 
-presence but also for *non-emptiness*. This is easily overlooked and may cause 
-problems.
-
-This is no way specific to SDA. It is my experience that empty content is 
-heavily overused in real life XML-enabled applications. After all, *not* 
-creating elements often takes additional effort. If – for instance - content 
-is created by an application using operations that return a string value, an 
-empty element might be inserted whenever an empty string is returned.
 
 ## Unsupported features
 
