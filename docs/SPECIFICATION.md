@@ -87,8 +87,14 @@ non-English letters and digits (like Greek symbols) are all excluded.
 
 ### Content
 
-Simple content is always enclosed in double quotes. Literal quotes (that are part 
-of the data) must be escaped with a backslash (\), as must be a literal backslash:
+Simple content is *always* enclosed in double quotes. Unlike some other data 
+formats (for example JSON) SDA is not typed. In other words,
+
+	age 42
+	
+is not valid in SDA. 
+
+Literal quotes (that are part of the data) must be escaped with a backslash (\), as must be a literal backslash:
 
 	example "The \\ is called a \"backslash\" in English."
 
@@ -145,6 +151,8 @@ So, is `empty {}` a leaf node or a parent node? Obviously, it has no child nodes
 so it must be a leaf node. On the other hand, one might argue it has an empty set 
 of child nodes. Lacking a better term, we might call it a "vacant parent", which
 could have complex content.
+
+Note that in SDA, all simple content, is enclosed in double quotes.
 
 
 ## Unsupported features
