@@ -6,7 +6,7 @@
 	- [Tags](/docs/SPECIFICATION.md#tags)
 	- [Content](/docs/SPECIFICATION.md#content)
 	- [The root of all…](/docs/SPECIFICATION.md#the-root-of-all)
-- [Empty nodes](/docs/SPECIFICATION.md#empty-nodes)
+	- [Empty nodes](/docs/SPECIFICATION.md#empty-nodes)
 - [Unsupported features](/docs/SPECIFICATION.md#unsupported-features)
 - [Conclusion](/docs/SPECIFICATION.md#conclusion)
 
@@ -14,10 +14,10 @@
 ## Introduction
 
 This is the specification of the SDA syntax, version 2. Unlike the specification 
-for version 1, I am going to try and keep this more to the point, and focus on 
-what SDA is, rather than what it is *not* and how it relates to XML. But should 
-you feel inclined towards reading my musings on these matters, you can find the 
-original [here](/docs/SPECIFICATIONV1.md). 
+for version 1, I will keep this one more to the point, and focus on what SDA is, 
+rather than what it is *not* or how it relates to XML. But should you feel 
+inclined towards reading my musings on these matters, you can find the original 
+[here](/docs/SPECIFICATIONV1.md). 
 
 
 ## The basics
@@ -64,6 +64,7 @@ For SDA to be syntactically sound, the following rules must be followed:
 - Simple content is enclosed in double quotes.
 - Whitespace is preserved in simple content only.
 - There can only be one top level node.
+- Empty nodes are relevant.
 
 ### Tags
 
@@ -84,14 +85,13 @@ non-English letters and digits (like Greek symbols) are all excluded.
 ### Content
 
 Simple content is *always* enclosed in double quotes. Unlike some other data 
-formats (for example JSON) SDA is not strongly typed. In other words, nodes like
+formats (for example JSON) SDA is not strongly typed. Evrything is essentially 
+a `string`. In other words, the following examples are all *invalid* in SDA:
 
 	age 54
 	birthday 1968-02-28
 	married false
 	
-are all invalid in SDA. 
-
 Since quotes are used to delimit the values, literal quotes that are *part* of 
 the data must be escaped with a backslash (\\), as must be a literal backslash 
 itself:
@@ -128,8 +128,7 @@ exactly one. This means that
 
 is a valid SDA fragment, but not a valid SDA *document*.
 
-
-## Empty nodes
+### Empty nodes
 
 SDA nodes can be empty, in more than one way in fact. For example, this is a node 
 with an empty value:
@@ -149,13 +148,13 @@ value for nodes with complex content only.
 
 So, is `empty {}` a leaf node or a parent node? Obviously, it has no child nodes,
 so it must be a leaf node. On the other hand, one might argue it has an empty set 
-of child nodes. Lacking a better term, we might call it a "vacant parent", which
-could have complex content.
+of child nodes. Lacking a better term, we might call it a "vacant parent".
 
 Recall that in SDA, all simple content is enclosed in double quotes, including 
 the empty value. There is no equivalent of an explicit `nil` or `null` value, so 
 for all practical purposes, empty nodes in SDA may be considered to have actual - 
-yet empty - content.
+yet empty - content. And as such they are relevant, e.g. parsers should not ignore
+them, and omitting a node is not the same as including an empty one.
 
 
 ## Unsupported features
