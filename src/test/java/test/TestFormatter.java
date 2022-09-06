@@ -19,11 +19,12 @@ public final class TestFormatter {
 		
 		//PrintWriter out = new PrintWriter(System.out);
 		StringWriter out = new StringWriter();
-        Node node = SDA.parser().parse(new StringReader("node\"test\"{ empty\"\"empty{} }"));
+        Node node = SDA.parser().parse(new StringReader("node\"test\"{ empty{empty\"\"} }"));
 		(new SDAFormatter(4)).format(out, node);
 		t.test("S01", out.toString(), "node \"test\" {\n" + 
-				"    empty \"\"\n" + 
-				"    empty {}\n" + 
+				"    empty {\n" + 
+				"        empty \"\"\n" + 
+				"    }\n" + 
 				"}\n");
 		
 		out = new StringWriter();

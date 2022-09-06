@@ -53,7 +53,7 @@ public final class TestSDAParser {
 		t.test("S05", "empty\"\"{}", "empty { }");
 		t.test("S06", "  empty  \"\"  {  }  ", "empty { }");
 		t.test("S07", "_m1 { t_1 \"hello  world\" } ", "_m1 { t_1 \"hello  world\" }");
-		t.test("S08", "_m1 \"yo\" { t1_ \"hello  world\" } ", "_m1 \"yo\" { t1_ \"hello  world\" }");
+		t.test("S08", "_1m \"yo\" { t1_ \"hello  world\" } ", "_1m \"yo\" { t1_ \"hello  world\" }");
 		t.test("S09", "example \"The \\\\ is called a \\\"backslash\\\" in English.\"", "example \"The \\\\ is called a \\\"backslash\\\" in English.\"");
 
 		// test invalid SDA

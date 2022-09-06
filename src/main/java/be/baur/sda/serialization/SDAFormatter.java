@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 import be.baur.sda.Node;
+import be.baur.sda.NodeSet;
 import be.baur.sda.SDA;
 
 /**
@@ -43,6 +44,22 @@ public final class SDAFormatter implements Formatter {
 
 	
 	// Private helper to recursively render the node and its children
+	private void writeIndented1(Writer output, Node node, String indent) throws IOException {
+		
+		NodeSet nodes = node.getNodes();
+		
+		if (! node.getValue().isEmpty() || nodes == null) 
+			output.write(indent + node.getName() + " " 
+				+ (char) SDA.QUOTE + SDA.encode(node.getValue()) + (char) SDA.QUOTE 
+				+ (nodes == null ? "" : " " + (char) SDA.LBRACE) + "\n"); 
+		
+		if (nodes != null) {
+			for (Node child : nodes) 
+				writeIndented(output, child, indent + this.indent);
+	
+			output.write(indent + (char) SDA.RBRACE + "\n");
+		}
+	}
 	private void writeIndented(Writer output, Node node, String indent) throws IOException {
 		
 		if (node.getNodes() == null) 
