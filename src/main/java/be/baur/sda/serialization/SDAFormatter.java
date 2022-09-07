@@ -44,35 +44,25 @@ public final class SDAFormatter implements Formatter {
 
 	
 	// Private helper to recursively render the node and its children
-	private void writeIndented1(Writer output, Node node, String indent) throws IOException {
+	private void writeIndented(Writer output, Node node, String indent) throws IOException {
 		
 		NodeSet nodes = node.getNodes();
 		
-		if (! node.getValue().isEmpty() || nodes == null) 
-			output.write(indent + node.getName() + " " 
-				+ (char) SDA.QUOTE + SDA.encode(node.getValue()) + (char) SDA.QUOTE 
-				+ (nodes == null ? "" : " " + (char) SDA.LBRACE) + "\n"); 
+		output.write(indent + node.getName());
 		
-		if (nodes != null) {
+		if (! node.getValue().isEmpty() || nodes == null)
+			output.write(" " + (char) SDA.QUOTE + SDA.encode(node.getValue()) + (char) SDA.QUOTE);
+	
+		if (nodes != null) {	
+			boolean empty = nodes.isEmpty();
+		
+			output.write(" " + (char)SDA.LBRACE + (empty ? " " : "\n"));
 			for (Node child : nodes) 
 				writeIndented(output, child, indent + this.indent);
-	
-			output.write(indent + (char) SDA.RBRACE + "\n");
+			output.write((empty ? "" : indent) + (char) SDA.RBRACE);
 		}
-	}
-	private void writeIndented(Writer output, Node node, String indent) throws IOException {
 		
-		if (node.getNodes() == null) 
-			output.write(indent + node.toString() + "\n"); 
-		
-		else {
-			boolean hasNodes = node.hasNodes();
-			
-			output.write(indent + node.getName() + " " + (char)SDA.LBRACE + (hasNodes ? "\n" : ""));
-			if (hasNodes) for (Node child : node.getNodes()) 
-				writeIndented(output, child, indent + this.indent);
-			output.write((hasNodes ? indent : "") + (char)SDA.RBRACE + "\n");
-		}
+		output.write("\n");
 	}
 
 }

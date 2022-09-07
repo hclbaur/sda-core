@@ -19,11 +19,14 @@ public final class TestFormatter {
 		
 		//PrintWriter out = new PrintWriter(System.out);
 		StringWriter out = new StringWriter();
-        Node node = SDA.parser().parse(new StringReader("node\"test\"{ empty{empty\"\"} }"));
+        Node node = SDA.parser().parse(new StringReader("node\"1\"{node2{empty1\"\"empty2{}empty\"3\"{}}}"));
 		(new SDAFormatter(4)).format(out, node);
-		t.test("S01", out.toString(), "node \"test\" {\n" + 
-				"    empty {\n" + 
-				"        empty \"\"\n" + 
+		t.test("S01", out.toString(), 
+				"node \"1\" {\n" + 
+				"    node2 {\n" + 
+				"        empty1 \"\"\n" +
+				"        empty2 { }\n" + 
+				"        empty \"3\" { }\n" + 
 				"    }\n" + 
 				"}\n");
 		
@@ -32,12 +35,12 @@ public final class TestFormatter {
 		node = SDA.parser().parse(new InputStreamReader(in,"UTF-8"));
 		(new SDAFormatter()).format(out, node);
 		t.test("S02", out.toString(), "addressbook {\n" + 
-				"	contact {\n" + 
+				"	contact \"1\" {\n" + 
 				"		firstname \"Alice\"\n" + 
 				"		phonenumber \"06-11111111\"\n" + 
 				"		phonenumber \"06-22222222\"\n" + 
 				"	}\n" + 
-				"	contact {\n" + 
+				"	contact \"2\" {\n" + 
 				"		firstname \"Bob\"\n" + 
 				"		phonenumber \"06-33333333\"\n" + 
 				"		phonenumber \"06-44444444\"\n" + 
