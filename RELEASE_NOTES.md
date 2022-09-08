@@ -1,8 +1,10 @@
 # Release Notes
 
-This release (work in progress !) adds full support for SDA 2.0.
+This release adds full support for SDA 2. When you are also using SDS,
+make sure you upgrade to a release that supports the SDA 2 syntax.
  
-## [2.0.0] - 2022-??-??
+## [2.0.0] - 2022-09-08
+
 - `Removed` SimpleNode and ComplexNode.
 
 ## Compatibility
@@ -14,7 +16,7 @@ This release (work in progress !) adds full support for SDA 2.0.
 
 ### [1.6.2] - 2022-08-12
 
-This release may be considered a "stepping stone" towards SDA 2.0.
+This release may be considered a "stepping stone" towards SDA 2.
 When refactoring your code, note that Node.getNodes() may return null,
 whereas ComplexNode.getNodes() would always return an empty NodeSet.
 

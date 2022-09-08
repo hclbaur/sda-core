@@ -1,10 +1,10 @@
 addressbook {
-	contact {
+	contact "1" {
 		firstname "Alice"
 		phonynumber "06-11111111"
 		phonenumber "06-22222222"
 	}
-	contact {
+	contact "2" {
 		phonenumber "06-33333333"
 		phonenumber "06-44444444"
 	}
