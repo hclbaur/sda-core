@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
  * {@link CopyOnWriteArraySet} and defines several convenience methods to find
  * or manipulate member nodes. Internally, a NodeSet is used to hold the child
  * nodes of a parent node, in which case it is referred to as a "parent set".
+ * All supplied methods are "safe", e.g. parent-child integrity is maintained.
  */
 @SuppressWarnings("serial")
 public final class NodeSet extends CopyOnWriteArraySet<Node> {

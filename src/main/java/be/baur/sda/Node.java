@@ -125,7 +125,7 @@ public class Node {
 	 * <code>null</code> reference turns this node in a "vacant parent" with an
 	 * empty set of child nodes.
 	 * 
-	 * @return true if the set was modified.
+	 * @return true if a child node was added.
 	 */
 	public final boolean addNode(Node node) {
 		if (node != null && node.getParent() != null) return false;

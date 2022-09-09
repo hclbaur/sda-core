@@ -8,7 +8,7 @@ import be.baur.sda.Node;
 /**
  * A <code>Parser</code> (in SDA context) is a <em>deserializer</em> that 
  * reads an input stream (in a format specific to the type of parser) and
- * (re-)creates an SDA document in memory.
+ * creates an SDA document object.
  */
 public interface Parser {
 
