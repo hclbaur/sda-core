@@ -80,39 +80,4 @@ public final class SDAParser implements Parser {
 		
 		return node;
 	}
-	
-	
-	/** Recursive helper method to get nodes from the input stream, follows straight from EBNF. */
-	private Node getNode1() throws SyntaxException, IOException {
-
-		String name = scanner.getNodeName();  // get the name of the new node
-
-		if (scanner.c == SDA.LBRACE) { // complex content ahead
-
-			Node complexNode;
-			try {
-				complexNode = new Node(name); 
-				complexNode.addNode(null);
-			} catch (IllegalArgumentException e) {
-				throw new SyntaxException(e.getMessage(), scanner.p);
-			}
-			
-			scanner.advance(true);  			// skip left brace and whitespace
-			while (scanner.c != SDA.RBRACE) {	// until end of complex content,
-				complexNode.addNode( getNode() );	// get the next node and add it
-			}
-
-			scanner.advance(true); // skip right brace and whitespace
-			return complexNode; 
-		}
-		else { // simple content ahead
-			int pos = scanner.p;
-			try { 
-				return new Node(name, scanner.getQuotedString());
-			} 
-			catch (IllegalArgumentException e) {
-				throw new SyntaxException(e.getMessage(), pos);
-			}
-		}
-	}
 }
