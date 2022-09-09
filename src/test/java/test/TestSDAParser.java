@@ -11,12 +11,12 @@ public final class TestSDAParser {
 
 	private static SDAParser parser = new SDAParser();
 	private static String samplesda = "addressbook {\r\n" + 
-			"	contact {\r\n" + 
+			"	contact \"1\" {\r\n" + 
 			"		firstname \"Alice\"\r\n" + 
 			"		phonenumber \"06-11111111\"\r\n" + 
 			"		phonenumber \"06-22222222\"\r\n" + 
 			"	}\r\n" + 
-			"	contact {\r\n" + 
+			"	contact \"2\" {\r\n" + 
 			"		firstname \"Bob\"\r\n" + 
 			"		phonenumber \"06-33333333\"\r\n" + 
 			"		phonenumber \"06-44444444\"\r\n" + 
@@ -25,7 +25,7 @@ public final class TestSDAParser {
 	
 	public static void main(String[] args) throws Exception {
 
-		Node helloworld = (new SDAParser()).parse(new StringReader("greeting{message\"hello world\"}"));
+		Node helloworld = (new SDAParser()).parse(new StringReader("message\"greeting\"{text\"hello world\"}"));
 		System.out.println(helloworld);
 
 		Test t = new Test(s -> {
@@ -50,8 +50,11 @@ public final class TestSDAParser {
 		t.test("S02", "  empty  \"\"  ", "empty \"\"");
 		t.test("S03", "empty{}", "empty { }");
 		t.test("S04", "  empty  {  }  ", "empty { }");
-		t.test("S05", "_c1 { s_1 \"hello  world\" } ", "_c1 { s_1 \"hello  world\" }");
-		t.test("S06", "example \"The \\\\ is called a \\\"backslash\\\" in English.\"", "example \"The \\\\ is called a \\\"backslash\\\" in English.\"");
+		t.test("S05", "empty\"\"{}", "empty { }");
+		t.test("S06", "  empty  \"\"  {  }  ", "empty { }");
+		t.test("S07", "_m1 { t_1 \"hello  world\" } ", "_m1 { t_1 \"hello  world\" }");
+		t.test("S08", "_1m \"yo\" { t1_ \"hello  world\" } ", "_1m \"yo\" { t1_ \"hello  world\" }");
+		t.test("S09", "example \"The \\\\ is called a \\\"backslash\\\" in English.\"", "example \"The \\\\ is called a \\\"backslash\\\" in English.\"");
 
 		// test invalid SDA
 		String s = "SDA syntax violation at position ";
@@ -71,10 +74,12 @@ public final class TestSDAParser {
 		t.test("F14", " }", s + "2: node name cannot start with '}'");
 		t.test("F15", "noright {", s + "9: unexpected end of input");
 		t.test("F16", "noleft }", s + "8: unexpected character '}'");
-		t.test("F17", "a{ b{}", s + "6: unexpected end of input");
-		t.test("F18", "a{} b{}", s + "5: excess input after root node");
-		t.test("F19", "a{ b{} } }", s + "10: excess input after root node");
-		t.test("F20", "a \"b\" c \"d\"", s + "7: excess input after root node");
+		t.test("F17", "noright \"2\" {", s + "13: unexpected end of input");
+		t.test("F18", "noleft \"2\" }", s + "12: unexpected character '}'");
+		t.test("F19", "a{ b{}", s + "6: unexpected end of input");
+		t.test("F20", "a{} b{}", s + "5: excess input after root node");
+		t.test("F21", "a{ b{} } }", s + "10: excess input after root node");
+		t.test("F22", "a \"b\" c \"d\"", s + "7: excess input after root node");
 		
 		// test performance
 		p.testPerf("\nP01", samplesda, 25000, 25);

@@ -35,3 +35,37 @@ SDA means Structured Data, or more affectionately, Simple Data.
 **Harold C.L. Baur, November 2008**
 
 ---
+
+# Rationale 2
+
+I think it was somewhere in 2021, when I was working on SDS and implementing the 
+schema parser/validator, that I got this nagging feeling that something was not 
+right. While the SDA syntax lived up to the promise of being simple, I could not 
+wholeheartedly say the same about the use of the Java library I wrote.
+
+Although not overly complicated, writing code to work with SDA nodes required a 
+fair amount of casting, because SDA nodes were represented by two distinct 
+classes, each subclassing an abstract Node class.
+
+There was one class to support what I called "a simple node", that could have a 
+value, and another one for "complex nodes", which could contain other nodes 
+(simple or complex ones).
+
+At the time it seemed this was the proper way to implement it, because I felt 
+that - conceptually - these were entirely different entities that warranted 
+specific classes and methods. And yet, using them was a bit of a hassle.
+
+I kept going back and forth about it, trying to find a way to have my cake and 
+eat it too, until it dawned on me that maybe I had been too uptight about nodes 
+having either simple or complex content. There was no reason that they couldn't 
+have *both*, other than that the SDA syntax did not support it.
+
+So, I changed the syntax to support this idea, while remaining true and backwards 
+compatible to version 1 and simplified the core library. I think SDA 2 looks 
+rather cool. I used to feel it was a bit of a JSON knockoff, but I successfully 
+addressed this; it now looks like a Terraform knockoff.
+
+Maybe Mark Twain was right when he claimed there are no original ideas.
+
+ 
+**Harold C.L. Baur, August 2022**

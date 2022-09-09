@@ -17,12 +17,12 @@ and weakly typed.
 For example:
 
 	addressbook {
-		contact {
+		contact "1" {
 			firstname "Alice"
 			phonenumber "06-11111111"
 			phonenumber "06-22222222"
 		}
-		contact {
+		contact "2" {
 			firstname "Bob"
 			phonenumber "06-33333333"
 			phonenumber "06-44444444"
@@ -34,14 +34,12 @@ sake, I wrote some [documentation](docs/).
 
 ## Running the demo
 
-Assuming you are on a windows system you can clone the project, open a 
-command window and switch to the [demo](src/test/demo) directory, where you 
-will find a build script. On a UN\*X flavoured system you have to make some 
-minor changes but I'm sure you'll manage.
+To run the demo, download sda-core.jar, demo.class and the two \*.sda files 
+from the latest [release](https://github.com/hclbaur/sda-core/releases/latest).
 	
-Once built, run it like this
+Assuming the java executable is in your path, run the demo like this:
 
-	java -cp .;sda-core.jar demo book.sda
+	java -cp .;sda-core.jar demo addressbook.sda
 	
 which will output the following
 
@@ -65,18 +63,18 @@ Therefor, it's easy to upset the demo if you feed it something that can
 be parsed without problems, but fails to meet its expectations, such as
 
 	addressbook {
-		contact {
+		contact "1" {
 			firstname "Alice"
 			phonynumber "06-11111111"
 			phonenumber "06-22222222"
 		}
-		contact {
+		contact "2" {
 			phonenumber "06-33333333"
 			phonenumber "06-44444444"
 		}
 	}
 
-No need to type that in, just run
+No need to type that in, just run:
 
 	java -cp .;sda-core.jar demo badbook.sda
 	

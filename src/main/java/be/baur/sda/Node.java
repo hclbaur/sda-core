@@ -125,7 +125,7 @@ public class Node {
 	 * <code>null</code> reference turns this node in a "vacant parent" with an
 	 * empty set of child nodes.
 	 * 
-	 * @return true if the set was modified.
+	 * @return true if a child node was added.
 	 */
 	public final boolean addNode(Node node) {
 		if (node != null && node.getParent() != null) return false;
@@ -168,13 +168,13 @@ public class Node {
 	@Override
 	public String toString() {
 
-		String str = name + " ";
+		String str = name;
 		
 		if (! value.isEmpty() || nodes == null) 
-			str += (char) SDA.QUOTE + SDA.encode(value) + (char) SDA.QUOTE;
+			str += " " + (char) SDA.QUOTE + SDA.encode(value) + (char) SDA.QUOTE;
 
 		if (nodes != null)
-			str += (char)SDA.LBRACE + " " + nodes.toString() + (char)SDA.RBRACE;
+			str += " " + (char)SDA.LBRACE + " " + nodes.toString() + (char)SDA.RBRACE;
 
 		return str;
 	}
