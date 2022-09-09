@@ -34,14 +34,12 @@ sake, I wrote some [documentation](docs/).
 
 ## Running the demo
 
-Assuming you are on a windows system you can clone the project, open a 
-command window and switch to the [demo](src/test/demo) directory, where you 
-will find a script to build the core library. Or you can get them from the 
-current [release](https://github.com/hclbaur/sda-core/releases/latest).
+To run the demo, download sda-core.jar, demo.class and the two \*.sda files 
+from the latest [release](https://github.com/hclbaur/sda-core/releases/latest).
 	
-Once you have the library and the demo, run it like this:
+Assuming the java executable is in your path, run the demo like this:
 
-	java -cp .;sda-core.jar demo ..\resources\addressbook.sda
+	java -cp .;sda-core.jar demo addressbook.sda
 	
 which will output the following
 
@@ -78,7 +76,7 @@ be parsed without problems, but fails to meet its expectations, such as
 
 No need to type that in, just run:
 
-	java -cp .;sda-core.jar demo ..\resources\badbook.sda
+	java -cp .;sda-core.jar demo badbook.sda
 	
 and it will output
 
