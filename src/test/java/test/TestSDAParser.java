@@ -75,7 +75,7 @@ public final class TestSDAParser {
 		t.test("F15", "noright {", s + "9: unexpected end of input");
 		t.test("F16", "noleft }", s + "8: unexpected character '}'");
 		t.test("F17", "noright \"2\" {", s + "13: unexpected end of input");
-		t.test("F18", "noleft \"2\" }", s + "12: unexpected character '}'");
+		t.test("F18", "noleft \"2\" }", s + "12: excess input after root node");
 		t.test("F19", "a{ b{}", s + "6: unexpected end of input");
 		t.test("F20", "a{} b{}", s + "5: excess input after root node");
 		t.test("F21", "a{ b{} } }", s + "10: excess input after root node");
