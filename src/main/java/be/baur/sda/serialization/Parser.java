@@ -1,5 +1,6 @@
 package be.baur.sda.serialization;
 
+import java.io.IOException;
 import java.io.Reader;
 
 import be.baur.sda.Node;
@@ -17,6 +18,6 @@ public interface Parser {
 	 * @return Node - the root node.
 	 * @throws Exception
 	 */
-	Node parse(Reader input) throws Exception;
+	Node parse(Reader input) throws IOException, SyntaxException;
 
 }

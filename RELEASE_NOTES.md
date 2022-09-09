@@ -6,6 +6,7 @@ make sure you upgrade to a release that supports the SDA 2 syntax.
 ## [2.0.0] - 2022-09-08
 
 - `Removed` SimpleNode and ComplexNode.
+- `Changed` Parser.parse() to throw IOException, SyntaxException (was Exception).
 
 ## Compatibility
 
