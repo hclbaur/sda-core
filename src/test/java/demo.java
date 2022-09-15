@@ -13,9 +13,9 @@ public class demo {
 		FileReader fin = new FileReader(args[0]);
 		Node root = SDA.parser().parse(fin);
 		
-		if (! root.hasNodes()) return;
+		if (! root.isParent()) return;
 		
-		for (Node contact : root.getNodes().get("contact").get(n -> n.hasNodes())) {
+		for (Node contact : root.getNodes().get("contact").get(n -> n.isParent())) {
 			
 			Node name = contact.getNodes().get("firstname").get(1);
 			NodeSet numbers = contact.getNodes().get("phonenumber");

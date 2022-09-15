@@ -14,7 +14,7 @@ public class Node {
 	
 	
 	/**
-	 * Creates a node with the specified <code>name</code> and an empty value.
+	 * Creates an empty node with the specified <code>name</code>.
 	 * 
 	 * @throws IllegalArgumentException see also {@link #setName}.
 	 */
@@ -103,19 +103,39 @@ public class Node {
 	 * Returns the set of child nodes. Will return <code>null</code> for a node with
 	 * simple content only (such as <code>node "value"</code>), and an empty set for
 	 * a "vacant parent" (like <code>node { }</code>).
+	 * 
+	 * @return <code>null</code> or a {@link NodeSet}.
+	 * @see {@link #isComplex} and {@link #isParent}.
 	 */
 	public NodeSet getNodes() {
 		return nodes;
 	}
-	
+
+
+	/**
+	 * Returns <code>true</code> if this node has complex content. Will return
+	 * <code>false</code> for a node with simple content only (such as
+	 * <code>node "value"</code>), and <code>true</code> for a parent node or a
+	 * "vacant parent" with an empty child set (like <code>node { }</code>).
+	 * 
+	 * @return <code>true</code> if this node has a {@link NodeSet} (empty or not).
+	 * @see {@link #getNodes} and {@link #isParent}.
+	 */
+	public final boolean isComplex() {
+		return (nodes != null);
+	}
+
 	
 	/**
 	 * Returns <code>true</code> if this node has one or more child nodes. Will
 	 * return <code>false</code> for a node with simple content only (such as
-	 * <code>node "value"</code>), and for a "vacant parent" with an empty child 
-	 * set (like <code>node { }</code>).
+	 * <code>node "value"</code>), and for a "vacant parent" with an empty child set
+	 * (like <code>node { }</code>).
+	 * 
+	 * @return <code>true</code> if this node has a non-empty {@link NodeSet}.
+	 * @see {@link #getNodes} and {@link #isComplex}.
 	 */
-	public final boolean hasNodes() {
+	public final boolean isParent() {
 		return ! (nodes == null || nodes.isEmpty());
 	}
 

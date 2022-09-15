@@ -1,19 +1,25 @@
 # Release Notes
 
-This release adds full support for SDA 2. When you are also using SDS,
-make sure you upgrade to a release that supports the SDA 2 syntax.
+Work In Progress.
  
-## [2.0.0] - 2022-09-08
+## [2.1.0] - 2022-xx-xx
 
-- `Removed` SimpleNode and ComplexNode.
-- `Changed` Parser.parse() to throw IOException, SyntaxException (was Exception).
+- `Added` Node.isComplex().
+- `Changed` Node.hasNodes() to Node.isParent().
 
 ## Compatibility
 
 - Requires at least Java 8.
 
-
 ## Previous releases
+
+### [2.0.0] - 2022-09-08
+
+This release adds full support for SDA 2. When you are also using SDS,
+make sure you upgrade to a release that supports the SDA 2 syntax.
+
+- `Removed` SimpleNode and ComplexNode.
+- `Changed` Parser.parse() to throw IOException, SyntaxException (was Exception).
 
 ### [1.6.2] - 2022-08-12
 
