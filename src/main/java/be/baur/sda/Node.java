@@ -141,12 +141,15 @@ public class Node {
 
 
 	/**
-	 * Adds a child {@code node} to this node. Adding a {@code null} reference to a
-	 * node that is not yet a parent node, will turn it into a "vacant parent" with
-	 * an empty set of child nodes. Otherwise it will have no effect at all.
+	 * Add a child {@code node} to this node. Please note the following: adding a
+	 * node that already has a parent will not work; a child is not automatically
+	 * detached from its parent. Adding a {@code null} reference has no effect if
+	 * this node already has complex content, but it will turn a node without
+	 * complex content into a "vacant parent" (like <code>node { }</code>).
 	 * 
 	 * @param node the node to be added, may be null
-	 * @return true if a node was added
+	 * @return true if a node was added, false otherwise
+	 * @see {@link #isComplex} and {@link #isParent}
 	 */
 	public final boolean add(Node node) {
 		if (node != null && node.getParent() != null) return false;
