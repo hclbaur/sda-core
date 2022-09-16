@@ -93,7 +93,7 @@ public final class SDAParser implements Parser {
 						// pop identifier, create a complex node
 						Node c; String name = stack.pop().value;
 						try {
-							c = new Node(name); c.addNode(null);
+							c = new Node(name); c.add(null);
 						} catch (IllegalArgumentException x) {
 							throw new SyntaxException(x.getMessage(), lexer.getPos());
 						}

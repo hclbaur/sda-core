@@ -141,13 +141,14 @@ public class Node {
 
 
 	/**
-	 * Adds a child <code>node</code>, provided it has no parent yet. Adding a
-	 * <code>null</code> reference turns this node in a "vacant parent" with an
-	 * empty set of child nodes.
+	 * Adds a child {@code node} to this node. Adding a {@code null} reference to a
+	 * node that is not yet a parent node, will turn it into a "vacant parent" with
+	 * an empty set of child nodes. Otherwise it will have no effect at all.
 	 * 
-	 * @return true if a child node was added.
+	 * @param node the node to be added, may be null
+	 * @return true if a node was added
 	 */
-	public final boolean addNode(Node node) {
+	public final boolean add(Node node) {
 		if (node != null && node.getParent() != null) return false;
 		if (nodes == null) nodes = new NodeSet(this);
 		return (node == null) ? false : nodes.add(node);

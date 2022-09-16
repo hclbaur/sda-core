@@ -5,6 +5,7 @@ Work In Progress.
 ## [2.1.0] - 2022-xx-xx
 
 - `Added` Node.isComplex().
+- `Changed` Node.addNode() to Node.add().
 - `Changed` Node.hasNodes() to Node.isParent().
 
 ## Compatibility
