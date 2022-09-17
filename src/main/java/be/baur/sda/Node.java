@@ -114,8 +114,8 @@ public class Node {
 
 	/**
 	 * Returns <code>true</code> if this node has complex content. Will return
-	 * <code>false</code> for a node with simple content only (such as
-	 * <code>node "value"</code>), and <code>true</code> for a parent node or a
+	 * <code>false</code> for a node with simple content <i>only</i> (such as
+	 * <code>node "value"</code>), and <code>true</code> for any parent node or a
 	 * "vacant parent" with an empty child set (like <code>node { }</code>).
 	 * 
 	 * @return <code>true</code> if this node has a {@link NodeSet} (empty or not).
@@ -144,8 +144,8 @@ public class Node {
 	 * Add a child {@code node} to this node. Please note the following: adding a
 	 * node that already has a parent will not work; a child is not automatically
 	 * detached from its parent. Adding a {@code null} reference has no effect if
-	 * this node already has complex content, but it will turn a node without
-	 * complex content into a "vacant parent" (like <code>node { }</code>).
+	 * this node has complex content already, but it turns a node without complex
+	 * content into a "vacant parent" (like <code>node { }</code>).
 	 * 
 	 * @param node the node to be added, may be null
 	 * @return true if a node was added, false otherwise
