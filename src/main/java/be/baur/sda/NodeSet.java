@@ -123,7 +123,7 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	 * Returns a sub-set of all nodes of the specified class in this set, or an empty
 	 * set if none are found.
 	 */
-	public NodeSet get(Class<?> cls) {
+	@Deprecated public NodeSet get(Class<?> cls) {
 		NodeSet sub = new NodeSet();
 		for (Node node : this)
 			if (node.getClass() == cls) sub.add(node);
