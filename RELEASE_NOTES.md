@@ -7,7 +7,7 @@ Work In Progress.
 - `Added` Node.isComplex().
 - `Changed` Node.addNode() to Node.add().
 - `Changed` Node.hasNodes() to Node.isParent().
-- `Deprecated` NodeSet.get(Class<?> cls).
+- `Removed` NodeSet.get(Class<?> cls).
 
 ## Compatibility
 

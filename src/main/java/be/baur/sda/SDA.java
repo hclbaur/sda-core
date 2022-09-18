@@ -49,7 +49,12 @@ public final class SDA {
 	}
 	
 	
-	/** Returns <code>true</code> if the argument is a valid SDA node name. */
+	/**
+	 * Returns <code>true</code> if the argument is a valid SDA node name. A name
+	 * may consist only of letters, digits and underscores. They cannot start with a
+	 * digit and must contain at least one character that is not an underscore.
+	 * Also, non-English letters and digits (like Greek symbols) are all excluded.
+	 */
 //	public static boolean isName(String name) {
 //		return (name == null) ? false : SourceVersion.isIdentifier(name);
 //	}

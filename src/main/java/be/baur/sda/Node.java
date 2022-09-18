@@ -2,8 +2,10 @@ package be.baur.sda;
 
 /**
  * A <code>Node</code> is the basic building block of an SDA document object
- * model. It has a name, a value and references to a parent node and/or a child
- * {@link NodeSet}.
+ * model. It has a name and a value (simple content). A node can be a parent
+ * node, in which case it contains other nodes (complex content).
+ * 
+ * @see {@link NodeSet}.
  */
 public class Node {
 
@@ -14,9 +16,10 @@ public class Node {
 	
 	
 	/**
-	 * Creates an empty node with the specified <code>name</code>.
+	 * Creates a node with the specified name and an empty value.
 	 * 
-	 * @throws IllegalArgumentException see also {@link #setName}.
+	 * @throws IllegalArgumentException if the name is invalid
+	 * @see {@link #setName}
 	 */
 	public Node(String name) {
 		setName(name); this.value = "";
@@ -24,23 +27,23 @@ public class Node {
 
 	
 	/**
-	 * Creates a node with the specified <code>name</code> and <code>value</code>.
-	 * Accepts a <code>null</code> value, refer to {@link #setValue} for details.
+	 * Creates a node with the specified name and value. This method will gracefully
+	 * handle a <code>null</code> value.
 	 * 
-	 * @throws IllegalArgumentException see also {@link #setName}.
+	 * @throws IllegalArgumentException if the name is invalid
+	 * @see {@link #setName} and {@link #setValue}
 	 */
 	public Node(String name, String value) {
 		setName(name); setValue(value);
 	}
 
 	
-	/* Note that most of the methods in this class are final! */
-	
 	/**
-	 * Sets the <code>name</code> of this node.
+	 * Sets the name of this node. A name must not be null or empty, but more
+	 * restrictions apply. Refer to {@link SDA#isName} for details.
 	 * 
-	 * @throws IllegalArgumentException if <code>name</code> is invalid. See
-	 *                                  {@link SDA#isName}.
+	 * @param name a valid node name
+	 * @throws IllegalArgumentException if the name is invalid
 	 */
 	public final void setName(String name) {
 		if (! SDA.isName(name)) 
@@ -56,10 +59,12 @@ public class Node {
 	
 	
 	/**
-	 * Sets the <code>value</code> of this node. A <code>null</code> value is turned
-	 * into an empty string to prevent accidental null pointer exceptions at a later
-	 * time. Since SDA does not support explicit nil, there is no valid reason to
-	 * supply null other than to set an empty value.
+	 * Sets the simple content value of this node. A <code>null</code> value is
+	 * turned into an empty string to prevent accidental null pointer exceptions at
+	 * a later time. Since SDA does not support explicit nil, there is no valid
+	 * reason to supply null other than to set an empty value.
+	 * 
+	 * @param value a string value, may be null
 	 */
 	public final void setValue(String value) {
 		this.value = (value == null || value.isEmpty()) ? "" : value;
@@ -84,15 +89,18 @@ public class Node {
 	}
 
 	
-	/** Returns the parent of this node or a <code>null</code> reference. */
+	/**
+	 * Returns the parent of this node or a <code>null</code> reference if it has no
+	 * parent.
+	 */
 	public final Node getParent() {
 		return parent;
 	}
 	
 	
 	/**
-	 * Returns the ultimate ancestor of this node, or the node itself if it has no
-	 * parent.
+	 * Returns the ultimate ancestor (root) of this node or the node itself if it
+	 * has no parent.
 	 */
 	public final Node root() {
 		return ((parent != null) ? parent.root() : this);	
@@ -115,37 +123,37 @@ public class Node {
 	/**
 	 * Returns <code>true</code> if this node has complex content. Will return
 	 * <code>false</code> for a node with simple content <i>only</i> (such as
-	 * <code>node "value"</code>), and <code>true</code> for any parent node or a
+	 * <code>node "value"</code>), and <code>true</code> for a parent node or a
 	 * "vacant parent" with an empty child set (like <code>node { }</code>).
 	 * 
 	 * @return <code>true</code> if this node has a {@link NodeSet} (empty or not).
 	 * @see {@link #getNodes} and {@link #isParent}.
 	 */
-	public final boolean isComplex() {
+	public boolean isComplex() {
 		return (nodes != null);
 	}
 
 	
 	/**
 	 * Returns <code>true</code> if this node has one or more child nodes. Will
-	 * return <code>false</code> for a node with simple content only (such as
+	 * return <code>false</code> for a node with simple content <i>only</i> (such as
 	 * <code>node "value"</code>), and for a "vacant parent" with an empty child set
 	 * (like <code>node { }</code>).
 	 * 
 	 * @return <code>true</code> if this node has a non-empty {@link NodeSet}.
 	 * @see {@link #getNodes} and {@link #isComplex}.
 	 */
-	public final boolean isParent() {
+	public boolean isParent() {
 		return ! (nodes == null || nodes.isEmpty());
 	}
 
 
 	/**
-	 * Add a child {@code node} to this node. Please note the following: adding a
-	 * node that already has a parent will not work; a child is not automatically
-	 * detached from its parent. Adding a {@code null} reference has no effect if
-	 * this node has complex content already, but it turns a node without complex
-	 * content into a "vacant parent" (like <code>node { }</code>).
+	 * Add a child {@code node} to this node. Adding a node that already has a
+	 * parent will not work (no child is automatically detached from its parent).
+	 * Adding a {@code null} reference has no effect if this node has complex
+	 * content already, but it will turn a node without complex content into a
+	 * "vacant parent" (like <code>node { }</code>).
 	 * 
 	 * @param node the node to be added, may be null
 	 * @return true if a node was added, false otherwise
@@ -159,7 +167,7 @@ public class Node {
 	
 	
 	/**
-	 * Returns the "path" to this node in X-path style. When a node occurs more than
+	 * Returns the location of this node in X-path style. When a node occurs more than
 	 * once in the same context, the position (starting at 1) is indicated in square
 	 * brackets, for example: <code>/root/message[3]/text</code> refers to the first
 	 * (and only) text node in the third message node beneath the root.
@@ -173,7 +181,7 @@ public class Node {
 	
 	
 	/**
-	 * Returns the string representation of this node in SDA syntax:
+	 * Returns the string representation of this node in SDA notation. For example
 	 * 
 	 * <pre>
 	 * node ""
