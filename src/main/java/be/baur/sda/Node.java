@@ -32,7 +32,7 @@ public class Node {
 	 * handle a null value.
 	 * 
 	 * @param name a valid node name
-	 * @param name a string value, may be null
+	 * @param value a string value, may be null
 	 * @throws IllegalArgumentException if the name is invalid
 	 * @see {@link #setName} and {@link #setValue}
 	 */
