@@ -69,7 +69,7 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	 * argument, and nodes that already present in the set. If the set is a parent
 	 * set, nodes that already have a parent will not be added.
 	 * 
-	 * @param node the node collection to be added, may be null
+	 * @param collection the node set to be added, may be null
 	 * @return true if this set was modified
 	 */
 	@Override
