@@ -27,6 +27,9 @@ public final class SDA {
 	public static final int USCORE = '_';
 	
 	
+	private SDA() {} // cannot construct this
+	
+	
 	/**
 	 * Check whether a character is a valid SDA digit.
 	 * 
@@ -77,7 +80,7 @@ public final class SDA {
 	 * contain at least one character that is not an underscore. Also, non-English
 	 * letters and digits (like Greek symbols) are all excluded.
 	 * 
-	 * @param name a character
+	 * @param name a string
 	 * @return true or false
 	 */
 //	public static boolean isName(String name) {

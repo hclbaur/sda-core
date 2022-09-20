@@ -13,7 +13,18 @@ import be.baur.sda.SDA;
 /**
  * This is the default formatter, which renders a {@code Node} and any child
  * nodes as SDA content in a human readable way, using Kernighan and Ritchie
- * style for indentation.
+ * style for indentation. For example:
+ * <br>
+ * <pre>
+ * addressbook {
+ *     contact "1" {
+ *         firstname "Alice"
+ *         phonenumber "06-11111111"
+ *     }
+ * }
+ * </pre>
+ * <br>
+ * See also {@link Node}.
  */
 public final class SDAFormatter implements Formatter {
 	
