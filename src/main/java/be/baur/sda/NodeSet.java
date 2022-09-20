@@ -9,11 +9,10 @@ import java.util.stream.Collectors;
 /**
  * A {@code NodeSet} is an collection of {@code Node} objects. It extends a
  * {@link CopyOnWriteArraySet} and defines several convenience methods to find
- * or manipulate member nodes. Internally, a NodeSet is used to hold the child
+ * or manipulate member nodes. Internally, a node set is used to hold the child
  * nodes of a parent node, in which case it is referred to as a "parent set".
  * All supplied methods are "safe", e.g. parent-child integrity is maintained.
- * 
- * @see {@link Node}
+ * See also {@link Node}.
  */
 @SuppressWarnings("serial")
 public final class NodeSet extends CopyOnWriteArraySet<Node> {
@@ -46,11 +45,11 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 
 
 	/**
-	 * Adds a node to this set. A null reference is silently ignored. If the set is
-	 * a parent set, nodes that already have a parent will not be added.
+	 * Adds a node to this set. A null reference is silently ignored and if the set
+	 * is a parent set, a node that already has a parent will be ignored.
 	 * 
-	 * @param node the node to be added, may be null
-	 * @return true if this set was modified
+	 * @param node a node to be added, may be null
+	 * @return true if the set was modified
 	 */
 	@Override
 	public boolean add(Node node) {
@@ -66,11 +65,11 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	
 	/**
 	 * Adds all nodes in the specified collection to this set. Will ignore a null
-	 * argument, and nodes that already present in the set. If the set is a parent
-	 * set, nodes that already have a parent will not be added.
+	 * argument, and nodes that are already contained in the set. If the set is a parent
+	 * set, nodes that already have a parent will be ignored.
 	 * 
-	 * @param collection the node set to be added, may be null
-	 * @return true if this set was modified
+	 * @param collection a node set to be added, may be null
+	 * @return true if the set was modified
 	 */
 	@Override
 	public boolean addAll(Collection<? extends Node> collection) {
@@ -95,8 +94,8 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	 * Returns the position of a node. The position is an integer index in the range
 	 * [1 .. {@link #size()}], or 0 if the specified node does not exist in this set.
 	 * 
-	 * @param node the node to find, may be null
-	 * @return the position in this set
+	 * @param node a node to find, may be null
+	 * @return the position in the set, a non-negative integer
 	 */
 	public int find(Node node) {
 		return Arrays.asList(this.toArray()).indexOf(node) + 1;
@@ -105,10 +104,11 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	
 	/**
 	 * Returns the node at the specified position. The position is an integer index
-	 * in the range [1 .. set.size()]. This method returns a null reference if there
-	 * is no node at the specified position in this set.
+	 * in the range [1 .. set.size()]. This method returns a null reference if the
+	 * position is out of range, or if there is no node at the specified position in
+	 * this set.
 	 * 
-	 * @param position the position in the set
+	 * @param position a position in the set, a non-negative integer
 	 * @return a node, may be null
 	 */
 	public Node get(int position) {
@@ -157,7 +157,7 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	
 	
 	/**
-	 * Removes the specified object from this set. This method ignores a null
+	 * Removes the specified object from this set. This method will ignore a null
 	 * argument, an object that is not a {@code Node} and a node not contained in
 	 * this set. If this is a parent set and the node is a child of that parent,
 	 * it will detach the node from the parent.
@@ -180,8 +180,8 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	
 	
 	/**
-	 * Removes all nodes in the specified collection from this set. This method
-	 * ignores a null argument, objects that are not nodes, and nodes not contained
+	 * Removes all nodes in the specified collection from this set. This method will
+	 * ignore a null argument, objects that are not nodes, and nodes not contained
 	 * in this set.
 	 * 
 	 * @param collection a node set, may be null
@@ -198,7 +198,8 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	
 	/**
 	 * Removes all nodes that satisfy the given <code>predicate</code> from this set.
-	 * @return true if the set was modified.
+	 * 
+	 * @return true if the set was modified
 	 */
 	@Override
 	public boolean removeIf(Predicate<? super Node> predicate) {
@@ -213,7 +214,8 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	 * <code>collection</code>. In other words, removes from this set all nodes
 	 * <em>not</em> contained in the specified collection. Will ignore a
 	 * <code>null</code> argument.
-	 * @return true if the set was modified.
+	 * 
+	 * @return true if the set was modified
 	 */
 	@Override
 	public boolean retainAll(Collection<?> collection) {
@@ -223,12 +225,22 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	}
 	
 	
-	/** Renders this set as a list of SDA elements. */
+	/**
+	 * Returns the string representation of this set in SDA notation. For example:
+	 * 
+	 * <pre>
+	 * { node1 "value" node2 "value" { ... } node3 { ... } }
+	 * </pre>
+	 * 
+	 * Note that the returned string is formatted as a single line of text.
+	 * 
+	 * @return an SDA representation of this set
+	 */
 	@Override
 	public String toString() {
-		String result = ""; 
+		String result = (char)SDA.LBRACE + " "; 
 		for (Node node : this) 
 			result = result + node.toString() + " ";
-		return result;
+		return result + (char)SDA.RBRACE;
 	}
 }

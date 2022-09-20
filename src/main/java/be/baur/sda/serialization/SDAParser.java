@@ -9,7 +9,7 @@ import be.baur.sda.SDA;
 
 /**
  * This is the default parser; used to read and parse SDA content into a
- * {@link Node}. For example, when processing the following input:
+ * {@code Node}. For example, when processing the following input:
  * 
  * <pre>
  * greeting { message "hello" }
@@ -45,7 +45,10 @@ public final class SDAParser implements Parser {
 	}
 
 	
-	/** Recursive helper method to get nodes from the input stream, follows straight from EBNF. */
+	/**
+	 * Recursive helper method to get nodes from the input stream, follows straight
+	 * from EBNF.
+	 */
 	private Node getNode() throws SyntaxException, IOException {
 
 		Node node;

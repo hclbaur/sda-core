@@ -1,11 +1,12 @@
 package be.baur.sda;
 
+import be.baur.sda.serialization.SDAFormatter;
+
 /**
  * A <code>Node</code> is the basic building block of an SDA document object
  * model. It has a name and a value (simple content). A node can be a parent
- * node, in which case it contains other nodes (complex content).
- * 
- * @see {@link NodeSet}.
+ * node, in which case it contains other nodes (complex content). See also
+ * {@link NodeSet}.
  */
 public class Node {
 
@@ -18,9 +19,8 @@ public class Node {
 	/**
 	 * Creates a node with the specified name and an empty value.
 	 * 
-	 * @param name a valid node name
+	 * @param name a valid node name, see {@link #setName}
 	 * @throws IllegalArgumentException if the name is invalid
-	 * @see {@link #setName}
 	 */
 	public Node(String name) {
 		setName(name); this.value = "";
@@ -31,10 +31,9 @@ public class Node {
 	 * Creates a node with the specified name and value. This method will gracefully
 	 * handle a null value.
 	 * 
-	 * @param name a valid node name
-	 * @param value a string value, may be null
+	 * @param name a valid node name, see {@link #setName}
+	 * @param value a string value, may be null, see {@link #setValue}
 	 * @throws IllegalArgumentException if the name is invalid
-	 * @see {@link #setName} and {@link #setValue}
 	 */
 	public Node(String name, String value) {
 		setName(name); setValue(value);
@@ -42,7 +41,7 @@ public class Node {
 
 	
 	/**
-	 * Sets the name (tag) of this node. A name must not be null or empty, but more
+	 * Sets the name (tag) of this node. A name cannot be null or empty, but other
 	 * restrictions apply. Refer to {@link SDA#isName} for details.
 	 * 
 	 * @param name a valid node name
@@ -71,7 +70,7 @@ public class Node {
 	 * Since SDA does not support explicit nil, there is no valid reason to supply
 	 * null other than to set an empty value.
 	 * 
-	 * @param value the string value, may be null
+	 * @param value a string value, may be null
 	 */
 	public final void setValue(String value) {
 		this.value = (value == null || value.isEmpty()) ? "" : value;
@@ -82,7 +81,7 @@ public class Node {
 	 * Returns the value of this node. This method never returns a null reference
 	 * but it will return an empty string if no value has been set.
 	 *
-	 * @return the node value, not null
+	 * @return the string value, not null
 	 */
 	public final String getValue() {
 		return value;
@@ -111,7 +110,7 @@ public class Node {
 	
 	/**
 	 * Returns the ultimate ancestor (root) of this node. This method returns the
-	 * node itself if it has no parent (in which case it is the root node).
+	 * node itself if it has no parent (in which case it <i>is</i> the root).
 	 * 
 	 * @return the root node, may be {@code this} node
 	 */
@@ -123,10 +122,10 @@ public class Node {
 	/**
 	 * Returns the set of child nodes. Will return null for a node with simple
 	 * content only (such as <code>node "value"</code>), and an empty set for a
-	 * "vacant parent" (like <code>node { }</code>).
+	 * "vacant parent" (like <code>node { }</code>). See also {@link #isComplex} and
+	 * {@link #isParent}.
 	 * 
 	 * @return a {@link NodeSet} or null
-	 * @see {@link #isComplex} and {@link #isParent}
 	 */
 	public NodeSet getNodes() {
 		return nodes;
@@ -137,10 +136,10 @@ public class Node {
 	 * Returns true if this node has complex content. Will return false for a node
 	 * with simple content <i>only</i> (such as <code>node "value"</code>), and
 	 * <code>true</code> for a parent node or a "vacant parent" with an empty child
-	 * set (like <code>node { }</code>).
+	 * set (like <code>node { }</code>). See also {@link #getNodes} and
+	 * {@link #isParent}.
 	 * 
-	 * @return true if this node has a {@link NodeSet} (empty or not)
-	 * @see {@link #getNodes} and {@link #isParent}
+	 * @return true if this node has a child set (empty or not)
 	 */
 	public boolean isComplex() {
 		return (nodes != null);
@@ -151,10 +150,9 @@ public class Node {
 	 * Returns true if this node has one or more child nodes. Will return false for
 	 * a node with simple content <i>only</i> (such as <code>node "value"</code>),
 	 * and for a "vacant parent" with an empty child set (like
-	 * <code>node { }</code>).
+	 * <code>node { }</code>). See also {@link #getNodes} and {@link #isComplex}.
 	 * 
-	 * @return true if this node has a non-empty {@link NodeSet}
-	 * @see {@link #getNodes} and {@link #isComplex}
+	 * @return true if this node has a non-empty child set
 	 */
 	public boolean isParent() {
 		return ! (nodes == null || nodes.isEmpty());
@@ -166,11 +164,11 @@ public class Node {
 	 * parent will not work (no child is automatically detached from its parent).
 	 * Adding a null reference has no effect if this node has complex content
 	 * already, but it will turn a node without complex content into a "vacant
-	 * parent" (like <code>node { }</code>).
+	 * parent" (like <code>node { }</code>). See also {@link #isComplex} and
+	 * {@link #isParent}.
 	 * 
-	 * @param node the node to be added, may be null
-	 * @return true if a node was added, false otherwise
-	 * @see {@link #isComplex} and {@link #isParent}
+	 * @param node a node to be added, may be null
+	 * @return true if the node was added
 	 */
 	public final boolean add(Node node) {
 		if (node != null && node.getParent() != null) return false;
@@ -196,7 +194,7 @@ public class Node {
 	
 	
 	/**
-	 * Returns the string representation of this node in SDA notation. For example
+	 * Returns the string representation of this node in SDA notation. For example:
 	 * 
 	 * <pre>
 	 * node ""
@@ -210,9 +208,11 @@ public class Node {
 	 * node { ... }
 	 * </pre>
 	 * 
-	 * for parent nodes (with or without value).
+	 * for parent nodes (with or without value). Note that the returned string is
+	 * formatted as a single line of text. For a pretty (more readable) format, 
+	 * refer to {@link SDAFormatter}.
 	 * 
-	 * @return the SDA representation of this node
+	 * @return an SDA representation of this node
 	 */
 	@Override
 	public String toString() {
@@ -222,8 +222,7 @@ public class Node {
 		if (! value.isEmpty() || nodes == null) 
 			str += " " + (char) SDA.QUOTE + SDA.encode(value) + (char) SDA.QUOTE;
 
-		if (nodes != null)
-			str += " " + (char)SDA.LBRACE + " " + nodes.toString() + (char)SDA.RBRACE;
+		if (nodes != null) str += " " + nodes.toString();
 
 		return str;
 	}

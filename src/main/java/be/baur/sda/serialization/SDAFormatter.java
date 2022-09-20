@@ -11,24 +11,25 @@ import be.baur.sda.NodeSet;
 import be.baur.sda.SDA;
 
 /**
- * This is the default formatter, which renders a <code>Node</code> (and any
- * child nodes) as SDA content in a pretty - or at least human readable - way.
+ * This is the default formatter, which renders a {@code Node} and any child
+ * nodes as SDA content in a human readable way, using Kernighan and Ritchie
+ * style for indentation.
  */
 public final class SDAFormatter implements Formatter {
 	
 	private final String indent;  // the string used for indentation
 	
 	
-	/** Creates a (default) formatter which uses a tab character for indentation. */
+	/** Creates a formatter which uses a tab character for indentation. */
 	public SDAFormatter() {
 		this.indent = "\t";
 	}
 	
 	
 	/**
-	 * Creates a formatter with the specified indentation <code>depth</code>, using
-	 * consecutive blanks for indentation.
+	 * Creates a formatter which uses consecutive blanks for indentation.
 	 * 
+	 * @param depth the indentation depth
 	 * @throws IllegalArgumentException if depth is less than 0.
 	 */
 	public SDAFormatter(int depth) {
