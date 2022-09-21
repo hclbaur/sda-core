@@ -10,23 +10,27 @@ import be.baur.sda.SDA;
 /**
  * This is the default parser; used to read and parse SDA content into a
  * {@code Node}. For example, when processing the following input:
- * <br>
+ * 
  * <pre>
+ * <code>
  * greeting { message "hello" }
+ * </code>
  * </pre>
- * <br>
- * the parser returns a node 'greeting', containing a node 'message' with a
- * value of "hello".<br>
+ * 
+ * the parser returns a node named 'greeting', containing another node named
+ * 'message' with a value of "hello".<br>
  * <br>
  * SDA is parsed according to the following EBNF:
- * <br>
+ * 
  * <pre>
+ * <code>
  * SDA = node
  * node = name (simple_content complex_content? | complex_content)
  * simple_content = '"' char* '"'
  * complex_content = '{' node* '}'
+ * </code>
  * </pre>
- * <br>
+ * 
  * See also {@link Node}.
  */
 public final class SDAParser implements Parser {

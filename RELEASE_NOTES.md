@@ -7,6 +7,7 @@ Work In Progress.
 - `Added` Node.isComplex().
 - `Changed` Node.addNode() to Node.add().
 - `Changed` Node.hasNodes() to Node.isParent().
+- `Changed` Parser.parse() to throw ParseException (was SyntaxException).
 - `Removed` NodeSet.get(Class<?> cls).
 
 ## Compatibility

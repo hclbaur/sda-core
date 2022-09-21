@@ -3,10 +3,9 @@ package be.baur.sda.serialization;
 import java.text.ParseException;
 
 /**
- * An exception thrown by a <code>Parser</code> if input cannot be deserialized
- * to create an SDA node. The offset (in characters counted from the start of
- * the input) where the error occurred, can be accessed from
- * {@link #getErrorOffset()}.
+ * Thrown by the <code>SDAParser</code> if the SDA syntax is violated. The
+ * offset (in characters counted from the start of the input) where the error
+ * occurred can be accessed from {@link SyntaxException#getErrorOffset()}.
  */
 @SuppressWarnings("serial")
 public final class SyntaxException extends ParseException {

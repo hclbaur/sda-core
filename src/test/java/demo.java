@@ -1,14 +1,14 @@
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.ParseException;
 
 import be.baur.sda.Node;
 import be.baur.sda.NodeSet;
 import be.baur.sda.SDA;
-import be.baur.sda.serialization.SyntaxException;
 
 public class demo {
 
-	public static void main(String[] args) throws SyntaxException, IOException  {
+	public static void main(String[] args) throws IOException, ParseException  {
 		
 		FileReader fin = new FileReader(args[0]);
 		Node root = SDA.parser().parse(fin);
