@@ -5,8 +5,8 @@ import be.baur.sda.serialization.SDAFormatter;
 /**
  * A <code>Node</code> is the basic building block of an SDA document object
  * model. It has a name and a value (simple content). A node can be a parent
- * node, in which case it contains other nodes (complex content). See also
- * {@link NodeSet}.
+ * node, in which case it contains other nodes (complex content). <br>
+ * See also {@link NodeSet}.
  */
 public class Node {
 

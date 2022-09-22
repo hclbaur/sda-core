@@ -7,11 +7,11 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * A {@code NodeSet} is an collection of {@code Node} objects. It extends a
- * {@link CopyOnWriteArraySet} and defines several convenience methods to find
- * or manipulate member nodes. Internally, a node set is used to hold the child
- * nodes of a parent node, in which case it is referred to as a "parent set".
- * All supplied methods are "safe", e.g. parent-child integrity is maintained.
+ * A {@code NodeSet} is an collection of {@code Node} objects. It has several
+ * convenience methods to find and manipulate member nodes. A node set is
+ * (amongst others) used to hold the child nodes of a parent node, in which case
+ * it is referred to as a "parent set". All supplied methods are "safe" in the
+ * sense that they maintain parent-child integrity. <br>
  * See also {@link Node}.
  */
 @SuppressWarnings("serial")

@@ -6,7 +6,7 @@ import be.baur.sda.serialization.SDAFormatter;
 import be.baur.sda.serialization.SDAParser;
 
 /**
- * This is a general class with constants and static convenience methods.
+ * This class defines static constants and utility methods.
  */
 public final class SDA {
 

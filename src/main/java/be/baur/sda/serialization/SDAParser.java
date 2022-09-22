@@ -8,8 +8,8 @@ import be.baur.sda.SDA;
 
 
 /**
- * This is the default parser; used to read and parse SDA content into a
- * {@code Node}. For example, when processing the following input:
+ * This is the default parser; used to read and parse SDA content to create 
+ * a {@code Node}. For example, when processing the following input:
  * 
  * <pre>
  * <code>
