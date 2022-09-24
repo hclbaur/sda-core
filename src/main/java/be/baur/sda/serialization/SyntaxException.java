@@ -5,7 +5,7 @@ import java.text.ParseException;
 /**
  * Thrown by the <code>SDAParser</code> if the SDA syntax is violated. The
  * offset (in characters counted from the start of the input) where the error
- * occurred can be accessed from {@link SyntaxException#getErrorOffset()}.
+ * occurred can be accessed from {@link #getErrorOffset()}.
  */
 @SuppressWarnings("serial")
 public final class SyntaxException extends ParseException {

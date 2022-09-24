@@ -92,7 +92,7 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	
 	/**
 	 * Returns the position of a node. The position is an integer index in the range
-	 * [1 .. {@link #size()}], or 0 if the specified node does not exist in this set.
+	 * [1 .. {@code size()}], or 0 if the specified node does not exist in this set.
 	 * 
 	 * @param node a node to find, may be null
 	 * @return the position in the set, a non-negative integer
@@ -226,7 +226,7 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	
 	
 	/**
-	 * Returns the string representation of this set in SDA notation. For example:
+	 * Returns the string representing this set in SDA notation. For example:
 	 * 
 	 * <pre>
 	 * { node1 "value" node2 "value" { ... } node3 { ... } }

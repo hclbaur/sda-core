@@ -10,7 +10,7 @@ import be.baur.sda.Node;
 /**
  * A <code>Parser</code> (in SDA context) is a <i>deserializer</i> that reads an
  * input stream (in a format specific to the type of parser) and creates a
- * {@link Node}. A sample implementation is the default {@link SDAParser}.
+ * {@code Node}. A sample implementation is the default {@link SDAParser}.
  */
 public interface Parser {
 

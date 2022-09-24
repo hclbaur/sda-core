@@ -57,7 +57,7 @@ public class Node {
 	/**
 	 * Returns the name (tag) of this node.
 	 * 
-	 * @return the node name, not null or empty
+	 * @return a node name, not null or empty
 	 */
 	public final String getName() {
 		return name;
@@ -125,7 +125,7 @@ public class Node {
 	 * "vacant parent" (like <code>node { }</code>). See also {@link #isComplex} and
 	 * {@link #isParent}.
 	 * 
-	 * @return a {@link NodeSet} or null
+	 * @return a node set or null
 	 */
 	public NodeSet getNodes() {
 		return nodes;
@@ -183,7 +183,7 @@ public class Node {
 	 * brackets, for example: <code>/root/message[3]/text</code> refers to the first
 	 * (and only) text node in the third message node beneath the root.
 	 * 
-	 * @return a path to this node
+	 * @return the path to this node
 	 */
 	public final String path() {
 		NodeSet similar = parent != null ? parent.getNodes().get(name) : null;
@@ -194,7 +194,7 @@ public class Node {
 	
 	
 	/**
-	 * Returns the string representation of this node in SDA notation. For example:
+	 * Returns the string representing this node in SDA notation. For example:
 	 * 
 	 * <pre>
 	 * node ""

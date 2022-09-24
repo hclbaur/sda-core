@@ -51,10 +51,7 @@ public final class SDAParser implements Parser {
 	}
 
 	
-	/**
-	 * Recursive helper method to get nodes from the input stream, follows straight
-	 * from EBNF.
-	 */
+	// Recursive helper to get nodes from the input, follows straight from the EBNF.
 	private Node getNode() throws SyntaxException, IOException {
 
 		Node node;
