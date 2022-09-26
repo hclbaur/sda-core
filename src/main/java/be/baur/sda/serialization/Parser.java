@@ -19,7 +19,7 @@ public interface Parser {
 	 * 
 	 * @param input an input stream
 	 * @return a (root) node
-	 * @throws IOException if an input exception occurs
+	 * @throws IOException    if an input exception occurs
 	 * @throws ParseException if a parse exception occurs
 	 */
 	Node parse(Reader input) throws IOException, ParseException;

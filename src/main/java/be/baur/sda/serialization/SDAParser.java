@@ -8,7 +8,7 @@ import be.baur.sda.SDA;
 
 
 /**
- * This is the default parser; used to read and parse SDA content to create 
+ * This is the default SDA parser; used to read and parse SDA content to create
  * a {@code Node}. For example, when processing the following input:
  * 
  * <pre>
@@ -37,6 +37,9 @@ public final class SDAParser implements Parser {
 
 	private Scanner scanner;
 
+	/**
+	 * @throws SyntaxException if an SDA parse exception occurs
+	 */
 	public Node parse(Reader input) throws IOException, SyntaxException {
 
 		scanner = new Scanner(input);
