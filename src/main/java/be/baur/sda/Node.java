@@ -186,8 +186,8 @@ public class Node {
 	 * @return the path to this node
 	 */
 	public final String path() {
-		NodeSet similar = parent != null ? parent.getNodes().get(name) : null;
-		int pos = (similar != null && similar.size() > 1) ? similar.find(this) : 0;
+		NodeSet similar = parent != null ? parent.getNodes().find(name) : null;
+		int pos = (similar != null && similar.size() > 1) ? similar.locate(this) : 0;
 
 		return (parent != null ? parent.path() : "") + "/" + name + (pos > 0 ? "[" + pos + "]" : "");
 	}

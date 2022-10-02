@@ -5,9 +5,13 @@ Work In Progress.
 ## [2.1.0] - 2022-xx-xx
 
 - `Added` Node.isComplex().
+- `Added` Node NodeSet.get(String).
 - `Changed` Node.addNode() to Node.add().
 - `Changed` Node.hasNodes() to Node.isParent().
 - `Changed` Parser.parse() to throw ParseException (was SyntaxException).
+- `Renamed` (NodeSet) NodeSet.get(String) to NodeSet.find(String).
+- `Renamed` (NodeSet) NodeSet.get(Predicate) to NodeSet.find(Predicate).
+- `Renamed` NodeSet.find(Node) to NodeSet.locate(Node).
 - `Removed` NodeSet.get(Class<?> cls).
 
 ## Compatibility

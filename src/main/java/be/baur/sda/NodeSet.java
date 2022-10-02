@@ -97,7 +97,7 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	 * @param node a node to find, may be null
 	 * @return the position in the set, a non-negative integer
 	 */
-	public int find(Node node) {
+	public int locate(Node node) {
 		return Arrays.asList(this.toArray()).indexOf(node) + 1;
 	}
 	
@@ -118,13 +118,27 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	
 	
 	/**
+	 * Returns the first node with the specified name. This method returns
+	 * null if no such node is found in the set.
+	 * 
+	 * @param name a node name, may be null
+	 * @return a node, may be null
+	 */
+	public Node get(String name) {
+		for (Node node : this)
+			if (node.getName().equals(name)) return node;
+		return null;
+	}
+
+
+	/**
 	 * Returns a sub-set of all nodes with the specified name. This method returns
 	 * an empty set if no such nodes are found.
 	 * 
 	 * @param name a node name
 	 * @return a node set, may be empty
 	 */
-	public NodeSet get(String name) {
+	public NodeSet find(String name) {
 		NodeSet sub = new NodeSet();
 		for (Node node : this)
 			if (node.getName().equals(name)) sub.add(node);
@@ -139,7 +153,7 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	 * @param predicate a boolean valued function of one argument
 	 * @return a node set, may be empty
 	 */
-	public NodeSet get(Predicate<? super Node> predicate) {
+	public NodeSet find(Predicate<? super Node> predicate) {
 		return this.stream().filter(predicate).collect(Collectors.toCollection(NodeSet::new));
 	}
 
