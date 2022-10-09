@@ -1,24 +1,24 @@
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.ParseException;
 
 import be.baur.sda.Node;
 import be.baur.sda.NodeSet;
 import be.baur.sda.SDA;
-import be.baur.sda.serialization.SyntaxException;
 
 public class demo {
 
-	public static void main(String[] args) throws SyntaxException, IOException  {
+	public static void main(String[] args) throws IOException, ParseException  {
 		
 		FileReader fin = new FileReader(args[0]);
 		Node root = SDA.parser().parse(fin);
 		
-		if (! root.hasNodes()) return;
+		if (! root.isParent()) return;
 		
-		for (Node contact : root.getNodes().get("contact").get(n -> n.hasNodes())) {
+		for (Node contact : root.getNodes().find("contact").find(n -> n.isParent())) {
 			
-			Node name = contact.getNodes().get("firstname").get(1);
-			NodeSet numbers = contact.getNodes().get("phonenumber");
+			Node name = contact.getNodes().get("firstname");
+			NodeSet numbers = contact.getNodes().find("phonenumber");
 			
 			System.out.println(name.getValue() + " has " + numbers.size() + " phone number(s).");
 			

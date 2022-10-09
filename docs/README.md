@@ -36,7 +36,7 @@ SDA means Structured Data, or more affectionately, Simple Data.
 
 ---
 
-# Rationale 2
+# Version 2
 
 I think it was somewhere in 2021, when I was working on SDS and implementing the 
 schema parser/validator, that I got this nagging feeling that something was not 

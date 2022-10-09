@@ -25,8 +25,8 @@ public final class TestNodeSet {
 		NodeSet names = new NodeSet();
 		NodeSet numbers = new NodeSet();
 		
-		contacts.forEach(n -> names.add( n.getNodes().get("firstname").get(1) ));
-		contacts.stream().flatMap(n -> n.getNodes().get("phonenumber").stream()).forEach(n -> numbers.add(n));
+		contacts.forEach(n -> names.add( n.getNodes().get("firstname") ));
+		contacts.stream().flatMap(n -> n.getNodes().find("phonenumber").stream()).forEach(n -> numbers.add(n));
 		
 		t.test("S01", addressbook.path(), "/addressbook");
 		t.test("S02", contacts.get(1).getValue(), "1");

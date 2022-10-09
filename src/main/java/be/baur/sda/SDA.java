@@ -5,7 +5,9 @@ import be.baur.sda.serialization.Parser;
 import be.baur.sda.serialization.SDAFormatter;
 import be.baur.sda.serialization.SDAParser;
 
-/** This is a general class to define some constants and static convenience methods. */
+/**
+ * This class defines static constants and utility methods.
+ */
 public final class SDA {
 
 	
@@ -25,31 +27,62 @@ public final class SDA {
 	public static final int USCORE = '_';
 	
 	
-	/** Returns <code>true</code> if the specified character is a valid SDA digit. */
+	private SDA() {} // cannot construct this
+	
+	
+	/**
+	 * Check whether a character is a valid SDA digit.
+	 * 
+	 * @param c a character
+	 * @return true or false
+	 */
 	private static boolean isDigit(int c) {
 		return (c >= '0' && c <= '9');
 	}
 
 
-	/** Returns <code>true</code> if the specified character is a valid SDA letter. */
+	/**
+	 * Check whether a character is a valid SDA letter.
+	 * 
+	 * @param c a character
+	 * @return true or false
+	 */
 	private static boolean isLetter(int c) {
 		return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
 	}
 	
 	
-	/** Returns <code>true</code> if the specified character is a valid first character of an SDA node name. */
+	/**
+	 * Check whether a character is a valid start of an SDA node name.
+	 * 
+	 * @param c a character
+	 * @return true or false
+	 */
 	public static boolean isNameStart(int c) {
 		return (isLetter(c) || c == USCORE);
 	}
 	
 	
-	/** Returns <code>true</code> if the specified if the specified character is valid in an SDA node name. */
+	/**
+	 * Check whether a character is valid in an SDA node name.
+	 * 
+	 * @param c a character
+	 * @return true or false
+	 */
 	public static boolean isNamePart(int c) {
 		return (isLetter(c) || isDigit(c) || c == USCORE);
 	}
 	
 	
-	/** Returns <code>true</code> if the argument is a valid SDA node name. */
+	/**
+	 * Check whether a string is a valid SDA node name. A node name may consist only
+	 * of letters, digits and underscores. It cannot start with a digit and must
+	 * contain at least one character that is not an underscore. Also, non-English
+	 * letters and digits (like Greek symbols) are all excluded.
+	 * 
+	 * @param name a string
+	 * @return true or false
+	 */
 //	public static boolean isName(String name) {
 //		return (name == null) ? false : SourceVersion.isIdentifier(name);
 //	}
@@ -111,23 +144,38 @@ public final class SDA {
 		System.out.print(" avg: " + (total/runs));
 	}
 */	
-	
+
+
 	private static final String bslash = "" + (char)SDA.BSLASH;
 	private static final String quote = "" + (char)SDA.QUOTE;
 
-	/** Encodes the argument as an SDA value, properly escaping backslashes and quotes. */
-	public static String encode (String value) {
+	/**
+	 * Encode a string as an SDA value. This method formats its argument as an SDA
+	 * value, with backslashes and quotes properly escaped.
+	 * 
+	 * @param value a string, for example 'The \ is called a "backslash" in English.'
+	 * @return the encoded string, like 'The \\ is called a \"backslash\" in English.'
+	 */
+	public static String encode(String value) {
 		return value.replace(bslash, bslash + bslash).replace(quote, bslash + quote);
 	}
 	
 	
-	/** Returns a new instance of the default SDA parser. */
+	/**
+	 * Returns a new instance of the default SDA parser.
+	 * 
+	 * @return an {@link SDAParser}
+	 */
 	public static Parser parser() {
 		return new SDAParser();
 	}
 	
 	
-	/** Returns a new instance of the default SDA formatter. */
+	/**
+	 * Returns a new instance of the default SDA formatter.
+	 * 
+	 * @return an {@link SDAFormatter}
+	 */
 	public static Formatter formatter() {
 		return new SDAFormatter();
 	}

@@ -8,29 +8,38 @@ import be.baur.sda.SDA;
 
 
 /**
- * This is the default parser; used to read and parse SDA content into a
- * {@link Node}. For example, when processing the following input:
+ * This is the default SDA parser; used to read and parse SDA content to create
+ * a {@code Node}. For example, when processing the following input:
  * 
  * <pre>
+ * <code>
  * greeting { message "hello" }
+ * </code>
  * </pre>
  * 
- * the parser returns a node 'greeting', containing a node 'message' with a
- * value of "hello".<br>
+ * the parser returns a node named 'greeting', containing another node named
+ * 'message' with a value of "hello".<br>
  * <br>
  * SDA is parsed according to the following EBNF:
  * 
  * <pre>
+ * <code>
  * SDA = node
  * node = name (simple_content complex_content? | complex_content)
  * simple_content = '"' char* '"'
  * complex_content = '{' node* '}'
+ * </code>
  * </pre>
+ * 
+ * See also {@link Node}.
  */
 public final class SDAParser implements Parser {
 
 	private Scanner scanner;
 
+	/**
+	 * @throws SyntaxException if an SDA parse exception occurs
+	 */
 	public Node parse(Reader input) throws IOException, SyntaxException {
 
 		scanner = new Scanner(input);
@@ -45,7 +54,7 @@ public final class SDAParser implements Parser {
 	}
 
 	
-	/** Recursive helper method to get nodes from the input stream, follows straight from EBNF. */
+	// Recursive helper to get nodes from the input, follows straight from the EBNF.
 	private Node getNode() throws SyntaxException, IOException {
 
 		Node node;
@@ -66,9 +75,9 @@ public final class SDAParser implements Parser {
 	
 			scanner.advance(true);  // skip left brace and whitespace
 			
-			node.addNode(null);  // initialize child set, recursively add nodes
+			node.add(null);  // initialize child set, recursively add nodes
 			while (scanner.c != SDA.RBRACE) {
-				node.addNode( getNode() );
+				node.add( getNode() );
 			}
 
 			scanner.advance(true); // skip right brace and whitespace

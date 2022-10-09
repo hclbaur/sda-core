@@ -1,19 +1,19 @@
 # SDA Specification
 
-- [The basics](/docs/SPECIFICATION.md#the-basics)
-- [The rules](/docs/SPECIFICATION.md#the-rules)
-	- [Tags](/docs/SPECIFICATION.md#tags)
-	- [Content](/docs/SPECIFICATION.md#content)
-	- [White-space](/docs/SPECIFICATION.md#white-space)
-	- [The root of all…](/docs/SPECIFICATION.md#the-root-of-all)
-- [Empty nodes](/docs/SPECIFICATION.md#empty-nodes)
-- [Unsupported features](/docs/SPECIFICATION.md#unsupported-features)
-	- [Attributes](/docs/SPECIFICATION.md#attributes)
-	- [Explicit nil](/docs/SPECIFICATION.md#explicit-nil)
-	- [Mixed content](/docs/SPECIFICATION.md#mixed-content)
-	- [Namespaces](/docs/SPECIFICATION.md#namespaces)
-	- [... and the rest](/docs/SPECIFICATION.md#-and-the-rest)
-- [Conclusion](/docs/SPECIFICATION.md#conclusion)
+- [The basics](/docs/SPECIFICATIONV1.md#the-basics)
+- [The rules](/docs/SPECIFICATIONV1.md#the-rules)
+	- [Tags](/docs/SPECIFICATIONV1.md#tags)
+	- [Content](/docs/SPECIFICATIONV1.md#content)
+	- [White-space](/docs/SPECIFICATIONV1.md#white-space)
+	- [The root of all…](/docs/SPECIFICATIONV1.md#the-root-of-all)
+- [Empty nodes](/docs/SPECIFICATIONV1.md#empty-nodes)
+- [Unsupported features](/docs/SPECIFICATIONV1.md#unsupported-features)
+	- [Attributes](/docs/SPECIFICATIONV1.md#attributes)
+	- [Explicit nil](/docs/SPECIFICATIONV1.md#explicit-nil)
+	- [Mixed content](/docs/SPECIFICATIONV1.md#mixed-content)
+	- [Namespaces](/docs/SPECIFICATIONV1.md#namespaces)
+	- [... and the rest](/docs/SPECIFICATIONV1.md#-and-the-rest)
+- [Conclusion](/docs/SPECIFICATIONV1.md#conclusion)
 
 
 ## The basics

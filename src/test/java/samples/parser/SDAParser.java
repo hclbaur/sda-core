@@ -74,7 +74,7 @@ public final class SDAParser implements Parser {
 						if (context == null) context = e;
 						else { 
 							// if we get here, context should be complex!
-							context.getNodes().add(e); // add child to context node
+							context.add(e); // add child to context node
 						}                		
 						continue;
 					}
@@ -93,7 +93,7 @@ public final class SDAParser implements Parser {
 						// pop identifier, create a complex node
 						Node c; String name = stack.pop().value;
 						try {
-							c = new Node(name); c.addNode(null);
+							c = new Node(name); c.add(null);
 						} catch (IllegalArgumentException x) {
 							throw new SyntaxException(x.getMessage(), lexer.getPos());
 						}
@@ -101,7 +101,7 @@ public final class SDAParser implements Parser {
 						stack.push(token); // push block start on the stack
 
 						if (context != null) {
-							context.getNodes().add(c); // add child to context node
+							context.add(c); // add child to context node
 						}
 						context = c;  // new becomes context context
 						continue;
