@@ -40,32 +40,20 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 		super(); this.parent = parent;
 	}
 
-	
-	/*
-	 * Add a node to a parent set, assuming that the caller has checked that the
-	 * node is not null, has no parent yet and {@code this} is actually a parent
-	 * set. This is a fast method for Node.add() only, do not make this public!
-	 */
-	public boolean addtoparent(Node node) {
-        if (super.add(node)) {
-        	node.setParent(parent); return true;
-        }
-		return false;
-	}
 
 	// NOTE: some inherited methods are overwritten to maintain parent-child integrity. 
 
 
 	/**
 	 * Adds a node to this set. A null reference is silently ignored and if the set
-	 * is a parent set, a node that already has a parent will be ignored. Although
-	 * this method can be used to create a child node, like
+	 * is a parent set, a node that already has a parent will be ignored. It is possible
+	 * but not recommended to use this method to add a child to a parent node, like
 	 * 
 	 * <pre>
-	 * {@code parentnode.getNodes().add(node) }
+	 * {@code node.getNodes().add(childNode) }
 	 * </pre>
 	 * 
-	 * it is recommended to use {@link Node#add} instead.
+	 * as getNodes() may return a null pointer. Use {@link Node#add(childNode)} instead.
 	 * 
 	 * @param node a node to be added, may be null
 	 * @return true if the set was modified

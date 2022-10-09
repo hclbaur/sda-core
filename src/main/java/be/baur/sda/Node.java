@@ -173,7 +173,7 @@ public class Node {
 	public final boolean add(Node node) {
 		if (node != null && node.getParent() != null) return false;
 		if (nodes == null) nodes = new NodeSet(this);
-		return (node == null) ? false : nodes.addtoparent(node);
+		return (node == null) ? false : nodes.add(node);
 	}
 	
 	
