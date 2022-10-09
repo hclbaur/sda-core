@@ -15,7 +15,7 @@
 
 This is the specification of the SDA syntax, version 2. Unlike the specification 
 for version 1, I will keep this one more to the point, and focus on what SDA is, 
-rather than what it is *not* or how it relates to XML. But should you feel 
+rather than what it is *not* or how it relates to XML. But should you feel so
 inclined towards reading my musings on these matters, you can find the original 
 [here](/docs/SPECIFICATIONV1.md). 
 
@@ -28,7 +28,7 @@ Consider the following:
 
 This constitutes about the simplest example of an SDA *node*, consisting of 
 an identifier describing the nature of the content, a value enclosed in double 
-quotes. As you may have guessed, the value is a name. 
+quotes. As you may have guessed, the value in this example is a name. 
 
 Nodes with *simple* content like this are sometimes called "leaf nodes", as 
 opposed to "parent nodes" which contain other nodes, like this: 
@@ -85,7 +85,7 @@ non-English letters and digits (like Greek symbols) are all excluded.
 ### Content
 
 Simple content is *always* enclosed in double quotes. Unlike some other data 
-formats (for example JSON) SDA is not strongly typed. Evrything is essentially 
+formats (for example JSON) SDA is not strongly typed. Everything is essentially 
 a `string`. In other words, the following examples are all *invalid* in SDA:
 
 	age 54
@@ -144,17 +144,17 @@ which is shorthand for the semantically equivalent
 	empty "" {}
 
 By convention, and for the sake of readbility, we shall omit the implied empty 
-value for nodes with complex content only. 
+value for nodes with complex content only.
 
 So, is `empty {}` a leaf node or a parent node? Obviously, it has no child nodes,
 so it must be a leaf node. On the other hand, one might argue it has an empty set 
-of child nodes. Lacking a better term, we might call it a "vacant parent".
+of child nodes. Lacking a better term, we call this a "vacant parent".
 
 Recall that in SDA, all simple content is enclosed in double quotes, including 
 the empty value. There is no equivalent of an explicit `nil` or `null` value, so 
 for all practical purposes, empty nodes in SDA may be considered to have actual - 
 yet empty - content. And as such they are relevant, e.g. parsers should not ignore
-them, and omitting a node is not the same as including an empty one.
+them, so omitting a node is not the same as including an empty one.
 
 
 ## Unsupported features

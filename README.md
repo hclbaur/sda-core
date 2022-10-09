@@ -55,9 +55,9 @@ parsing the input file takes a single line of code, after which you can
 iterate the data nodes.
 
 However, there is a catch. The parser does not *validate* the input; it 
-merely checks that it's *well-formed*. Basically, if all the curly braces 
+only checks that it is *well-formed*. Basically, if all the curly braces 
 properly match, all values are quoted, and the node names have no funny 
-characters, it doesn't really care what the data represents. 
+characters, the parser doesn't really care what the data represents. 
 
 Therefor, it's easy to upset the demo if you feed it something that can 
 be parsed without problems, but fails to meet its expectations, such as

@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>be.baur.sda</groupId>
   <artifactId>sda-core</artifactId>
-  <version>2.1.0</version>
+  <version>2.0.0</version>
   <name>sda-core</name>
   <description>SDA Core Implementation</description>
   <properties>
