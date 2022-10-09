@@ -24,8 +24,8 @@ import be.baur.sda.SDA;
  *     }
  * }
  * </code>
+ * </pre>
  * 
- * <pre>
  * See also {@link Node}.
  */
 public final class SDAFormatter implements Formatter {

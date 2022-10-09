@@ -53,7 +53,7 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	 * {@code node.getNodes().add(childNode) }
 	 * </pre>
 	 * 
-	 * as getNodes() may return a null pointer. Use {@link Node#add(childNode)} instead.
+	 * as getNodes() may return a null pointer. Instead, use {@code node.add(childNode)}.
 	 * 
 	 * @param node a node to be added, may be null
 	 * @return true if the set was modified
