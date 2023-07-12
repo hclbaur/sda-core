@@ -1,11 +1,25 @@
 # Release Notes
+ 
+## [2.1.0] - 2023-??-??
+
+This release is in development.
+
+- `Changed` NodeSet.get(index) to expect a 0 based index (breaking change).
+- `Added` NodeSet.indexOf(Node) which returns a 0 based index.
+- `Removed` NodeSet.locate(Node) which returned a 1 based index.
+
+## Compatibility
+
+- Requires at least Java 8.
+
+## Previous releases
+
+### [2.0.0] - 2022-10-09
 
 This release adds full support for SDA 2. While the syntax of SDA 2
 is backwards compatible with version 1, the library is definitely not.
 When you are also using SDS, make sure you upgrade to a release that 
 supports the SDA 2 syntax.
- 
-## [2.0.0] - 2022-10-09
 
 - `Added` Node.isComplex().
 - `Added` Node NodeSet.get(String).
@@ -17,12 +31,6 @@ supports the SDA 2 syntax.
 - `Renamed` NodeSet.find(Node) to NodeSet.locate(Node).
 - `Removed` NodeSet.get(Class<?> cls).
 - `Removed` SimpleNode and ComplexNode.
-
-## Compatibility
-
-- Requires at least Java 8.
-
-## Previous releases
 
 ### [1.6.2] - 2022-08-12
 

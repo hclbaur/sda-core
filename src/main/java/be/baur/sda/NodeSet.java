@@ -96,31 +96,31 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 		for (Node node : this) this.remove(node);
 	}
 
-	
+
 	/**
-	 * Returns the position of a node. The position is an integer index in the range
-	 * [1 .. {@code size()}], or 0 if the specified node does not exist in this set.
+	 * Returns the position of a node. The position is an index in the range [0 ..
+	 * size()-1], or -1 if the specified node does not exist in this set.
 	 * 
-	 * @param node a node to find, may be null
-	 * @return the position in the set, a non-negative integer
+	 * @param node the node to return, may be null
+	 * @return index of the node, a non-negative integer
 	 */
-	public int locate(Node node) {
-		return Arrays.asList(this.toArray()).indexOf(node) + 1;
+	public int indexOf(Node node) {
+		return Arrays.asList(this.toArray()).indexOf(node);
 	}
 	
 	
 	/**
-	 * Returns the node at the specified position. The position is an integer index
-	 * in the range [1 .. set.size()]. This method returns a null reference if the
-	 * position is out of range, or if there is no node at the specified position in
-	 * this set.
+	 * Returns the node at the specified position. The first node is at position 0.
 	 * 
-	 * @param position a position in the set, a non-negative integer
-	 * @return a node, may be null
+	 * @param index of the node to return, a non-negative integer
+	 * @return a node, not null
+	 * @throws IndexOutOfBoundsException if the index is out of range (index < 0 ||
+	 *                                   index >= size()).
 	 */
-	public Node get(int position) {
-		if (this.size() < position || position < 1) return null;
-		return (Node)this.toArray()[position-1];
+	public Node get(int index) {
+		if (index < 0 || index >= this.size()) 
+			throw new IndexOutOfBoundsException(index + "");
+		return (Node)this.toArray()[index];
 	}
 	
 	
