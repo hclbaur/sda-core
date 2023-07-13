@@ -122,7 +122,7 @@ public class Node {
 	/**
 	 * Returns the set of child nodes. Will return null for a node with simple
 	 * content only (such as <code>node "value"</code>), and an empty set for a
-	 * "vacant parent" (like <code>node { }</code>). See also {@link #isComplex} and
+	 * "vacant parent" (like <code>node { }</code>). See also {@link #isLeaf} and
 	 * {@link #isParent}.
 	 * 
 	 * @return a node set or null
@@ -133,26 +133,26 @@ public class Node {
 
 
 	/**
-	 * Returns true if this node has complex content. Will return false for a node
-	 * with simple content <i>only</i> (such as <code>node "value"</code>), and
-	 * <code>true</code> for a parent node or a "vacant parent" with an empty child
-	 * set (like <code>node { }</code>). See also {@link #getNodes} and
-	 * {@link #isParent}.
+	 * Returns true if this node has no child set. This method returns false for a
+	 * parent node or for a "vacant parent" with an <i>empty</i> child set.
 	 * 
-	 * @return true if this node has a child set (empty or not)
+	 * @return true if this node has no child set (empty or not)
+	 * @see isParent
+	 * @see getNodes
 	 */
-	public boolean isComplex() {
-		return (nodes != null);
+	public boolean isLeaf() {
+		return (nodes == null);
 	}
 
 	
 	/**
-	 * Returns true if this node has one or more child nodes. Will return false for
-	 * a node with simple content <i>only</i> (such as <code>node "value"</code>),
-	 * and for a "vacant parent" with an empty child set (like
-	 * <code>node { }</code>). See also {@link #getNodes} and {@link #isComplex}.
+	 * Returns true if this node has at least one child node. This method returns
+	 * false for a leaf node or for a "vacant parent" with an <i>empty</i> child
+	 * set.
 	 * 
 	 * @return true if this node has a non-empty child set
+	 * @see isLeaf
+	 * @see getNodes
 	 */
 	public boolean isParent() {
 		return ! (nodes == null || nodes.isEmpty());
@@ -164,7 +164,7 @@ public class Node {
 	 * parent will not work (no child is automatically detached from its parent).
 	 * Adding a null reference has no effect if this node has complex content
 	 * already, but it will turn a node without complex content into a "vacant
-	 * parent" (like <code>node { }</code>). See also {@link #isComplex} and
+	 * parent" (like <code>node { }</code>). See also {@link #isLeaf} and
 	 * {@link #isParent}.
 	 * 
 	 * @param node a node to be added, may be null

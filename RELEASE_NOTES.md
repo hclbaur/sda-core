@@ -4,9 +4,14 @@
 
 This release is in development.
 
-- `Changed` NodeSet.get(index) to expect a 0 based index (breaking change).
-- `Added` NodeSet.indexOf(Node) which returns a 0 based index.
+Breaking changes:
+
 - `Removed` NodeSet.locate(Node) which returned a 1 based index.
+- `Removed` Node.isComplex().
+- `Changed` NodeSet.get(index) to expect a 0 based index.
+
+- `Added` NodeSet.indexOf(Node) which returns a 0 based index.
+- `Added` Node.isLeaf().
 
 ## Compatibility
 
