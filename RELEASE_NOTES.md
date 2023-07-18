@@ -4,14 +4,11 @@
 
 This release is in development.
 
-Breaking changes:
-
-- `Removed` NodeSet.locate(Node) which returned a 1 based index.
-- `Removed` Node.isComplex().
+- `Removed` NodeSet.locate(Node) and Node.isComplex().
 - `Changed` NodeSet.get(index) to expect a 0 based index.
 
-- `Added` NodeSet.indexOf(Node) which returns a 0 based index.
-- `Added` Node.isLeaf().
+- `Added` NodeSet.indexOf(Node) and Node.isLeaf().
+- `Internal` NodeSet now extends CopyOnWriteArrayList.
 
 ## Compatibility
 

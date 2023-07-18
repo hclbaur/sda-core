@@ -1,8 +1,7 @@
 package be.baur.sda;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -15,7 +14,7 @@ import java.util.stream.Collectors;
  * See also {@link Node}.
  */
 @SuppressWarnings("serial")
-public final class NodeSet extends CopyOnWriteArraySet<Node> {
+public final class NodeSet extends CopyOnWriteArrayList<Node> {
 
 	/*
 	 * The parent is the node for that the set is holding child nodes for. This
@@ -97,31 +96,31 @@ public final class NodeSet extends CopyOnWriteArraySet<Node> {
 	}
 
 
-	/**
-	 * Returns the position of a node. The position is an index in the range [0 ..
-	 * size()-1], or -1 if the specified node does not exist in this set.
-	 * 
-	 * @param node the node to return, may be null
-	 * @return index of the node, a non-negative integer
-	 */
-	public int indexOf(Node node) {
-		return Arrays.asList(this.toArray()).indexOf(node);
-	}
+//	/**
+//	 * Returns the position of a node. The position is an index in the range [0 ..
+//	 * size()-1], or -1 if the specified node does not exist in this set.
+//	 * 
+//	 * @param node the node to return, may be null
+//	 * @return index of the node, a non-negative integer
+//	 */
+//	public int indexOf(Node node) {
+//		return Arrays.asList(this.toArray()).indexOf(node);
+//	}
 	
 	
-	/**
-	 * Returns the node at the specified position. The first node is at position 0.
-	 * 
-	 * @param index of the node to return, a non-negative integer
-	 * @return a node, not null
-	 * @throws IndexOutOfBoundsException if the index is out of range (index < 0 ||
-	 *                                   index >= size()).
-	 */
-	public Node get(int index) {
-		if (index < 0 || index >= this.size()) 
-			throw new IndexOutOfBoundsException(index + "");
-		return (Node)this.toArray()[index];
-	}
+//	/**
+//	 * Returns the node at the specified position. The first node is at position 0.
+//	 * 
+//	 * @param index of the node to return, a non-negative integer
+//	 * @return a node, not null
+//	 * @throws IndexOutOfBoundsException if the index is out of range (index < 0 ||
+//	 *                                   index >= size()).
+//	 */
+//	public Node get(int index) {
+//		if (index < 0 || index >= this.size()) 
+//			throw new IndexOutOfBoundsException(index + "");
+//		return (Node)this.toArray()[index];
+//	}
 	
 	
 	/**
