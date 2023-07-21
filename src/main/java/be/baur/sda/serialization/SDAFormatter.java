@@ -61,13 +61,14 @@ public final class SDAFormatter implements Formatter {
 	private void writeIndented(Writer output, Node node, String indent) throws IOException {
 		
 		NodeSet nodes = node.getNodes();
+		boolean isLeaf = node.isLeaf();
 		
 		output.write(indent + node.getName());
 		
-		if (! node.getValue().isEmpty() || nodes == null)
+		if (! node.getValue().isEmpty() || isLeaf)
 			output.write(" " + (char) SDA.QUOTE + SDA.encode(node.getValue()) + (char) SDA.QUOTE);
 	
-		if (nodes != null) {	
+		if (! isLeaf) {	
 			boolean empty = nodes.isEmpty();
 		
 			output.write(" " + (char)SDA.LBRACE + (empty ? " " : "\n"));
