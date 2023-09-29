@@ -128,8 +128,7 @@ public class Node {
 	
 	/**
 	 * Returns an unmodifiable list of child nodes. This will be an empty list if
-	 * this node is a leaf node, or a "vacant parent" (for lack of a better term)
-	 * which actually has an empty list of children.
+	 * this node has no children.
 	 * 
 	 * @see #isLeaf
 	 * @see #isParent
@@ -147,8 +146,7 @@ public class Node {
 	 * <code>node { }</code>.
 	 * 
 	 * @return true if this node has no child set (empty or not)
-	 * @see isParent
-	 * @see getNodes
+	 * @see #isParent
 	 */
 	public boolean isLeaf() {
 		return (nodes == null);
@@ -158,11 +156,10 @@ public class Node {
 	/**
 	 * Returns true if this node has at least one child node. This method returns
 	 * false for a leaf node or for a "vacant parent" with an <i>empty</i> child
-	 * list, like <code>node { }</code>..
+	 * list, like <code>node { }</code>.
 	 * 
 	 * @return true if this node has a non-empty child set
-	 * @see isLeaf
-	 * @see getNodes
+	 * @see #isLeaf
 	 */
 	public boolean isParent() {
 		return ! (nodes == null || nodes.isEmpty());

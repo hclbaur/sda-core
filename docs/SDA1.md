@@ -1,19 +1,23 @@
-# SDA Specification
+# SDA V1
 
-- [The basics](/docs/SPECIFICATIONV1.md#the-basics)
-- [The rules](/docs/SPECIFICATIONV1.md#the-rules)
-	- [Tags](/docs/SPECIFICATIONV1.md#tags)
-	- [Content](/docs/SPECIFICATIONV1.md#content)
-	- [White-space](/docs/SPECIFICATIONV1.md#white-space)
-	- [The root of all…](/docs/SPECIFICATIONV1.md#the-root-of-all)
-- [Empty nodes](/docs/SPECIFICATIONV1.md#empty-nodes)
-- [Unsupported features](/docs/SPECIFICATIONV1.md#unsupported-features)
-	- [Attributes](/docs/SPECIFICATIONV1.md#attributes)
-	- [Explicit nil](/docs/SPECIFICATIONV1.md#explicit-nil)
-	- [Mixed content](/docs/SPECIFICATIONV1.md#mixed-content)
-	- [Namespaces](/docs/SPECIFICATIONV1.md#namespaces)
-	- [... and the rest](/docs/SPECIFICATIONV1.md#-and-the-rest)
-- [Conclusion](/docs/SPECIFICATIONV1.md#conclusion)
+<pre>
+    <b>This is the documentation for SDA version 1, kept for sentimental reasons only.</b>
+</pre>
+
+- [The basics](/docs/SDA1.md#the-basics)
+- [The rules](/docs/SDA1.md#the-rules)
+	- [Tags](/docs/SDA1.md#tags)
+	- [Content](/docs/SDA1.md#content)
+	- [White-space](/docs/SDA1.md#white-space)
+	- [The root of all…](/docs/SDA1.md#the-root-of-all)
+- [Empty nodes](/docs/SDA1.md#empty-nodes)
+- [Unsupported features](/docs/SDA1.md#unsupported-features)
+	- [Attributes](/docs/SDA1.md#attributes)
+	- [Explicit nil](/docs/SDA1.md#explicit-nil)
+	- [Mixed content](/docs/SDA1.md#mixed-content)
+	- [Namespaces](/docs/SDA1.md#namespaces)
+	- [... and the rest](/docs/SDA1.md#-and-the-rest)
+- [Conclusion](/docs/SDA1.md#conclusion)
 
 
 ## The basics
