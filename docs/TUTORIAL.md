@@ -17,7 +17,7 @@ This tutorial will teach you the SDA format, version 2. Unlike the tutorial
 for version 1, I will keep this one more to the point, and focus on what SDA is, 
 rather than what it is not, or how it relates to XML. But should you feel so
 inclined towards reading my musings on these matters, you can find the original 
-[here](/docs/TUTORIALV1.md). 
+[here](/docs/SDA1.md). 
 
 
 ## The basics
