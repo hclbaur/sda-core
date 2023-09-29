@@ -21,7 +21,7 @@ For example:
 		}
 	}
 
-As you can see the format borders on self-explanatory. But for completeness' sake, I wrote a [tutorial](docs/).
+As you can see the format borders on self-explanatory. Neverthess, I wrote a [tutorial](docs/TUTORIAL.md).
 
 ## Running the demo
 
@@ -77,6 +77,6 @@ It is easy to write code that checks for the absence of something you know you n
 
 Enter *schema* validation. A schema is a formal description of what the data should look like, so the parser can check for missing, incorrect or unknown data *before* it is processed and causes a problem.
 
-It is possible to write such a schema for SDA content. But that is another story, and in fact, another [project](https://github.com/hclbaur/sds-core) :)
+It is possible to write such a schema for SDA content. But that is another story, and in fact, another [project](https://github.com/hclbaur/sds-core). And if after that you are interested in transformation and XPath for SDA, [here](https://github.com/hclbaur/sdt-core) it is :)
 
 ----
