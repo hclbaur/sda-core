@@ -2,16 +2,13 @@ package test;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import be.baur.sda.Node;
-import be.baur.sda.NodeSet;
 import be.baur.sda.SDA;
 
-/** A <code>NodeSet</code> is an collection of {@link Node} objects. 
- * It extends a CopyOnWriteArraySet and defines a convenience methods
- * to get a reference to specific member nodes by index or name.
- */
-public final class TestNodeSet {
+public final class TestNodeList {
 
 	public static void main(String[] args) throws Exception {
 
@@ -19,14 +16,15 @@ public final class TestNodeSet {
 			return s;
 		});
 		
-		InputStream in = TestNodeSet.class.getResourceAsStream("/addressbook.sda");
+		InputStream in = TestNodeList.class.getResourceAsStream("/addressbook.sda");
 		Node addressbook = SDA.parser().parse(new InputStreamReader(in,"UTF-8"));
-		NodeSet contacts = addressbook.getNodes();
-		NodeSet names = new NodeSet();
-		NodeSet numbers = new NodeSet();
 		
-		contacts.forEach(n -> names.add( n.getNodes().get("firstname") ));
-		contacts.stream().flatMap(n -> n.getNodes().find("phonenumber").stream()).forEach(n -> numbers.add(n));
+		List<Node> contacts = addressbook.find("contact");
+		List<Node> names = new ArrayList<Node>();
+		List<Node> numbers = new ArrayList<Node>();
+		
+		contacts.forEach(n -> names.add( n.get("firstname") ));
+		contacts.stream().flatMap(n -> n.find("phonenumber").stream()).forEach(n -> numbers.add(n));
 		
 		t.test("S01", addressbook.path(), "/addressbook");
 		t.test("S02", contacts.get(0).getValue(), "1");
