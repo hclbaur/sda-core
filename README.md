@@ -21,7 +21,7 @@ For example:
 		}
 	}
 
-As you can see the format borders on self-explanatory. Neverthess, I wrote a [tutorial](docs/TUTORIAL.md).
+As you can see the format borders on self-explanatory. Nevertheless, I wrote a [tutorial](docs/TUTORIAL.md).
 
 ## Running the demo
 
