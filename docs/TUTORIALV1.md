@@ -1,19 +1,19 @@
-# SDA Specification
+# SDA Tutorial
 
-- [The basics](/docs/SPECIFICATIONV1.md#the-basics)
-- [The rules](/docs/SPECIFICATIONV1.md#the-rules)
-	- [Tags](/docs/SPECIFICATIONV1.md#tags)
-	- [Content](/docs/SPECIFICATIONV1.md#content)
-	- [White-space](/docs/SPECIFICATIONV1.md#white-space)
-	- [The root of all…](/docs/SPECIFICATIONV1.md#the-root-of-all)
-- [Empty nodes](/docs/SPECIFICATIONV1.md#empty-nodes)
-- [Unsupported features](/docs/SPECIFICATIONV1.md#unsupported-features)
-	- [Attributes](/docs/SPECIFICATIONV1.md#attributes)
-	- [Explicit nil](/docs/SPECIFICATIONV1.md#explicit-nil)
-	- [Mixed content](/docs/SPECIFICATIONV1.md#mixed-content)
-	- [Namespaces](/docs/SPECIFICATIONV1.md#namespaces)
-	- [... and the rest](/docs/SPECIFICATIONV1.md#-and-the-rest)
-- [Conclusion](/docs/SPECIFICATIONV1.md#conclusion)
+- [The basics](/docs/TUTORIALV1.md#the-basics)
+- [The rules](/docs/TUTORIALV1.md#the-rules)
+	- [Tags](/docs/TUTORIALV1.md#tags)
+	- [Content](/docs/TUTORIALV1.md#content)
+	- [White-space](/docs/TUTORIALV1.md#white-space)
+	- [The root of all…](/docs/TUTORIALV1.md#the-root-of-all)
+- [Empty nodes](/docs/TUTORIALV1.md#empty-nodes)
+- [Unsupported features](/docs/TUTORIALV1.md#unsupported-features)
+	- [Attributes](/docs/TUTORIALV1.md#attributes)
+	- [Explicit nil](/docs/TUTORIALV1.md#explicit-nil)
+	- [Mixed content](/docs/TUTORIALV1.md#mixed-content)
+	- [Namespaces](/docs/TUTORIALV1.md#namespaces)
+	- [... and the rest](/docs/TUTORIALV1.md#-and-the-rest)
+- [Conclusion](/docs/TUTORIALV1.md#conclusion)
 
 
 ## The basics
