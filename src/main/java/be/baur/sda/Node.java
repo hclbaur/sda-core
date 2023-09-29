@@ -1,19 +1,25 @@
 package be.baur.sda;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 import be.baur.sda.serialization.SDAFormatter;
 
 /**
- * A <code>Node</code> is the basic building block of an SDA document object
- * model. It has a name and a value (simple content). A node can be a parent
- * node, in which case it contains other nodes (complex content). <br>
- * See also {@link NodeSet}.
+ * A <code>Node</code> is the basic building block of an SDA document. It has a
+ * name and a value (simple content). A node can be a parent node, in which case
+ * it contains other nodes (complex content).
  */
 public class Node {
 
-	private String name; 	// name (tag) of this node
-	private String value; 	// the value of this node
-	private Node parent; 	// reference to parent node
-	private NodeSet nodes;	// reference to child nodes
+	private String name; 		// name (tag) of this node, never null
+	private String value; 		// the value of this node, never null
+	private Node parent; 		// reference to parent node, null if this is not a child node
+	private List<Node> nodes;	// reference to child nodes, null if this is a leaf node
 	
 	
 	/**
@@ -78,10 +84,10 @@ public class Node {
 	
 	
 	/**
-	 * Returns the value of this node. This method never returns a null reference
-	 * but it will return an empty string if no value has been set.
+	 * Returns the value of this node. This method returns an empty string if no
+	 * value has been set.
 	 *
-	 * @return the string value, not null
+	 * @return the string value, not null, may be empty
 	 */
 	public final String getValue() {
 		return value;
@@ -89,17 +95,16 @@ public class Node {
 	
 	
 	/*
-	 * Sets the parent. This is called from a NodeSet to maintain parent-child
-	 * integrity when adding or removing child nodes. Do not make this public!
+	 * Sets the parent. This is called internally to maintain parent-child
+	 * integrity when adding or removing child nodes. Do not make public !
 	 */
-	final void setParent(Node parent) {
+	private final void setParent(Node parent) {
 		this.parent = parent;
 	}
 
 	
 	/**
-	 * Returns the parent of this node. This method returns a null reference if the
-	 * node has no parent.
+	 * Returns the parent of this node or null if has none.
 	 * 
 	 * @return the parent node, may be null
 	 */
@@ -112,47 +117,49 @@ public class Node {
 	 * Returns the ultimate ancestor (root) of this node. This method returns the
 	 * node itself if it has no parent (in which case it <i>is</i> the root).
 	 * 
-	 * @return the root node, may be {@code this} node
+	 * @return the root node, may be this node
 	 */
 	public final Node root() {
-		return ((parent != null) ? parent.root() : this);	
+		return ((parent != null) ? parent.root() : this);
 	}
 
 
-	/**
-	 * Returns the set of child nodes. Will return null for a node with simple
-	 * content only (such as <code>node "value"</code>), and an empty set for a
-	 * "vacant parent" (like <code>node { }</code>). See also {@link #isComplex} and
-	 * {@link #isParent}.
-	 * 
-	 * @return a node set or null
-	 */
-	public NodeSet getNodes() {
-		return nodes;
-	}
-
-
-	/**
-	 * Returns true if this node has complex content. Will return false for a node
-	 * with simple content <i>only</i> (such as <code>node "value"</code>), and
-	 * <code>true</code> for a parent node or a "vacant parent" with an empty child
-	 * set (like <code>node { }</code>). See also {@link #getNodes} and
-	 * {@link #isParent}.
-	 * 
-	 * @return true if this node has a child set (empty or not)
-	 */
-	public boolean isComplex() {
-		return (nodes != null);
-	}
-
+	private final List<Node> EMPTY_LIST = Collections.emptyList();
 	
 	/**
-	 * Returns true if this node has one or more child nodes. Will return false for
-	 * a node with simple content <i>only</i> (such as <code>node "value"</code>),
-	 * and for a "vacant parent" with an empty child set (like
-	 * <code>node { }</code>). See also {@link #getNodes} and {@link #isComplex}.
+	 * Returns an unmodifiable list of child nodes. This will be an empty list if
+	 * this node has no children.
+	 * 
+	 * @see #isLeaf
+	 * @see #isParent
+	 * @return a list of nodes, never null
+	 */
+	public List<Node> nodes() {
+		if (nodes == null) return EMPTY_LIST;
+		return Collections.unmodifiableList(nodes);
+	}
+
+
+	/**
+	 * Returns true if this node has no child set. This method returns false for a
+	 * parent node or for a "vacant parent" with an <i>empty</i> child set, like
+	 * <code>node { }</code>.
+	 * 
+	 * @return true if this node has no child set (empty or not)
+	 * @see #isParent
+	 */
+	public boolean isLeaf() {
+		return (nodes == null);
+	}
+
+
+	/**
+	 * Returns true if this node has at least one child node. This method returns
+	 * false for a leaf node or for a "vacant parent" with an <i>empty</i> child
+	 * list, like <code>node { }</code>.
 	 * 
 	 * @return true if this node has a non-empty child set
+	 * @see #isLeaf
 	 */
 	public boolean isParent() {
 		return ! (nodes == null || nodes.isEmpty());
@@ -164,19 +171,65 @@ public class Node {
 	 * parent will not work (no child is automatically detached from its parent).
 	 * Adding a null reference has no effect if this node has complex content
 	 * already, but it will turn a node without complex content into a "vacant
-	 * parent" (like <code>node { }</code>). See also {@link #isComplex} and
+	 * parent" (like <code>node { }</code>). See also {@link #isLeaf} and
 	 * {@link #isParent}.
 	 * 
 	 * @param node a node to be added, may be null
 	 * @return true if the node was added
 	 */
 	public final boolean add(Node node) {
-		if (node != null && node.getParent() != null) return false;
-		if (nodes == null) nodes = new NodeSet(this);
-		return (node == null) ? false : nodes.add(node);
+		if (nodes == null) nodes = new CopyOnWriteArrayList<Node>();
+		if (node == null) return false; node.setParent(this); 
+		return nodes.add(node);
+	}
+
+	
+	/**
+	 * Returns the first child node with the specified name, or null if no such node
+	 * is found.
+	 * 
+	 * @param name a node name
+	 * @return a node, may be null
+	 */
+	public Node get(String name) {
+		if (nodes != null) {
+			for (Node node : nodes) 
+				if (node.getName().equals(name)) return node;
+		}
+		return null;
 	}
 	
 	
+	/**
+	 * Returns a list of child nodes with the specified name, or an empty list if no
+	 * such nodes are found.
+	 * 
+	 * @param name a node name
+	 * @return a node list, may be empty
+	 */
+	public List<Node> find(String name) {
+		List<Node> list = new ArrayList<Node>();
+		if (nodes != null) {
+			for (Node node : nodes)
+				if (node.getName().equals(name)) list.add(node);
+		}
+		return list;
+	}
+
+	
+	/**
+	 * Returns a list of child nodes that satisfy the given predicate, or an empty
+	 * list if no such nodes are found.
+	 * 
+	 * @param predicate a boolean valued function of one argument
+	 * @return a node list, may be empty
+	 */
+	public List<Node> find(Predicate<? super Node> predicate) {
+		if (nodes == null) return new ArrayList<Node>();
+		return nodes.stream().filter(predicate).collect(Collectors.toCollection(ArrayList::new));
+	}
+
+
 	/**
 	 * Returns the location of this node in X-path style. When a node occurs more than
 	 * once in the same context, the position (starting at 1) is indicated in square
@@ -186,10 +239,11 @@ public class Node {
 	 * @return the path to this node
 	 */
 	public final String path() {
-		NodeSet similar = parent != null ? parent.getNodes().find(name) : null;
-		int pos = (similar != null && similar.size() > 1) ? similar.locate(this) : 0;
+		List<Node> same = (parent != null) ? parent.find(name) : null;
+		int pos = (same != null && same.size() > 1) ? same.indexOf(this)+1 : 0;
 
-		return (parent != null ? parent.path() : "") + "/" + name + (pos > 0 ? "[" + pos + "]" : "");
+		return (parent != null ? parent.path() : "") 
+			+ "/" + name + (pos > 0 ? "[" + pos + "]" : "");
 	}
 	
 	
@@ -201,7 +255,7 @@ public class Node {
 	 * node "value"
 	 * </pre>
 	 * 
-	 * for nodes without child nodes, and
+	 * for leaf nodes, and
 	 * 
 	 * <pre>
 	 * node "value" { ... }
@@ -222,7 +276,12 @@ public class Node {
 		if (! value.isEmpty() || nodes == null) 
 			str += " " + (char) SDA.QUOTE + SDA.encode(value) + (char) SDA.QUOTE;
 
-		if (nodes != null) str += " " + nodes.toString();
+		if (nodes != null) {
+			str += " " + (char)SDA.LBRACE + " ";
+			for (Node node : nodes) 
+				str += node.toString() + " ";
+			str += (char)SDA.RBRACE;
+		}
 
 		return str;
 	}

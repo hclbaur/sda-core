@@ -7,8 +7,8 @@ public final class TestAll {
 		System.out.print("TestSDAFormatter: ");
 		test.TestFormatter.main(args);
 
-		System.out.print("\nTestNodeSet: ");
-		test.TestNodeSet.main(args);
+		System.out.print("\nTestNodeList: ");
+		test.TestNodeList.main(args);
 
 		System.out.print("\nTestSDAParser: ");
 		test.TestSDAParser.main(args);

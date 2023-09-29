@@ -67,5 +67,4 @@ addressed this; it now looks like a Terraform knockoff.
 
 Maybe Mark Twain was right when he claimed there are no original ideas.
 
- 
 **Harold C.L. Baur, August 2022**

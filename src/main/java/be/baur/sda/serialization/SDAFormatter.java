@@ -5,9 +5,9 @@ package be.baur.sda.serialization;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.List;
 
 import be.baur.sda.Node;
-import be.baur.sda.NodeSet;
 import be.baur.sda.SDA;
 
 /**
@@ -60,18 +60,19 @@ public final class SDAFormatter implements Formatter {
 	// Private helper to recursively render the node and its children
 	private void writeIndented(Writer output, Node node, String indent) throws IOException {
 		
-		NodeSet nodes = node.getNodes();
+		boolean isLeaf = node.isLeaf();
 		
 		output.write(indent + node.getName());
 		
-		if (! node.getValue().isEmpty() || nodes == null)
+		if (! node.getValue().isEmpty() || isLeaf)
 			output.write(" " + (char) SDA.QUOTE + SDA.encode(node.getValue()) + (char) SDA.QUOTE);
 	
-		if (nodes != null) {	
+		if (! isLeaf) {
+			List<Node> nodes = node.nodes();
 			boolean empty = nodes.isEmpty();
 		
 			output.write(" " + (char)SDA.LBRACE + (empty ? " " : "\n"));
-			for (Node child : nodes) 
+			if (! empty) for (Node child : nodes) 
 				writeIndented(output, child, indent + this.indent);
 			output.write((empty ? "" : indent) + (char) SDA.RBRACE);
 		}

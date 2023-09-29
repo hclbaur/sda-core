@@ -1,11 +1,30 @@
 # Release Notes
+ 
+## [2.1.0] - 2023-09-29
+
+This release no longer supports the NodeSet class, which - with the benefit of 
+hindsight - was not a great idea to begin with. In addition, the method to get  
+child nodes will now always return an unmodifiable (and possibly empty) list, 
+rather than a modifiable one or a null reference. Some additional methods have 
+been added to make up for the loss of NodeSet.
+
+- `Removed` NodeSet class, use List<Node> instead.
+- `Removed` Node.getNodes(), use Node.nodes() instead.
+- `Removed` Node.isComplex(), use !Node.isLeaf() instead.
+- `Added` Node.get(String), find(String) and find(Predicate).
+
+## Compatibility
+
+- Requires at least Java 8.
+
+## Previous releases
+
+### [2.0.0] - 2022-10-09
 
 This release adds full support for SDA 2. While the syntax of SDA 2
 is backwards compatible with version 1, the library is definitely not.
 When you are also using SDS, make sure you upgrade to a release that 
 supports the SDA 2 syntax.
- 
-## [2.0.0] - 2022-10-09
 
 - `Added` Node.isComplex().
 - `Added` Node NodeSet.get(String).
@@ -17,12 +36,6 @@ supports the SDA 2 syntax.
 - `Renamed` NodeSet.find(Node) to NodeSet.locate(Node).
 - `Removed` NodeSet.get(Class<?> cls).
 - `Removed` SimpleNode and ComplexNode.
-
-## Compatibility
-
-- Requires at least Java 8.
-
-## Previous releases
 
 ### [1.6.2] - 2022-08-12
 
