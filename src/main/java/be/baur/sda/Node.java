@@ -271,18 +271,20 @@ public class Node {
 	@Override
 	public String toString() {
 
-		String str = name;
+		StringBuilder sb = new StringBuilder(name);
 		
 		if (! value.isEmpty() || nodes == null) 
-			str += " " + (char) SDA.QUOTE + SDA.encode(value) + (char) SDA.QUOTE;
+			sb.append(" ").append((char) SDA.QUOTE)
+				.append(SDA.encode(value)).append((char) SDA.QUOTE);
 
 		if (nodes != null) {
-			str += " " + (char)SDA.LBRACE + " ";
+			sb.append(" ").append((char)SDA.LBRACE).append(" ");
 			for (Node node : nodes) 
-				str += node.toString() + " ";
-			str += (char)SDA.RBRACE;
+				sb.append(node.toString()).append(" ");
+			sb.append((char)SDA.RBRACE);
 		}
 
-		return str;
+		return sb.toString();
 	}
+
 }
