@@ -4,7 +4,7 @@
 
 This release is in development.
 
-- Closed issues: #6.
+- Closed issues: #6 and #9.
 
 ## Compatibility
 
