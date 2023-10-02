@@ -3,7 +3,6 @@ package be.baur.sda;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -178,12 +177,16 @@ public class Node {
 	 * @see #isLeaf
 	 * @see #isParent
 	 */
-	public final boolean add(Node node) {
+	public final synchronized boolean add(Node node) {
 		if (node != null && node.getParent() != null)
 			throw new IllegalStateException("node '" + node.getName() + "' already has a parent");
-		if (nodes == null) nodes = new CopyOnWriteArrayList<Node>();
-		if (node == null) return false; node.setParent(this); 
-		return nodes.add(node);
+		if (nodes == null) // this is why we need synchronization
+			nodes = new ArrayList<Node>();
+		if (node != null && nodes.add(node)) {
+			node.setParent(this);
+			return true;
+		}
+		return false;
 	}
 
 	

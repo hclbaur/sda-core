@@ -83,7 +83,7 @@ public final class TestSDAParser {
 			}
 		});
 		
-		perf.run("\nP01", samplesda, 25000, 25);
+		perf.run("\nP01", samplesda, 20000, 31);
 	}
 
 }
