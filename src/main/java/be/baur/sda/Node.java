@@ -189,7 +189,25 @@ public class Node {
 		return false;
 	}
 
-	
+
+	/**
+	 * Removes a child node from this node. This method will ignore a null reference
+	 * or a node that is not a child of this node.
+	 * 
+	 * @param node a node to be removed, may be null
+	 * @return true if the node was removed
+	 * @see #add
+	 */
+	public final boolean remove(Node node) {
+		// if nodes ever can change to null, we need synchronization
+		if (node != null && nodes != null && nodes.remove(node)) {
+			node.setParent(null);
+			return true;
+		}
+		return false;
+	}
+
+
 	/**
 	 * Returns the first child node with the specified name, or null if no such node
 	 * is found.

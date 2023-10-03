@@ -4,6 +4,7 @@
 
 This release is in development.
 
+- Added Node.remove().
 - Closed issues: #6 and #9.
 
 ## Compatibility
@@ -15,7 +16,7 @@ This release is in development.
 ### [2.1.0] - 2023-09-29
 
 This release no longer supports the NodeSet class, which - with the benefit of 
-hindsight - was not a great idea to begin with. In addition, the method to get  
+hindsight - was not a great idea to begin with. In addition, the method to get 
 child nodes will now always return an unmodifiable (and possibly empty) list, 
 rather than a modifiable one or a null reference. Some additional methods have 
 been added to make up for the loss of NodeSet.
