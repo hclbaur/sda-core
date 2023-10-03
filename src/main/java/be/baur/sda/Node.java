@@ -173,15 +173,18 @@ public class Node {
 	 * 
 	 * @param node a node to be added, may be null
 	 * @return true if the node was added
-	 * @throws IllegalStateException if the node has a parent already
+	 * @throws IllegalStateException if node already has a parent
 	 * @see #isLeaf
 	 * @see #isParent
 	 */
-	public final synchronized boolean add(Node node) {
+	public final boolean add(Node node) {
 		if (node != null && node.getParent() != null)
 			throw new IllegalStateException("node '" + node.getName() + "' already has a parent");
-		if (nodes == null) // this is why we need synchronization
-			nodes = new ArrayList<Node>();
+		if (nodes == null) {
+			synchronized (this) { // prevent re-assignment by another thread
+				if (nodes == null) nodes = new ArrayList<Node>();
+			}
+		}
 		if (node != null && nodes.add(node)) {
 			node.setParent(this);
 			return true;

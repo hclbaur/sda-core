@@ -5,7 +5,7 @@
 This release is in development.
 
 - Added Node.remove().
-- Closed issues: #6 and #9.
+- Closed issues: #3, #6 and #9.
 
 ## Compatibility
 
