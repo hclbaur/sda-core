@@ -1,8 +1,6 @@
 # Release Notes
 
-## [2.1.1] - ????-??-??
-
-This release is in development.
+## [2.1.1] - 2023-10-20
 
 - Added Node.remove().
 - Closed issues: #3, #6 and #9.
