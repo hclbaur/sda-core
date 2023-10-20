@@ -5,15 +5,14 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.StringWriter;
 
-import be.baur.sda.Node;
 import be.baur.sda.SDA;
-import be.baur.sda.serialization.Formatter;
+import be.baur.sda.DataNode;
 import be.baur.sda.serialization.SDAFormatter;
 
 public final class TestFormatter {
 	
-	private static Formatter formatter = new SDAFormatter();
-	private static Formatter formatter4 = new SDAFormatter(4);
+	private static SDAFormatter formatter = new SDAFormatter();
+	private static SDAFormatter formatter4 = new SDAFormatter(4);
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -23,7 +22,7 @@ public final class TestFormatter {
 		
 		//PrintWriter out = new PrintWriter(System.out);
 		StringWriter out = new StringWriter();
-        Node node = SDA.parser().parse(new StringReader("node\"1\"{node2{empty1\"\"empty2{}empty\"3\"{}}}"));
+        final DataNode node = SDA.parser().parse(new StringReader("node\"1\"{node2{empty1\"\"empty2{}empty\"3\"{}}}"));
 		formatter4.format(out, node);
 		t.test("S01", out.toString(), 
 				"node \"1\" {\n" + 
@@ -36,7 +35,7 @@ public final class TestFormatter {
 		
 		out = new StringWriter();
 		InputStream in = TestFormatter.class.getResourceAsStream("/addressbook.sda");
-		final Node book = SDA.parser().parse(new InputStreamReader(in,"UTF-8"));
+		final DataNode book = SDA.parser().parse(new InputStreamReader(in,"UTF-8"));
 		formatter.format(out, book);
 		t.test("S02", out.toString(), "addressbook {\n" + 
 				"	contact \"1\" {\n" + 

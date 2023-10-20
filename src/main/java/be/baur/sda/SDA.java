@@ -166,7 +166,7 @@ public final class SDA {
 	 * 
 	 * @return an {@link SDAParser}
 	 */
-	public static Parser parser() {
+	public static Parser<DataNode> parser() {
 		return new SDAParser();
 	}
 	
@@ -176,7 +176,7 @@ public final class SDA {
 	 * 
 	 * @return an {@link SDAFormatter}
 	 */
-	public static Formatter formatter() {
+	public static Formatter<DataNode> formatter() {
 		return new SDAFormatter();
 	}
 }

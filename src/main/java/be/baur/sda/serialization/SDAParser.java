@@ -5,6 +5,7 @@ import java.io.Reader;
 
 import be.baur.sda.Node;
 import be.baur.sda.SDA;
+import be.baur.sda.DataNode;
 
 
 /**
@@ -33,19 +34,19 @@ import be.baur.sda.SDA;
  * 
  * See also {@link Node}.
  */
-public final class SDAParser implements Parser {
+public final class SDAParser implements Parser<DataNode> {
 
 	private Scanner scanner;
 
 	/**
 	 * @throws SyntaxException if an SDA parse exception occurs
 	 */
-	public Node parse(Reader input) throws IOException, SyntaxException {
+	public DataNode parse(Reader input) throws IOException, SyntaxException {
 
 		scanner = new Scanner(input);
 		
 		scanner.advance(true); // advance to the first non-whitespace character
-		Node node = getNode(); // and get the root node
+		DataNode node = parseNode(); // and get the root node
 
 		if (scanner.c != Scanner.EOF)
 			throw new SyntaxException("excess input after root node", scanner.p);
@@ -55,11 +56,11 @@ public final class SDAParser implements Parser {
 
 	
 	// Recursive helper to get nodes from the input, follows straight from the EBNF.
-	private Node getNode() throws SyntaxException, IOException {
+	private DataNode parseNode() throws SyntaxException, IOException {
 
-		Node node;
+		final DataNode node;
 		try {
-			node = new Node( scanner.getNodeName() ); // create a new node
+			node = new DataNode( scanner.getNodeName() ); // create a new node
 		} 
 		catch (IllegalArgumentException e) {
 			throw new SyntaxException(e.getMessage(), scanner.p);
@@ -77,7 +78,7 @@ public final class SDAParser implements Parser {
 			
 			node.add(null);  // initialize child set, recursively add nodes
 			while (scanner.c != SDA.RBRACE) {
-				node.add( getNode() );
+				node.add( parseNode() );
 			}
 
 			scanner.advance(true); // skip right brace and whitespace

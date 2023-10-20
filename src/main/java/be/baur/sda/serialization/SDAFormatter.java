@@ -9,6 +9,7 @@ import java.util.List;
 
 import be.baur.sda.Node;
 import be.baur.sda.SDA;
+import be.baur.sda.DataNode;
 
 /**
  * This is the default formatter, which renders a {@code Node} and any child
@@ -28,7 +29,7 @@ import be.baur.sda.SDA;
  * 
  * See also {@link Node}.
  */
-public final class SDAFormatter implements Formatter {
+public final class SDAFormatter implements Formatter<DataNode> {
 	
 	private final String indent;  // the string used for indentation
 	
@@ -52,8 +53,8 @@ public final class SDAFormatter implements Formatter {
 	}
 	
 	
-	public void format(Writer output, Node node) throws IOException { 
-		StringBuilder sb = new StringBuilder(); addNode(sb, node, ""); 
+	public void format(Writer output, DataNode node) throws IOException { 
+		StringBuilder sb = new StringBuilder(); formatNode(sb, node, ""); 
 		output.write(sb.toString()); output.flush();
 	}
 
@@ -65,9 +66,9 @@ public final class SDAFormatter implements Formatter {
 	 * @param indent the indentation
 	 * @throws IOException
 	 */
-	private void addNode(StringBuilder sb, Node node, String indent) throws IOException {
+	private void formatNode(StringBuilder sb, DataNode node, String indent) throws IOException {
 		
-		boolean isLeaf = node.isLeaf();
+		final boolean isLeaf = node.isLeaf();
 		
 		sb.append(indent).append(node.getName());
 		
@@ -77,12 +78,12 @@ public final class SDAFormatter implements Formatter {
 			  .append((char) SDA.QUOTE);
 	
 		if (! isLeaf) {
-			List<Node> nodes = node.nodes();
+			List<DataNode> nodes = node.nodes();
 			boolean empty = nodes.isEmpty();
 		
 			sb.append(" ").append((char)SDA.LBRACE).append((empty ? " " : "\n"));
-			if (! empty) for (Node child : nodes) 
-				addNode(sb, child, indent + this.indent);
+			if (! empty) for (DataNode child : nodes) 
+				formatNode(sb, child, indent + this.indent);
 			sb.append(empty ? "" : indent).append((char) SDA.RBRACE);
 		}
 		

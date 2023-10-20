@@ -1,15 +1,23 @@
 # Release Notes
 
-## [2.1.1] - 2023-10-20
+## [2.2.0] - in development
 
-- Added Node.remove().
-- Closed issues: #3, #6 and #9.
+As of this release, Node is refactored into an interface (Node), an abstract 
+class (AbstractNode) and a concrete implementation (DataNode).
+
+- Added Node.get(Predicate).
+- Closed issues: #7.
 
 ## Compatibility
 
 - Requires at least Java 8.
 
 ## Previous releases
+
+### [2.1.1] - 2023-10-20
+
+- Added Node.remove().
+- Closed issues: #3, #6 and #9.
 
 ### [2.1.0] - 2023-09-29
 

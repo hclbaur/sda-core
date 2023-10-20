@@ -5,6 +5,7 @@ import java.util.List;
 
 import be.baur.sda.Node;
 import be.baur.sda.SDA;
+import be.baur.sda.DataNode;
 
 public class demo {
 
@@ -17,12 +18,12 @@ public class demo {
 
 		for (Node contact : root.find("contact")) {
 			
-			Node name = contact.get("firstname");
-			List<Node> numbers = contact.find("phonenumber");
+			DataNode name = contact.get("firstname");
+			List<DataNode> numbers = contact.find("phonenumber");
 			
 			System.out.println(name.getValue() + " has " + numbers.size() + " phone number(s).");
 			
-			int i = 0; 	for (Node number : numbers) {
+			int i = 0; 	for (DataNode number : numbers) {
 				System.out.println("  Number " + ++i + ": " + number.getValue());
 			}
 		}

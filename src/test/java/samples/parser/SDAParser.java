@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.Stack;
 
-import be.baur.sda.Node;
+import be.baur.sda.DataNode;
 import be.baur.sda.serialization.Parser;
 import be.baur.sda.serialization.SyntaxException;
 
@@ -20,9 +20,9 @@ import be.baur.sda.serialization.SyntaxException;
  * the parser returns a node 'greeting', containing a node 'message' with a
  * value of "hello".<br>
  */
-public final class SDAParser implements Parser {
+public final class SDAParser implements Parser<DataNode> {
 
-	public Node parse(Reader input) throws IOException, SyntaxException {
+	public DataNode parse(Reader input) throws IOException, SyntaxException {
 
 		Tokenizer lexer = new Tokenizer(input);
 		Stack<Token> stack = new Stack<Token>();
@@ -33,7 +33,7 @@ public final class SDAParser implements Parser {
 		 * new context node. When all input has been parsed, the context
 		 * node (representing the root element) is returned.
 		 */
-		Node context = null;
+		DataNode context = null;
 
 		do {
 			token = lexer.getToken();
@@ -64,9 +64,9 @@ public final class SDAParser implements Parser {
 					if (stack.peek().type == Tokenizer.IDENTIFIER) {
 
 						// pop identifier, create a simple node
-						Node e; String name = stack.pop().value;
+						DataNode e; String name = stack.pop().value;
 						try {
-							e = new Node(name, token.value);
+							e = new DataNode(name, token.value);
 						} catch (IllegalArgumentException x) {
 							throw new SyntaxException(x.getMessage(), lexer.getPos());
 						}
@@ -91,9 +91,9 @@ public final class SDAParser implements Parser {
 					if (stack.peek().type == Tokenizer.IDENTIFIER) {
 
 						// pop identifier, create a complex node
-						Node c; String name = stack.pop().value;
+						DataNode c; String name = stack.pop().value;
 						try {
-							c = new Node(name); c.add(null);
+							c = new DataNode(name); c.add(null);
 						} catch (IllegalArgumentException x) {
 							throw new SyntaxException(x.getMessage(), lexer.getPos());
 						}
@@ -118,7 +118,7 @@ public final class SDAParser implements Parser {
 
 					if (stack.peek().type == Tokenizer.BLOCK_START) {
 
-						Node parent = context.getParent();
+						DataNode parent = context.getParent();
 						if (parent != null)	context = parent;
 						stack.pop(); continue;
 					}

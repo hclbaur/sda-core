@@ -7,6 +7,7 @@ import java.util.List;
 
 import be.baur.sda.Node;
 import be.baur.sda.SDA;
+import be.baur.sda.DataNode;
 
 public final class TestNodeList {
 
@@ -19,7 +20,7 @@ public final class TestNodeList {
 		InputStream in = TestNodeList.class.getResourceAsStream("/addressbook.sda");
 		Node addressbook = SDA.parser().parse(new InputStreamReader(in,"UTF-8"));
 		
-		List<Node> contacts = addressbook.find("contact");
+		List<DataNode> contacts = addressbook.find("contact");
 		List<Node> names = new ArrayList<Node>();
 		List<Node> numbers = new ArrayList<Node>();
 		
