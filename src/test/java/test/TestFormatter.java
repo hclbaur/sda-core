@@ -7,9 +7,13 @@ import java.io.StringWriter;
 
 import be.baur.sda.Node;
 import be.baur.sda.SDA;
+import be.baur.sda.serialization.Formatter;
 import be.baur.sda.serialization.SDAFormatter;
 
 public final class TestFormatter {
+	
+	private static Formatter formatter = new SDAFormatter();
+	private static Formatter formatter4 = new SDAFormatter(4);
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -20,7 +24,7 @@ public final class TestFormatter {
 		//PrintWriter out = new PrintWriter(System.out);
 		StringWriter out = new StringWriter();
         Node node = SDA.parser().parse(new StringReader("node\"1\"{node2{empty1\"\"empty2{}empty\"3\"{}}}"));
-		(new SDAFormatter(4)).format(out, node);
+		formatter4.format(out, node);
 		t.test("S01", out.toString(), 
 				"node \"1\" {\n" + 
 				"    node2 {\n" + 
@@ -32,8 +36,8 @@ public final class TestFormatter {
 		
 		out = new StringWriter();
 		InputStream in = TestFormatter.class.getResourceAsStream("/addressbook.sda");
-		node = SDA.parser().parse(new InputStreamReader(in,"UTF-8"));
-		(new SDAFormatter()).format(out, node);
+		final Node book = SDA.parser().parse(new InputStreamReader(in,"UTF-8"));
+		formatter.format(out, book);
 		t.test("S02", out.toString(), "addressbook {\n" + 
 				"	contact \"1\" {\n" + 
 				"		firstname \"Alice\"\n" + 
@@ -45,7 +49,25 @@ public final class TestFormatter {
 				"		phonenumber \"06-33333333\"\n" + 
 				"		phonenumber \"06-44444444\"\n" + 
 				"	}\n" + 
-				"}\n");
-	}
+				"}\n"
+		);
+	
+		// test performance
+		
+//		UnitTestPerformance<Node> perf = new UnitTestPerformance<Node>(
+//			n -> { n.toString(); }   // test toString
+//		);
+//		perf.run("\nP01", node, 25000, 25);
 
+//		final StringWriter sw = new StringWriter();
+//		UnitTestPerformance<Node> perf = new UnitTestPerformance<Node>(
+//		n -> { try {
+//			formatter.format(sw, book);   // test formatter
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} }
+//	);
+//	perf.run("\nP02", node, 25000, 25);
+		
+	}
 }

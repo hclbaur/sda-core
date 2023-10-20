@@ -52,32 +52,41 @@ public final class SDAFormatter implements Formatter {
 	}
 	
 	
-	public void format(Writer output, Node node) throws IOException {
-		writeIndented(output, node, ""); output.flush();
+	public void format(Writer output, Node node) throws IOException { 
+		StringBuilder sb = new StringBuilder(); addNode(sb, node, ""); 
+		output.write(sb.toString()); output.flush();
 	}
 
 	
-	// Private helper to recursively render the node and its children
-	private void writeIndented(Writer output, Node node, String indent) throws IOException {
+	/* Private helper to recursively add the rendered node and children to a builder
+	 * 
+	 * @param sb the string builder
+	 * @param node the node to add
+	 * @param indent the indentation
+	 * @throws IOException
+	 */
+	private void addNode(StringBuilder sb, Node node, String indent) throws IOException {
 		
 		boolean isLeaf = node.isLeaf();
 		
-		output.write(indent + node.getName());
+		sb.append(indent).append(node.getName());
 		
 		if (! node.getValue().isEmpty() || isLeaf)
-			output.write(" " + (char) SDA.QUOTE + SDA.encode(node.getValue()) + (char) SDA.QUOTE);
+			sb.append(" ").append((char) SDA.QUOTE)
+			  .append(SDA.encode(node.getValue()))
+			  .append((char) SDA.QUOTE);
 	
 		if (! isLeaf) {
 			List<Node> nodes = node.nodes();
 			boolean empty = nodes.isEmpty();
 		
-			output.write(" " + (char)SDA.LBRACE + (empty ? " " : "\n"));
+			sb.append(" ").append((char)SDA.LBRACE).append((empty ? " " : "\n"));
 			if (! empty) for (Node child : nodes) 
-				writeIndented(output, child, indent + this.indent);
-			output.write((empty ? "" : indent) + (char) SDA.RBRACE);
+				addNode(sb, child, indent + this.indent);
+			sb.append(empty ? "" : indent).append((char) SDA.RBRACE);
 		}
 		
-		output.write("\n");
+		sb.append("\n");
 	}
 
 }

@@ -1,23 +1,15 @@
 package test;
 
-import java.util.Date;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 /** A convenience class with testing methods that accept Lamba expressions */
 public final class Test {
 
 	private Function<String, String> strfun;
-	private Consumer<String> strcon;
 	
 	public Test(Function<String, String> strfun) {
 		this.strfun = strfun;
 	}
-	
-	public Test(Consumer<String> strcon) {
-		this.strcon = strcon;
-	}
-
 	
 	public void test(String scenario, String input, String expected) {
 		
@@ -50,23 +42,6 @@ public final class Test {
 			return;
 		}
 		System.out.println(scenario + " FAILED - exception expected");
-	}
-
-	
-	public void testPerf(String scenario, String input, long iterations, long runs) {
-
-		System.out.print(scenario);
-		long total = 0, r = 0;
-		while (r < runs) {
-			
-			long i = iterations; ++r;
-			long start = new Date().getTime();
-			while (i > 0) {
-				strcon.accept(input); --i;
-			}
-			long duration = new Date().getTime() - start;
-			total += duration; System.out.print(" " + total/r);
-		}
 	}
 
 }

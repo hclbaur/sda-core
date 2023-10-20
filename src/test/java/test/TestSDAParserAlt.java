@@ -1,4 +1,3 @@
-
 package test;
 
 import java.io.IOException;
@@ -10,7 +9,8 @@ import samples.parser.SDAParser;
 
 public final class TestSDAParserAlt {
 
-	private static SDAParser parser = new SDAParser();
+	private static SDAParser parser = new samples.parser.SDAParser();
+	
 	private static String samplesda = "addressbook {\r\n" + 
 			"	contact {\r\n" + 
 			"		firstname \"Alice\"\r\n" + 
@@ -36,16 +36,7 @@ public final class TestSDAParserAlt {
 				return e.getMessage();
 			}
 		});
-		
-		Test p = new Test(s -> {
-			try {
-				parser.parse(new StringReader(s));
-			} catch (SyntaxException | IOException e) {
-				e.printStackTrace();
-			}
-		});
-		
-		
+
 		// test valid SDA
 		t.test("S01", "empty\"\"", "empty \"\"");
 		t.test("S02", "  empty  \"\"  ", "empty \"\"");
@@ -75,7 +66,15 @@ public final class TestSDAParserAlt {
 		t.test("F17", "a \"b\" c \"d\"", s + "8: too many root elements");
 		
 		// test performance
-		p.testPerf("\nP01", samplesda, 25000, 25);
+		UnitTestPerformance<String> p = new UnitTestPerformance<String>(str -> {
+			try {
+				parser.parse(new StringReader(str));
+			} catch (SyntaxException | IOException e) {
+				e.printStackTrace();
+			}
+		});
+		
+		p.run("\nP01", samplesda, 25000, 25);
 	}
 
 }

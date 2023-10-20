@@ -35,16 +35,7 @@ public final class TestSDAParser {
 				return e.getMessage();
 			}
 		});
-		
-		Test p = new Test(s -> {
-			try {
-				parser.parse(new StringReader(s));
-			} catch (SyntaxException | IOException e) {
-				e.printStackTrace();
-			}
-		});
-		
-		
+
 		// test valid SDA
 		t.test("S01", "empty\"\"", "empty \"\"");
 		t.test("S02", "  empty  \"\"  ", "empty \"\"");
@@ -83,7 +74,16 @@ public final class TestSDAParser {
 		t.test("F23", "a \"b\" c \"d\"", s + "7: excess input after root node");
 		
 		// test performance
-		p.testPerf("\nP01", samplesda, 25000, 25);
+		
+		UnitTestPerformance<String> perf = new UnitTestPerformance<String>(str -> {
+			try {
+				parser.parse(new StringReader(str));
+			} catch (SyntaxException | IOException e) {
+				e.printStackTrace();
+			}
+		});
+		
+		perf.run("\nP01", samplesda, 20000, 31);
 	}
 
 }

@@ -3,7 +3,6 @@ package be.baur.sda;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -16,7 +15,7 @@ import be.baur.sda.serialization.SDAFormatter;
  */
 public class Node {
 
-	private String name; 		// name (tag) of this node, never null
+	private String name; 		// name of this node, never null
 	private String value; 		// the value of this node, never null
 	private Node parent; 		// reference to parent node, null if this is not a child node
 	private List<Node> nodes;	// reference to child nodes, null if this is a leaf node
@@ -25,8 +24,9 @@ public class Node {
 	/**
 	 * Creates a node with the specified name and an empty value.
 	 * 
-	 * @param name a valid node name, see {@link #setName}
+	 * @param name a valid node name
 	 * @throws IllegalArgumentException if the name is invalid
+	 * @see #setName
 	 */
 	public Node(String name) {
 		setName(name); this.value = "";
@@ -34,12 +34,14 @@ public class Node {
 
 	
 	/**
-	 * Creates a node with the specified name and value. This method will gracefully
-	 * handle a null value.
+	 * Creates a node with the specified name and value. This method will treat a
+	 * null value as if an empty string was supplied.
 	 * 
-	 * @param name a valid node name, see {@link #setName}
-	 * @param value a string value, may be null, see {@link #setValue}
+	 * @param name  a valid node name
+	 * @param value a string value, may be null
 	 * @throws IllegalArgumentException if the name is invalid
+	 * @see #setName
+	 * @see #setValue
 	 */
 	public Node(String name, String value) {
 		setName(name); setValue(value);
@@ -48,7 +50,7 @@ public class Node {
 	
 	/**
 	 * Sets the name (tag) of this node. A name cannot be null or empty, but other
-	 * restrictions apply. Refer to {@link SDA#isName} for details.
+	 * restrictions apply as well. Refer to {@link SDA#isName} for details.
 	 * 
 	 * @param name a valid node name
 	 * @throws IllegalArgumentException if the name is invalid
@@ -87,7 +89,7 @@ public class Node {
 	 * Returns the value of this node. This method returns an empty string if no
 	 * value has been set.
 	 *
-	 * @return the string value, not null, may be empty
+	 * @return the string value, never null, may be empty
 	 */
 	public final String getValue() {
 		return value;
@@ -104,7 +106,7 @@ public class Node {
 
 	
 	/**
-	 * Returns the parent of this node or null if has none.
+	 * Returns the parent of this node or null if it has none.
 	 * 
 	 * @return the parent node, may be null
 	 */
@@ -141,11 +143,11 @@ public class Node {
 
 
 	/**
-	 * Returns true if this node has no child set. This method returns false for a
-	 * parent node or for a "vacant parent" with an <i>empty</i> child set, like
-	 * <code>node { }</code>.
+	 * Returns true if this node has no child list (empty or not). This method
+	 * returns false both for a parent node and for a "vacant parent" with an <i>empty</i>
+	 * child set, which would be the SDA equivalent of "<code>node { }</code>".
 	 * 
-	 * @return true if this node has no child set (empty or not)
+	 * @return true if this is a leaf node
 	 * @see #isParent
 	 */
 	public boolean isLeaf() {
@@ -154,11 +156,9 @@ public class Node {
 
 
 	/**
-	 * Returns true if this node has at least one child node. This method returns
-	 * false for a leaf node or for a "vacant parent" with an <i>empty</i> child
-	 * list, like <code>node { }</code>.
+	 * Returns true if this node has at least one child node, and false otherwise.
 	 * 
-	 * @return true if this node has a non-empty child set
+	 * @return true if this is a parent node
 	 * @see #isLeaf
 	 */
 	public boolean isParent() {
@@ -167,23 +167,50 @@ public class Node {
 
 
 	/**
-	 * Adds a child node to {@code this} node. Adding a node that already has a
-	 * parent will not work (no child is automatically detached from its parent).
-	 * Adding a null reference has no effect if this node has complex content
-	 * already, but it will turn a node without complex content into a "vacant
-	 * parent" (like <code>node { }</code>). See also {@link #isLeaf} and
-	 * {@link #isParent}.
+	 * Adds a child node to this node. Attempting to add a node that already has a
+	 * parent will cause an exception. Adding a null reference will turn a leaf node
+	 * into a "vacant parent" (this is a feature) but has no effect otherwise.
 	 * 
 	 * @param node a node to be added, may be null
 	 * @return true if the node was added
+	 * @throws IllegalStateException if node already has a parent
+	 * @see #isLeaf
+	 * @see #isParent
 	 */
 	public final boolean add(Node node) {
-		if (nodes == null) nodes = new CopyOnWriteArrayList<Node>();
-		if (node == null) return false; node.setParent(this); 
-		return nodes.add(node);
+		if (node != null && node.getParent() != null)
+			throw new IllegalStateException("node '" + node.getName() + "' already has a parent");
+		if (nodes == null) {
+			synchronized (this) { // prevent re-assignment by another thread
+				if (nodes == null) nodes = new ArrayList<Node>();
+			}
+		}
+		if (node != null && nodes.add(node)) {
+			node.setParent(this);
+			return true;
+		}
+		return false;
 	}
 
-	
+
+	/**
+	 * Removes a child node from this node. This method will ignore a null reference
+	 * or a node that is not a child of this node.
+	 * 
+	 * @param node a node to be removed, may be null
+	 * @return true if the node was removed
+	 * @see #add
+	 */
+	public final boolean remove(Node node) {
+		// if nodes ever can change to null, we need synchronization
+		if (node != null && nodes != null && nodes.remove(node)) {
+			node.setParent(null);
+			return true;
+		}
+		return false;
+	}
+
+
 	/**
 	 * Returns the first child node with the specified name, or null if no such node
 	 * is found.
@@ -271,18 +298,20 @@ public class Node {
 	@Override
 	public String toString() {
 
-		String str = name;
+		StringBuilder sb = new StringBuilder(name);
 		
 		if (! value.isEmpty() || nodes == null) 
-			str += " " + (char) SDA.QUOTE + SDA.encode(value) + (char) SDA.QUOTE;
+			sb.append(" ").append((char) SDA.QUOTE)
+				.append(SDA.encode(value)).append((char) SDA.QUOTE);
 
 		if (nodes != null) {
-			str += " " + (char)SDA.LBRACE + " ";
+			sb.append(" ").append((char)SDA.LBRACE).append(" ");
 			for (Node node : nodes) 
-				str += node.toString() + " ";
-			str += (char)SDA.RBRACE;
+				sb.append(node.toString()).append(" ");
+			sb.append((char)SDA.RBRACE);
 		}
 
-		return str;
+		return sb.toString();
 	}
+
 }

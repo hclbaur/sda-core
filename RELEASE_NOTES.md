@@ -1,9 +1,20 @@
 # Release Notes
- 
-## [2.1.0] - 2023-09-29
+
+## [2.1.1] - 2023-10-20
+
+- Added Node.remove().
+- Closed issues: #3, #6 and #9.
+
+## Compatibility
+
+- Requires at least Java 8.
+
+## Previous releases
+
+### [2.1.0] - 2023-09-29
 
 This release no longer supports the NodeSet class, which - with the benefit of 
-hindsight - was not a great idea to begin with. In addition, the method to get  
+hindsight - was not a great idea to begin with. In addition, the method to get 
 child nodes will now always return an unmodifiable (and possibly empty) list, 
 rather than a modifiable one or a null reference. Some additional methods have 
 been added to make up for the loss of NodeSet.
@@ -11,13 +22,8 @@ been added to make up for the loss of NodeSet.
 - `Removed` NodeSet class, use List<Node> instead.
 - `Removed` Node.getNodes(), use Node.nodes() instead.
 - `Removed` Node.isComplex(), use !Node.isLeaf() instead.
-- `Added` Node.get(String), find(String) and find(Predicate).
-
-## Compatibility
-
-- Requires at least Java 8.
-
-## Previous releases
+- Added Node.get(String), find(String) and find(Predicate).
+- Closed issues: #1, #2, #4 and #5.
 
 ### [2.0.0] - 2022-10-09
 
@@ -26,8 +32,8 @@ is backwards compatible with version 1, the library is definitely not.
 When you are also using SDS, make sure you upgrade to a release that 
 supports the SDA 2 syntax.
 
-- `Added` Node.isComplex().
-- `Added` Node NodeSet.get(String).
+- Added Node.isComplex().
+- Added Node NodeSet.get(String).
 - `Changed` Node.addNode() to Node.add().
 - `Changed` Node.hasNodes() to Node.isParent().
 - `Changed` Parser.parse() to throw ParseException (was Exception).
@@ -45,17 +51,17 @@ whereas ComplexNode.getNodes() would always return an empty NodeSet.
 
 - `Deprecated` SimpleNode and ComplexNode.
 - `Refactored` Node, which is no longer abstract.
-- `Added` Node.hasNodes() and Node.addNode().
+- Added Node.hasNodes() and Node.addNode().
 
 ### [1.6.1] - 2022-06-20
 - `Improved` performance of default SDA parser.
-- `Fixed` offsets in SyntaxException.
-- `Added` demo and documentation in markdown.
+- Fixed offsets in SyntaxException.
+- Added demo and documentation in markdown.
 - `Removed` documentation in ODT format.
 
 ### [1.6.0] - 2021-08-01 (first public release)
-- `Added` NodeSet.get(<predicate>).
-- `Added` ComplexNode.getNodes().
+- Added NodeSet.get(<predicate>).
+- Added ComplexNode.getNodes().
 - `Removed` NodeSet.from().
 - `Removed` public access to ComplexNode.nodes.
 
