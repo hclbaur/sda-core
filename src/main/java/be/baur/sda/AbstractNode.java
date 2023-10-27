@@ -47,10 +47,6 @@ public abstract class AbstractNode implements Node {
 		if (nodes == null) return (List<T>) EMPTY_LIST;
 		return (List<T>) Collections.unmodifiableList(nodes);
 	}
-//	public List<AbstractNode> nodes() {
-//		if (nodes == null) return EMPTY_LIST;
-//		return Collections.unmodifiableList(nodes);
-//	}
 
 	
 	@Override
@@ -75,20 +71,6 @@ public abstract class AbstractNode implements Node {
 	 * @throws IllegalStateException if the provided node already has a parent
 	 */
 	@Override
-//	public final <T extends Node> boolean add(T node) {
-//		if (node != null && node.getParent() != null)
-//			throw new IllegalStateException("node '" + node.getName() + "' already has a parent");
-//		if (nodes == null) {
-//			synchronized (this) { // prevent re-assignment by another thread
-//				if (nodes == null) nodes = new ArrayList<AbstractNode>();
-//			}
-//		}
-//		if (node != null && (node instanceof AbstractNode) && nodes.add((AbstractNode) node)) {
-//			((AbstractNode) node).setParent(this);
-//			return true;
-//		}
-//		return false;
-//	}
 	public final <T extends Node> boolean add(T node) {
 		if (nodes == null) {
 			synchronized (this) { // prevent re-assignment by another thread

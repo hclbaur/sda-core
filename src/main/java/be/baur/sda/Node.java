@@ -23,6 +23,7 @@ public interface Node {
 	 * name of the class implementing this interface.
 	 * 
 	 * @return the node name, not null
+	 * @see Class#getSimpleName
 	 */
 	default String getName() {
 		return getClass().getSimpleName();
@@ -107,17 +108,11 @@ public interface Node {
 	 * Returns the first child node with the specified name, or null if no such node
 	 * is found. This method uses the result of {@link #getName} to find a match.
 	 * 
-	 * @param <T>
-	 * 
 	 * @param name a node name
 	 * @return a node, may be null
 	 */
-	@SuppressWarnings("unchecked")
 	default <T extends Node> T get(String name) {
-		for (Node node : nodes())
-			if (node.getName().equals(name))
-				return (T) node;
-		return null;
+		return get(n -> n.getName().equals(name));
 	}
 
 
@@ -142,18 +137,11 @@ public interface Node {
 	 * such nodes are found. This method uses the result of {@link #getName} to find
 	 * matching nodes.
 	 * 
-	 * @param <T>
-	 * 
 	 * @param name a node name
 	 * @return a list, not null
 	 */
-	@SuppressWarnings("unchecked")
-	default <T extends Node> List<T> find(String name) {
-		List<T> list = new ArrayList<T>();
-		for (Node node : nodes())
-			if (node.getName().equals(name))
-				list.add((T) node);
-		return list;
+	default <T extends Node> List<T> find(final String name) {
+		return find(n -> n.getName().equals(name));
 	}
 
 

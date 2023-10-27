@@ -3,36 +3,31 @@ package be.baur.sda.serialization;
 import java.io.IOException;
 import java.io.Reader;
 
-import be.baur.sda.Node;
-import be.baur.sda.SDA;
 import be.baur.sda.DataNode;
+import be.baur.sda.SDA;
 
 
 /**
  * This is the default SDA parser; used to read and parse SDA content to create
- * a {@code Node}. For example, when processing the following input:
+ * a {@code DataNode}. For example, when processing the following input:
  * 
  * <pre>
- * <code>
  * greeting { message "hello" }
- * </code>
  * </pre>
  * 
  * the parser returns a node named 'greeting', containing another node named
  * 'message' with a value of "hello".<br>
  * <br>
- * SDA is parsed according to the following EBNF:
+ * SDA is parsed according to the following BNF (simplified):
  * 
  * <pre>
- * <code>
- * SDA = node
- * node = name (simple_content complex_content? | complex_content)
+ * SDA = data_node
+ * data_node = node_name (simple_content complex_content? | complex_content)
  * simple_content = '"' char* '"'
- * complex_content = '{' node* '}'
- * </code>
+ * complex_content = '{' data_node* '}'
  * </pre>
  * 
- * See also {@link Node}.
+ * @see DataNode
  */
 public final class SDAParser implements Parser<DataNode> {
 

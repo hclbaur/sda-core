@@ -61,24 +61,6 @@ final class Scanner {
     }
     
     
-//    /** Returns a token from the input, e.g. a string without whitespace. */
-//    String getToken() throws SyntaxException, IOException  {
-//    	
-//    	String s = "";
-//    	
-//    	checkEOF();
-//    	
-//    	do { // add to result until we get whitespace
-//    		s = s + (char)c; advance(false);
-//    	} while (! Character.isWhitespace(c));
-//
-//    	if (c != EOF) advance(true);
-//    	checkEOF();  // dangling node names are not allowed
-// 
-//    	return s;
-//    }
-    
-    
     /** Look for a quoted string and return it (without quotes). */
     String getQuotedString() throws SyntaxException, IOException  {
     	
