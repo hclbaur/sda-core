@@ -1,5 +1,7 @@
 package be.baur.sda.serialization;
 
+import be.baur.sda.SDAException;
+
 /**
  * A {@code ParseException} is thrown by a {@code Parser} if a parsing error
  * occurs.
@@ -7,7 +9,7 @@ package be.baur.sda.serialization;
  * @see Parser
  */
 @SuppressWarnings("serial")
-public abstract class ParseException extends Exception {
+public abstract class ParseException extends SDAException {
 
 	final int errorOffset; // position where the error was found
 

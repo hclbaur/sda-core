@@ -8,7 +8,8 @@ classes have been changed around a bit.
 
 - `Removed` java.text.ParseException.
 - `Renamed` SyntaxException to SDASyntaxException.
-- Added be.baur.sda.serialization.ParseException.
+- Added abstract SDAException.
+- Added abstract ParseException.
 - Added Node.get(Predicate).
 - Closed issues: #7.
 

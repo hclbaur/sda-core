@@ -5,8 +5,7 @@ package be.baur.sda;
  * and may wrap other exceptions.
  */
 @SuppressWarnings("serial")
-@Deprecated   // do we really need this?
-abstract class SDAException extends Exception {
+public abstract class SDAException extends Exception {
 
 	/**
 	 * Creates an SDA exception with a detail message.
