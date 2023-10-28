@@ -5,9 +5,11 @@ import java.util.List;
 import be.baur.sda.serialization.SDAFormatter;
 
 /**
- * A data node is the basic building block of an SDA document. It has a name
- * (tag) and a string value (simple content). A data node can be a parent node,
- * in which case it contains other data nodes (complex content).
+ * A {@code DataNode} is the basic building block of an SDA document. It has a
+ * name (tag) and a string value (simple content). A data node can be a parent
+ * node, in which case it contains other data nodes (complex content).
+ * 
+ * @see AbstractNode
  */
 public class DataNode extends AbstractNode {
 

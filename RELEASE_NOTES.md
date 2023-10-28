@@ -3,8 +3,12 @@
 ## [2.2.0] - in development
 
 As of this release, Node is refactored into an interface (Node), an abstract 
-class (AbstractNode) and a concrete implementation (DataNode).
+class (AbstractNode) and a concrete class (DataNode). Also, the exception 
+classes have been changed around a bit.
 
+- `Removed` java.text.ParseException.
+- `Renamed` SyntaxException to SDASyntaxException.
+- Added be.baur.sda.serialization.ParseException.
 - Added Node.get(Predicate).
 - Closed issues: #7.
 

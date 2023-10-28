@@ -5,9 +5,10 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * An abstract node provides the bare-bones implementation of a node object with
- * optional child nodes. It can be extended to implement a concrete class, such
- * as a {@link DataNode}.
+ * An {@code AbstractNode} provides the bare-bones implementation of a node
+ * object with optional child nodes.
+ * 
+ * @see DataNode
  */
 public abstract class AbstractNode implements Node {
 

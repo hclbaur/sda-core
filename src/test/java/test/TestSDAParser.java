@@ -5,7 +5,7 @@ import java.io.StringReader;
 
 import be.baur.sda.Node;
 import be.baur.sda.serialization.SDAParser;
-import be.baur.sda.serialization.SyntaxException;
+import be.baur.sda.serialization.SDASyntaxException;
 
 public final class TestSDAParser {
 
@@ -31,7 +31,7 @@ public final class TestSDAParser {
 		Test t = new Test(s -> {
 			try {
 				return parser.parse(new StringReader(s)).toString();
-			} catch (SyntaxException | IOException e) {
+			} catch (SDASyntaxException | IOException e) {
 				return e.getMessage();
 			}
 		});
@@ -78,7 +78,7 @@ public final class TestSDAParser {
 		UnitTestPerformance<String> perf = new UnitTestPerformance<String>(str -> {
 			try {
 				parser.parse(new StringReader(str));
-			} catch (SyntaxException | IOException e) {
+			} catch (SDASyntaxException | IOException e) {
 				e.printStackTrace();
 			}
 		});
