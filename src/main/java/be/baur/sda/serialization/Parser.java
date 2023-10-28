@@ -2,10 +2,8 @@ package be.baur.sda.serialization;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.text.ParseException;
 
 import be.baur.sda.Node;
-
 
 /**
  * A <code>Parser</code> is a <i>deserializer</i> that reads an input stream (in
@@ -21,8 +19,8 @@ public interface Parser<T extends Node> {
 	 * 
 	 * @param input an input stream
 	 * @return a (root) node
-	 * @throws IOException    if an input exception occurs
-	 * @throws ParseException if a parse exception occurs
+	 * @throws IOException    if an I/O operation failed
+	 * @throws ParseException if a parsing error occurs
 	 */
 	T parse(Reader input) throws IOException, ParseException;
 

@@ -1,11 +1,11 @@
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.List;
 
+import be.baur.sda.DataNode;
 import be.baur.sda.Node;
 import be.baur.sda.SDA;
-import be.baur.sda.DataNode;
+import be.baur.sda.serialization.ParseException;
 
 public class demo {
 

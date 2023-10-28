@@ -34,9 +34,9 @@ public final class SDAParser implements Parser<DataNode> {
 	private Scanner scanner;
 
 	/**
-	 * @throws SyntaxException if an SDA parse exception occurs
+	 * @throws SDASyntaxException if an SDA parsing error occurs
 	 */
-	public DataNode parse(Reader input) throws IOException, SyntaxException {
+	public DataNode parse(Reader input) throws IOException, SDASyntaxException {
 
 		scanner = new Scanner(input);
 		
@@ -44,21 +44,21 @@ public final class SDAParser implements Parser<DataNode> {
 		DataNode node = parseNode(); // and get the root node
 
 		if (scanner.c != Scanner.EOF)
-			throw new SyntaxException("excess input after root node", scanner.p);
+			throw new SDASyntaxException("excess input after root node", scanner.p);
 
 		return node;
 	}
 
 	
 	// Recursive helper to get nodes from the input, follows straight from the EBNF.
-	private DataNode parseNode() throws SyntaxException, IOException {
+	private DataNode parseNode() throws SDASyntaxException, IOException {
 
 		final DataNode node;
 		try {
 			node = new DataNode( scanner.getNodeName() ); // create a new node
 		} 
-		catch (IllegalArgumentException e) {
-			throw new SyntaxException(e.getMessage(), scanner.p);
+		catch (IllegalArgumentException e) { // should not happen
+			throw new SDASyntaxException(e.getMessage(), scanner.p);
 		}
 
 		String value = null;
@@ -80,7 +80,7 @@ public final class SDAParser implements Parser<DataNode> {
 		}
 		else { // no complex content
 			if (value == null) // and no simple content either
-				throw new SyntaxException("unexpected character '" + (char)scanner.c + "'", scanner.p);
+				throw new SDASyntaxException("unexpected character '" + (char)scanner.c + "'", scanner.p);
 		}
 		
 		return node;

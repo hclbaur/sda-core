@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.StringReader;
 
 import be.baur.sda.Node;
-import be.baur.sda.serialization.SyntaxException;
+import be.baur.sda.serialization.SDASyntaxException;
 import samples.parser.SDAParser;
 
 public final class TestSDAParserAlt {
@@ -69,7 +69,7 @@ public final class TestSDAParserAlt {
 		UnitTestPerformance<String> p = new UnitTestPerformance<String>(str -> {
 			try {
 				parser.parse(new StringReader(str));
-			} catch (SyntaxException | IOException e) {
+			} catch (SDASyntaxException | IOException e) {
 				e.printStackTrace();
 			}
 		});

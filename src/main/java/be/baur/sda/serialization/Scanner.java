@@ -6,8 +6,8 @@ import java.io.Reader;
 import be.baur.sda.SDA;
 
 /**
- * The <code>Scanner</code> scans an input stream and supplies tokens to the
- * <code>Parser</code>.
+ * An {@code Scanner} scans an input stream and supplies tokens to an
+ * {@code SDAParser}.
  */
 final class Scanner {
     
@@ -36,19 +36,19 @@ final class Scanner {
 
     static final int EOF = -1;
     /** Check and abort when EOF is reached. */
-    void checkEOF() throws SyntaxException {
-    	if (c == EOF) throw new SyntaxException("unexpected end of input", p-1);
+    void checkEOF() throws SDASyntaxException {
+    	if (c == EOF) throw new SDASyntaxException("unexpected end of input", p-1);
     }
     
     
     /** Look for a valid node name and return it. */
-    String getNodeName() throws SyntaxException, IOException  {
+    String getNodeName() throws SDASyntaxException, IOException  {
     	
     	String s = "";
     	
     	checkEOF();
     	if (! SDA.isNameStart(c)) 
-    		throw new SyntaxException("node name cannot start with '" + (char)c + "'", p);
+    		throw new SDASyntaxException("node name cannot start with '" + (char)c + "'", p);
     	
     	do { // add to result until we get something that is not part of a node name
     		s = s + (char)c; advance(false);
@@ -62,12 +62,12 @@ final class Scanner {
     
     
     /** Look for a quoted string and return it (without quotes). */
-    String getQuotedString() throws SyntaxException, IOException  {
+    String getQuotedString() throws SDASyntaxException, IOException  {
     	
     	String s = ""; boolean escape = false;
     	
     	if (c != SDA.QUOTE)  // must start with quote
-    		throw new SyntaxException("unexpected character '" + (char)c + "'", p);
+    		throw new SDASyntaxException("unexpected character '" + (char)c + "'", p);
     	
     	// add to result until we get the end quote or EOF, handle escaped characters  	
     	while (true) {
