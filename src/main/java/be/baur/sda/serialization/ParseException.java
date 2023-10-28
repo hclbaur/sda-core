@@ -7,7 +7,7 @@ package be.baur.sda.serialization;
  * @see Parser
  */
 @SuppressWarnings("serial")
-public class ParseException extends Exception {
+public abstract class ParseException extends Exception {
 
 	final int errorOffset; // position where the error was found
 
