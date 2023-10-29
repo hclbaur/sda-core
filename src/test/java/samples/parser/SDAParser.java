@@ -7,7 +7,7 @@ import java.util.Stack;
 
 import be.baur.sda.DataNode;
 import be.baur.sda.serialization.Parser;
-import be.baur.sda.serialization.SDASyntaxException;
+import be.baur.sda.serialization.SDAParseException;
 
 /**
  * Alternative SDA parser (actually the first one I wrote, and lacking support
@@ -22,7 +22,7 @@ import be.baur.sda.serialization.SDASyntaxException;
  */
 public final class SDAParser implements Parser<DataNode> {
 
-	public DataNode parse(Reader input) throws IOException, SDASyntaxException {
+	public DataNode parse(Reader input) throws IOException, SDAParseException {
 
 		Tokenizer lexer = new Tokenizer(input);
 		Stack<Token> stack = new Stack<Token>();
@@ -45,7 +45,7 @@ public final class SDAParser implements Parser<DataNode> {
 				if ( stack.empty() ) {
 					// a root element, check whether it is the first (and only)
 					if (context != null) 
-						throw new SDASyntaxException("too many root elements", lexer.getPos());
+						throw new SDAParseException("too many root elements", lexer.getPos());
 					stack.push(token); continue;
 				}
 
@@ -53,7 +53,7 @@ public final class SDAParser implements Parser<DataNode> {
 					stack.push(token); continue; // identifier of a child element, put on the stack
 				}
 				// cannot have identifiers without a context (except the root)
-				throw new SDASyntaxException("unexpected identifier \"" + token.value + "\"", lexer.getPos());
+				throw new SDAParseException("unexpected identifier \"" + token.value + "\"", lexer.getPos());
 			}
 
 			// we got a string, must be value to an element
@@ -68,7 +68,7 @@ public final class SDAParser implements Parser<DataNode> {
 						try {
 							e = new DataNode(name, token.value);
 						} catch (IllegalArgumentException x) {
-							throw new SDASyntaxException(x.getMessage(), lexer.getPos());
+							throw new SDAParseException(x.getMessage(), lexer.getPos());
 						}
 						
 						if (context == null) context = e;
@@ -80,7 +80,7 @@ public final class SDAParser implements Parser<DataNode> {
 					}
 				}
 				// cannot have a value without preceding identifier
-				throw new SDASyntaxException("value \"" + token.value + "\" has no identifier", lexer.getPos());
+				throw new SDAParseException("value \"" + token.value + "\" has no identifier", lexer.getPos());
 			}
 
 			// we got the start of a block, must be a complex element then
@@ -95,7 +95,7 @@ public final class SDAParser implements Parser<DataNode> {
 						try {
 							c = new DataNode(name); c.add(null);
 						} catch (IllegalArgumentException x) {
-							throw new SDASyntaxException(x.getMessage(), lexer.getPos());
+							throw new SDAParseException(x.getMessage(), lexer.getPos());
 						}
 						
 						stack.push(token); // push block start on the stack
@@ -108,7 +108,7 @@ public final class SDAParser implements Parser<DataNode> {
 					}
 				}
 				// cannot start a block without preceding identifier
-				throw new SDASyntaxException("block has no identifier", lexer.getPos());
+				throw new SDAParseException("block has no identifier", lexer.getPos());
 			}
 
 			// we got the end of a block, parent of context becomes context
@@ -124,22 +124,22 @@ public final class SDAParser implements Parser<DataNode> {
 					}
 				}
 				// cannot start a block without preceding identifier
-				throw new SDASyntaxException("unexpected block end", lexer.getPos());
+				throw new SDAParseException("unexpected block end", lexer.getPos());
 			}
 
 			// no more input, check if we are done
 			if (token.type == Tokenizer.EOF) {
 
 				if ( !stack.empty() ) // still tokens left to reduce
-					throw new SDASyntaxException("unexpected end of input", lexer.getPos());
+					throw new SDAParseException("unexpected end of input", lexer.getPos());
 
 				if ( context == null ) // no nodes created
-					throw new SDASyntaxException("input has no data", lexer.getPos());
+					throw new SDAParseException("input has no data", lexer.getPos());
 
 				return context; // should be the top level node
 			}
 			// should never be reached
-			throw new SDASyntaxException("impossible error", lexer.getPos());
+			throw new SDAParseException("impossible error", lexer.getPos());
 		} 
 		while (true);
 	}

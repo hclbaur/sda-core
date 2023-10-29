@@ -1,6 +1,6 @@
 package be.baur.sda.serialization;
 
-import be.baur.sda.SDAException;
+import java.io.IOException;
 
 /**
  * A {@code ParseException} is thrown by a {@code Parser} if a parsing error
@@ -9,7 +9,7 @@ import be.baur.sda.SDAException;
  * @see Parser
  */
 @SuppressWarnings("serial")
-public abstract class ParseException extends SDAException {
+public abstract class ParseException extends IOException {
 
 	final int errorOffset; // position where the error was found
 
@@ -23,9 +23,10 @@ public abstract class ParseException extends SDAException {
 		super(message); this.errorOffset = errorOffset;
 	}
 
+
 	/**
-	 * Returns the offset where the error occurred during parsing (counted in
-	 * characters from the start of the input).
+	 * Returns the position where the error was found (counted in characters from
+	 * the start of the input).
 	 * 
 	 * @return the error offset
 	 */

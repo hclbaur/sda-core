@@ -36,19 +36,19 @@ final class Scanner {
 
     static final int EOF = -1;
     /** Check and abort when EOF is reached. */
-    void checkEOF() throws SDASyntaxException {
-    	if (c == EOF) throw new SDASyntaxException("unexpected end of input", p-1);
+    void checkEOF() throws SDAParseException {
+    	if (c == EOF) throw new SDAParseException("unexpected end of input", p-1);
     }
     
     
     /** Look for a valid node name and return it. */
-    String getNodeName() throws SDASyntaxException, IOException  {
+    String getNodeName() throws SDAParseException, IOException  {
     	
     	String s = "";
     	
     	checkEOF();
     	if (! SDA.isNameStart(c)) 
-    		throw new SDASyntaxException("node name cannot start with '" + (char)c + "'", p);
+    		throw new SDAParseException("node name cannot start with '" + (char)c + "'", p);
     	
     	do { // add to result until we get something that is not part of a node name
     		s = s + (char)c; advance(false);
@@ -62,12 +62,12 @@ final class Scanner {
     
     
     /** Look for a quoted string and return it (without quotes). */
-    String getQuotedString() throws SDASyntaxException, IOException  {
+    String getQuotedString() throws SDAParseException, IOException  {
     	
     	String s = ""; boolean escape = false;
     	
     	if (c != SDA.QUOTE)  // must start with quote
-    		throw new SDASyntaxException("unexpected character '" + (char)c + "'", p);
+    		throw new SDAParseException("unexpected character '" + (char)c + "'", p);
     	
     	// add to result until we get the end quote or EOF, handle escaped characters  	
     	while (true) {

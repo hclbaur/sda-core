@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.Reader;
 
 import be.baur.sda.SDA;
-import be.baur.sda.serialization.SDASyntaxException;
+import be.baur.sda.serialization.SDAParseException;
 
 /** 
  * A <code>Tokenizer</code> (or lexical analyzer) is associated with an 
@@ -59,7 +59,7 @@ final class Tokenizer {
     }
     
     /** Returns the next <code>Token</code> from the input. */
-    Token getToken() throws IOException, SDASyntaxException {
+    Token getToken() throws IOException, SDAParseException {
 
         if (state == BLOCK_START) {
         	short s = state; 
@@ -94,7 +94,7 @@ final class Tokenizer {
                     state = STRING; return new Token(IDENTIFIER, value); 
                 }
                 // otherwise it must be an invalid character
-                throw new SDASyntaxException("identifier cannot contain '" + (char)c + "'", pos);
+                throw new SDAParseException("identifier cannot contain '" + (char)c + "'", pos);
             }
             
             if (state == STRING) {
@@ -127,7 +127,7 @@ final class Tokenizer {
                     state = IDENTIFIER; value += (char)c; continue;
                 }
 				if ( !Character.isWhitespace(c) ) // skip whitespace
-                    throw new SDASyntaxException("identifier cannot start with '" + (char)c + "'", pos);
+                    throw new SDAParseException("identifier cannot start with '" + (char)c + "'", pos);
             }
         }
         
@@ -138,9 +138,9 @@ final class Tokenizer {
 		}
 		
         if (state == STRING) 
-            throw new SDASyntaxException("trailing or pending quote", pos);
+            throw new SDAParseException("trailing or pending quote", pos);
         else if (state != UNDEFINED) 
-            throw new SDASyntaxException("unexpected end of input", pos);
+            throw new SDAParseException("unexpected end of input", pos);
         
         input.close();
         return new Token(EOF);
