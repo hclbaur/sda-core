@@ -7,27 +7,24 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
-import be.baur.sda.Node;
-import be.baur.sda.SDA;
 import be.baur.sda.DataNode;
+import be.baur.sda.SDA;
 
 /**
- * This is the default formatter, which renders a {@code Node} and any child
+ * The default SDA formatter, which renders a {@code DataNode} and any child
  * nodes as SDA content in a human readable way, using Kernighan and Ritchie
  * style for indentation. For example:
  * 
  * <pre>
- * <code>
  * addressbook {
  *     contact "1" {
  *         firstname "Alice"
  *         phonenumber "06-11111111"
  *     }
  * }
- * </code>
  * </pre>
  * 
- * See also {@link Node}.
+ * @see DataNode
  */
 public final class SDAFormatter implements Formatter<DataNode> {
 	

@@ -6,8 +6,8 @@ import java.io.Reader;
 import be.baur.sda.Node;
 
 /**
- * A <code>Parser</code> is a <i>deserializer</i> that reads an input stream (in
- * a format specific to the type of parser) and creates a {@code Node}. A sample
+ * A {@code Parser} is a <i>deserializer</i> that reads an input stream (in a
+ * format specific to the type of parser) and creates a {@code Node}. A sample
  * implementation is the default SDA parser.
  * 
  * @see SDAParser

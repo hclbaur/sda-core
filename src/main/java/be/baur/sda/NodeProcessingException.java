@@ -1,8 +1,6 @@
-package be.baur.sda.serialization;
+package be.baur.sda;
 
 import java.io.IOException;
-
-import be.baur.sda.Node;
 
 /**
  * A {@code NodeProcessingException} may be thrown by a class processing a node

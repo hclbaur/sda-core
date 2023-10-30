@@ -9,9 +9,9 @@ import java.io.Writer;
 import be.baur.sda.Node;
 
 /**
- * A <code>Formatter</code> is a <i>serializer</i> that renders a {@code Node}
- * (in a format specific to the type of formatter) and writes it to an output
- * stream . A sample implementation is the default SDA formatter.
+ * A {@code Formatter} is a <i>serializer</i> that renders a {@code Node} in a
+ * format specific to the type of formatter, and writes it to an output stream.
+ * A sample implementation is the default SDA formatter.
  * 
  * @see SDAFormatter
  */

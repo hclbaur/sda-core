@@ -38,7 +38,7 @@ Nodes with *simple* content like this are usually called "leaf nodes", as oppose
 
 SDA uses a block style notation to create nodes with *complex* content, and as such, to organise date in hierarchical form. There is (at least in theory) no limit to the level of nesting; nodes can contain nodes, that can contain other nodes, *ad infinitum*.
 
-Perhaps surprisingly, SDA nodes can have both simple and complex content (or *mixed* content if you like) as in:
+Perhaps surprisingly, SDA nodes can have both simple and complex content as in:
 
 	name "johnd" {
 		first "John"

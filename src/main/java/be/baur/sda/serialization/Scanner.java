@@ -6,8 +6,7 @@ import java.io.Reader;
 import be.baur.sda.SDA;
 
 /**
- * An {@code Scanner} scans an input stream and supplies tokens to an
- * {@code SDAParser}.
+ * An {@code Scanner} scans an input stream for an {@code SDAParser}.
  */
 final class Scanner {
     
