@@ -18,7 +18,7 @@ public final class TestNodeList {
 		});
 		
 		InputStream in = TestNodeList.class.getResourceAsStream("/addressbook.sda");
-		Node addressbook = SDA.parser().parse(new InputStreamReader(in,"UTF-8"));
+		Node addressbook = SDA.parse(new InputStreamReader(in,"UTF-8"));
 		
 		List<DataNode> contacts = addressbook.find("contact");
 		List<Node> names = new ArrayList<Node>();

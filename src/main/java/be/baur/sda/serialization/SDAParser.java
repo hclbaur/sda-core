@@ -31,17 +31,15 @@ import be.baur.sda.SDA;
  */
 public final class SDAParser implements Parser<DataNode> {
 
-	private Scanner scanner;
-
 	/**
 	 * @throws SDAParseException if an SDA parsing error occurs
 	 */
 	public DataNode parse(Reader input) throws IOException, SDAParseException {
 
-		scanner = new Scanner(input);
+		final Scanner scanner = new Scanner(input);
 		
 		scanner.advance(true); // advance to the first non-whitespace character
-		DataNode node = parseNode(); // and get the root node
+		DataNode node = parseNode(scanner); // and get the root node
 
 		if (scanner.c != Scanner.EOF)
 			throw new SDAParseException("excess input after root node", scanner.p);
@@ -51,7 +49,7 @@ public final class SDAParser implements Parser<DataNode> {
 
 	
 	// Recursive helper to get nodes from the input, follows straight from the EBNF.
-	private DataNode parseNode() throws SDAParseException, IOException {
+	private DataNode parseNode(final Scanner scanner) throws SDAParseException, IOException {
 
 		final DataNode node;
 		try {
@@ -73,7 +71,7 @@ public final class SDAParser implements Parser<DataNode> {
 			
 			node.add(null);  // initialize child set, recursively add nodes
 			while (scanner.c != SDA.RBRACE) {
-				node.add( parseNode() );
+				node.add( parseNode(scanner) );
 			}
 
 			scanner.advance(true); // skip right brace and whitespace

@@ -22,7 +22,7 @@ public interface Formatter<T extends Node> {
 	 * 
 	 * @param output an output stream
 	 * @param node the node to be rendered
-	 * @throws IOException if an output exception occurs
+	 * @throws IOException if an I/O operation failed
 	 */
 	public void format(Writer output, T node) throws IOException;
 
