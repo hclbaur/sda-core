@@ -8,6 +8,7 @@ classes have been thrown around a bit (pun intended).
 
 - `Removed` java.text.ParseException.
 - `Renamed` SyntaxException to SDAParseException.
+- `Replaced` SDA.parser() with SDA.parse().
 - Added abstract ParseException.
 - Added abstract NodeProcessingException.
 - Added Node.get(Predicate).

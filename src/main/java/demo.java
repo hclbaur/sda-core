@@ -11,7 +11,7 @@ public class demo {
 	public static void main(String[] args) throws IOException {
 		
 		FileReader fin = new FileReader(args[0]);
-		Node root = SDA.parser().parse(fin);
+		Node root = SDA.parse(fin);
 		
 		if (! root.isParent()) return;
 

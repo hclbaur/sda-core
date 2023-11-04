@@ -56,7 +56,7 @@ public final class SDAFormatter implements Formatter<DataNode> {
 	}
 
 	
-	/* Private helper to recursively add the rendered node and children to a builder
+	/* Private helper to recursively adds to a string builder
 	 * 
 	 * @param sb the string builder
 	 * @param node the node to add

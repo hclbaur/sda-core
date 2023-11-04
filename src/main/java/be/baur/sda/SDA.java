@@ -1,8 +1,11 @@
 package be.baur.sda;
 
-import be.baur.sda.serialization.Formatter;
-import be.baur.sda.serialization.Parser;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+
 import be.baur.sda.serialization.SDAFormatter;
+import be.baur.sda.serialization.SDAParseException;
 import be.baur.sda.serialization.SDAParser;
 
 /**
@@ -10,7 +13,6 @@ import be.baur.sda.serialization.SDAParser;
  */
 public final class SDA {
 
-	
 	/** A left brace (starts a node list). */
 	public static final int LBRACE = '{'; 
 	
@@ -161,22 +163,31 @@ public final class SDA {
 	}
 	
 	
+	private static SDAParser PARSER = new SDAParser();  // singleton parser
+	private static SDAFormatter FORMATTER = new SDAFormatter();  // singleton formatter
+	
 	/**
-	 * Returns a new instance of the default SDA parser.
+	 * Parses an SDA input stream into data nodes.
 	 * 
-	 * @return an {@link SDAParser}
+	 * @param input an input stream
+	 * @return a (root) node
+	 * @throws IOException       if an I/O operation failed
+	 * @throws SDAParseException if an SDA parsing error occurs
 	 */
-	public static Parser<DataNode> parser() {
-		return new SDAParser();
+	public static DataNode parse(Reader input) throws IOException, SDAParseException {
+		return PARSER.parse(input);
 	}
 	
 	
 	/**
-	 * Returns a new instance of the default SDA formatter.
+	 * Renders a node on the specified output stream using the default SDA
+	 * formatter.
 	 * 
-	 * @return an {@link SDAFormatter}
+	 * @param output an output stream
+	 * @param node   the node to be rendered
+	 * @throws IOException if an I/O operation failed
 	 */
-	public static Formatter<DataNode> formatter() {
-		return new SDAFormatter();
+	public static void format(Writer output, DataNode node) throws IOException {
+		FORMATTER.format(output, node);
 	}
 }

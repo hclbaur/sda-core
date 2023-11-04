@@ -24,8 +24,8 @@ public final class TestSDAParser {
 	
 	public static void main(String[] args) throws Exception {
 
-		Node helloworld = (new SDAParser()).parse(new StringReader("message\"greeting\"{text\"hello world\"}"));
-		System.out.println(helloworld);
+		Node hello = parser.parse(new StringReader("message\"greeting\"{text\"hello world\"}"));
+		System.out.println(hello);
 
 		Test t = new Test(s -> {
 			try {
