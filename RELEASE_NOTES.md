@@ -10,7 +10,7 @@ classes have been thrown around a bit (pun intended).
 - `Renamed` SyntaxException to SDAParseException.
 - `Replaced` SDA.parser() with SDA.parse().
 - Added abstract ParseException.
-- Added abstract NodeProcessingException.
+- Added abstract ProcessingException.
 - Added Node.get(Predicate).
 - Closed issues: #7.
 
