@@ -47,7 +47,7 @@ public final class TestSDAParser {
 		t.test("S09", "example \"The \\\\ is called a \\\"backslash\\\" in English.\"", "example \"The \\\\ is called a \\\"backslash\\\" in English.\"");
 
 		// test invalid SDA
-		String s = "SDA syntax violation at position ";
+		String s = "error at position ";
 		t.test("F01", "", s + "0: unexpected end of input");
 		t.test("F02", "  ", s + "2: unexpected end of input");
 		t.test("F03", "bad", s + "3: unexpected end of input");
