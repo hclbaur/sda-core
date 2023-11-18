@@ -16,7 +16,7 @@ public final class SDAParseException extends ParseException {
 	 * @param errorOffset the position where the error was found
 	 */
 	public SDAParseException(String message, int errorOffset) {
-		super("error at position " + errorOffset + ": " + message, errorOffset);
+		super(message, errorOffset);
 	}
 
 }

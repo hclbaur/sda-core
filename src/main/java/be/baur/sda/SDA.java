@@ -167,7 +167,8 @@ public final class SDA {
 	private static SDAFormatter FORMATTER = new SDAFormatter();  // singleton formatter
 	
 	/**
-	 * Parses an SDA input stream into data nodes.
+	 * Creates a data node from a character input stream in SDA format, using the
+	 * default SDA parser.
 	 * 
 	 * @param input an input stream
 	 * @return a (root) node
@@ -180,7 +181,7 @@ public final class SDA {
 	
 	
 	/**
-	 * Renders a node on the specified output stream using the default SDA
+	 * Renders a data node on the specified output stream using the default SDA
 	 * formatter.
 	 * 
 	 * @param output an output stream
