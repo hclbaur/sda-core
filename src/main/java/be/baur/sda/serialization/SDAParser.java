@@ -97,8 +97,7 @@ public final class SDAParser implements Parser<DataNode> {
 	 * @return SDAParseException
 	 */
 	private static final SDAParseException exception(int offset, String format, Object... args) {
-		return new SDAParseException
-			("error at position " + offset + ": " + String.format(format, args), offset);
+		return new SDAParseException(String.format(format, args), offset);
 	}
 	
 

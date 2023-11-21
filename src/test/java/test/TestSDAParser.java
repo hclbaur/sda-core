@@ -2,8 +2,10 @@ package test;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.function.Function;
 
 import be.baur.sda.Node;
+import be.baur.sda.serialization.SDAParseException;
 import be.baur.sda.serialization.SDAParser;
 
 public final class TestSDAParser {
@@ -27,50 +29,52 @@ public final class TestSDAParser {
 		Node hello = parser.parse(new StringReader("message\"greeting\"{text\"hello world\"}"));
 		System.out.println(hello);
 
-		Test t = new Test(s -> {
+		Function<String, String> strfun = str -> {
 			try {
-				return parser.parse(new StringReader(s)).toString();
-			} catch (IOException e) {
-				return e.getMessage();
+				return parser.parse(new StringReader(str)).toString();
+			} catch (Exception e) {
+				return ((SDAParseException)e).getLocalizedMessage();
 			}
-		});
+		};
+				
+		Test s = new Test(strfun);
+		Test f = new Test(strfun, "error at position ");
 
 		// test valid SDA
-		t.test("S01", "empty\"\"", "empty \"\"");
-		t.test("S02", "  empty  \"\"  ", "empty \"\"");
-		t.test("S03", "empty{}", "empty { }");
-		t.test("S04", "  empty  {  }  ", "empty { }");
-		t.test("S05", "empty\"\"{}", "empty { }");
-		t.test("S06", "  empty  \"\"  {  }  ", "empty { }");
-		t.test("S07", "_m1 { t_1 \"hello  world\" } ", "_m1 { t_1 \"hello  world\" }");
-		t.test("S08", "_1m \"yo\" { t1_ \"hello  world\" } ", "_1m \"yo\" { t1_ \"hello  world\" }");
-		t.test("S09", "example \"The \\\\ is called a \\\"backslash\\\" in English.\"", "example \"The \\\\ is called a \\\"backslash\\\" in English.\"");
+		s.ts1("S01", "empty\"\"", "empty \"\"");
+		s.ts1("S02", "  empty  \"\"  ", "empty \"\"");
+		s.ts1("S03", "empty{}", "empty { }");
+		s.ts1("S04", "  empty  {  }  ", "empty { }");
+		s.ts1("S05", "empty\"\"{}", "empty { }");
+		s.ts1("S06", "  empty  \"\"  {  }  ", "empty { }");
+		s.ts1("S07", "_m1 { t_1 \"hello  world\" } ", "_m1 { t_1 \"hello  world\" }");
+		s.ts1("S08", "_1m \"yo\" { t1_ \"hello  world\" } ", "_1m \"yo\" { t1_ \"hello  world\" }");
+		s.ts1("S09", "example \"The \\\\ is called a \\\"backslash\\\" in English.\"", "example \"The \\\\ is called a \\\"backslash\\\" in English.\"");
 
 		// test invalid SDA
-		String s = "error at position ";
-		t.test("F01", "", s + "0: unexpected end of input");
-		t.test("F02", "  ", s + "2: unexpected end of input");
-		t.test("F03", "bad", s + "3: unexpected end of input");
-		t.test("F04", "bad  ", s + "5: unexpected end of input");
-		t.test("F05", "bad bad", s + "5: unexpected character 'b'");
-		t.test("F06", "2bad", s + "1: node name cannot start with '2'");
-		t.test("F07", "b@d", s + "2: unexpected character '@'");
-		t.test("F08", "trailing \"", s + "10: unexpected end of input");
-		t.test("F09", "trailing \"abc", s + "13: unexpected end of input");
-		t.test("F10", "{", s + "1: node name cannot start with '{'");
-		t.test("F11", "_{", s + "2: invalid node name (_)");
-		t.test("F12", "abc{ { ", s + "6: node name cannot start with '{'");
-		t.test("F13", "abc{ _\"\"", s + "7: invalid node name (_)");
-		t.test("F14", "abc{ \"", s + "6: node name cannot start with '\"'");
-		t.test("F15", " }", s + "2: node name cannot start with '}'");
-		t.test("F16", "noright {", s + "9: unexpected end of input");
-		t.test("F17", "noleft }", s + "8: unexpected character '}'");
-		t.test("F18", "noright \"2\" {", s + "13: unexpected end of input");
-		t.test("F19", "noleft \"2\" }", s + "12: excess input after root node");
-		t.test("F20", "a{ b{}", s + "6: unexpected end of input");
-		t.test("F21", "a{} b{}", s + "5: excess input after root node");
-		t.test("F22", "a{ b{} } }", s + "10: excess input after root node");
-		t.test("F23", "a \"b\" c \"d\"", s + "7: excess input after root node");
+		f.ts1("F01", "", "0: unexpected end of input");
+		f.ts1("F02", "  ", "2: unexpected end of input");
+		f.ts1("F03", "bad", "3: unexpected end of input");
+		f.ts1("F04", "bad  ", "5: unexpected end of input");
+		f.ts1("F05", "bad bad", "5: unexpected character 'b'");
+		f.ts1("F06", "2bad", "1: node name cannot start with '2'");
+		f.ts1("F07", "b@d", "2: unexpected character '@'");
+		f.ts1("F08", "trailing \"", "10: unexpected end of input");
+		f.ts1("F09", "trailing \"abc", "13: unexpected end of input");
+		f.ts1("F10", "{", "1: node name cannot start with '{'");
+		f.ts1("F11", "_{", "2: invalid node name (_)");
+		f.ts1("F12", "abc{ { ", "6: node name cannot start with '{'");
+		f.ts1("F13", "abc{ _\"\"", "7: invalid node name (_)");
+		f.ts1("F14", "abc{ \"", "6: node name cannot start with '\"'");
+		f.ts1("F15", " }", "2: node name cannot start with '}'");
+		f.ts1("F16", "noright {", "9: unexpected end of input");
+		f.ts1("F17", "noleft }", "8: unexpected character '}'");
+		f.ts1("F18", "noright \"2\" {", "13: unexpected end of input");
+		f.ts1("F19", "noleft \"2\" }", "12: excess input after root node");
+		f.ts1("F20", "a{ b{}", "6: unexpected end of input");
+		f.ts1("F21", "a{} b{}", "5: excess input after root node");
+		f.ts1("F22", "a{ b{} } }", "10: excess input after root node");
+		f.ts1("F23", "a \"b\" c \"d\"", "7: excess input after root node");
 		
 		// test performance
 		

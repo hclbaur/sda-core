@@ -24,7 +24,7 @@ public final class TestFormatter {
 		StringWriter out = new StringWriter();
         final DataNode node = SDA.parse(new StringReader("node\"1\"{node2{empty1\"\"empty2{}empty\"3\"{}}}"));
 		formatter4.format(out, node);
-		t.test("S01", out.toString(), 
+		t.ts1("S01", out.toString(), 
 				"node \"1\" {\n" + 
 				"    node2 {\n" + 
 				"        empty1 \"\"\n" +
@@ -37,7 +37,7 @@ public final class TestFormatter {
 		InputStream in = TestFormatter.class.getResourceAsStream("/addressbook.sda");
 		final DataNode book = SDA.parse(new InputStreamReader(in,"UTF-8"));
 		formatter.format(out, book);
-		t.test("S02", out.toString(), "addressbook {\n" + 
+		t.ts1("S02", out.toString(), "addressbook {\n" + 
 				"	contact \"1\" {\n" + 
 				"		firstname \"Alice\"\n" + 
 				"		phonenumber \"06-11111111\"\n" + 

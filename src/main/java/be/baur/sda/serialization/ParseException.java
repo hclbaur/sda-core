@@ -33,5 +33,15 @@ public abstract class ParseException extends IOException {
 	public int getErrorOffset() {
 		return errorOffset;
 	}
+	
+	
+	/**
+	 * Returns a parse exception with a message that includes the error position.
+	 * 
+	 * @return "error at position <i>position</i>: <i>message</i>"
+	 */
+	public String getLocalizedMessage() {
+		return "error at position " + errorOffset + ": " + getMessage();
+	}
 
 }
