@@ -36,7 +36,7 @@ public abstract class ParseException extends IOException {
 	
 	
 	/**
-	 * Returns a parse exception with a message that includes the error position.
+	 * Returns a message that includes the error position.
 	 * 
 	 * @return "error at position <i>position</i>: <i>message</i>"
 	 */

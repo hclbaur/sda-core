@@ -5,7 +5,6 @@ import java.io.StringReader;
 import java.util.function.Function;
 
 import be.baur.sda.Node;
-import be.baur.sda.serialization.SDAParseException;
 import be.baur.sda.serialization.SDAParser;
 
 public final class TestSDAParser {
@@ -33,7 +32,7 @@ public final class TestSDAParser {
 			try {
 				return parser.parse(new StringReader(str)).toString();
 			} catch (Exception e) {
-				return ((SDAParseException)e).getLocalizedMessage();
+				return e.getLocalizedMessage();
 			}
 		};
 				

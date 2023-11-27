@@ -30,4 +30,15 @@ public abstract class ProcessingException extends IOException {
 	public Node getErrorNode() {
 		return errorNode;
 	}
+	
+	
+	/**
+	 * Returns a message that includes the location (path) of the error node.
+	 * 
+	 * @return "error at <i>path</i>: <i>message</i>"
+	 * @see Node#path()
+	 */
+	public String getLocalizedMessage() {
+		return (errorNode != null ? ("error at " + errorNode.path() + ": ") : "") + getMessage();
+	}
 }

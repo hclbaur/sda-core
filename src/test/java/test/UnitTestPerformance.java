@@ -3,7 +3,7 @@ package test;
 import java.util.Date;
 import java.util.function.Consumer;
 
-/** A convenience class with testing methods that accept Lamba expressions */
+/** A convenience class with testing methods that accept Lambda expressions */
 public final class UnitTestPerformance<T> {
 
 	private Consumer<T> consumer;
