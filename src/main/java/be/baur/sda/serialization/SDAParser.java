@@ -18,11 +18,11 @@ import be.baur.sda.SDA;
  * the parser returns a node named 'greeting', containing another node named
  * 'message' with a value of "hello".<br>
  * <br>
- * SDA is parsed according to the following BNF (simplified):
+ * SDA is parsed according to the following (simplified) grammar:
  * 
  * <pre>
  * SDA = data_node
- * data_node = node_name (simple_content complex_content? | complex_content)
+ * data_node = node_name (simple_content | (simple_content? complex_content) )
  * simple_content = '"' char* '"'
  * complex_content = '{' data_node* '}'
  * </pre>

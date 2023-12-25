@@ -45,7 +45,7 @@ Perhaps surprisingly, SDA nodes can have both simple and complex content as in:
 		last "Doe"
 	}
 
-SDA syntax does not get more complicated than this. Of course, there are rules we must adhere to in order to produce proper or *well-formed* SDA. These are the subject of the next section.
+SDA syntax does not get more complicated than this. Of course, there are rules we must adhere to in order to produce proper or *well-formed* SDA. These are the subject of the next section, but you can also refer to this formal [specification](/docs/SPECIFICATION.md).
 
 
 ## The rules
@@ -96,7 +96,7 @@ and both would be correct representations of the same data. In fact, so would
 
 	person{name"John   Doe"}
 
-but this is not a recommended rendering style if some level of readability is desired. It could be used to minimize storage, though.
+but this is not a recommended rendering style if some level of readability is desired. It could be used to minimize storage or network use.
 
 ### The root of all…
 
@@ -113,7 +113,7 @@ SDA nodes can be empty, in more than one way in fact. For example, this is a nod
 
 	empty ""
 
-and so is this one, except that here we have empty complex content:
+and so is this one, except that here we also have empty complex content:
 
 	empty {}
 	
