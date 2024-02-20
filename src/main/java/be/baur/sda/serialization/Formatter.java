@@ -9,20 +9,21 @@ import java.io.Writer;
 import be.baur.sda.Node;
 
 /**
- * A <code>Formatter</code> (in SDA context) is a <i>serializer</i> that
- * converts a {@link Node} to a character stream (in a format specific to the
- * type of formatter). A sample implementation is the default
- * {@link SDAFormatter}.
+ * A {@code Formatter} is a <i>serializer</i> that renders a {@code Node} in a
+ * format specific to the type of formatter, and writes it to an output stream.
+ * A sample implementation is the default SDA formatter.
+ * 
+ * @see SDAFormatter
  */
-public interface Formatter {
+public interface Formatter<T extends Node> {
 	
 	/**
 	 * Renders a node on the specified output stream.
 	 * 
 	 * @param output an output stream
 	 * @param node the node to be rendered
-	 * @throws IOException if an output exception occurs
+	 * @throws IOException if an I/O operation failed
 	 */
-	public void format(Writer output, Node node) throws IOException;
+	public void format(Writer output, T node) throws IOException;
 
 }

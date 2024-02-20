@@ -7,28 +7,26 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
-import be.baur.sda.Node;
+import be.baur.sda.DataNode;
 import be.baur.sda.SDA;
 
 /**
- * This is the default formatter, which renders a {@code Node} and any child
+ * The default SDA formatter, which renders a {@code DataNode} and any child
  * nodes as SDA content in a human readable way, using Kernighan and Ritchie
  * style for indentation. For example:
  * 
  * <pre>
- * <code>
  * addressbook {
  *     contact "1" {
  *         firstname "Alice"
  *         phonenumber "06-11111111"
  *     }
  * }
- * </code>
  * </pre>
  * 
- * See also {@link Node}.
+ * @see DataNode
  */
-public final class SDAFormatter implements Formatter {
+public final class SDAFormatter implements Formatter<DataNode> {
 	
 	private final String indent;  // the string used for indentation
 	
@@ -52,22 +50,22 @@ public final class SDAFormatter implements Formatter {
 	}
 	
 	
-	public void format(Writer output, Node node) throws IOException { 
-		StringBuilder sb = new StringBuilder(); addNode(sb, node, ""); 
+	public void format(Writer output, DataNode node) throws IOException { 
+		StringBuilder sb = new StringBuilder(); formatNode(sb, node, ""); 
 		output.write(sb.toString()); output.flush();
 	}
 
 	
-	/* Private helper to recursively add the rendered node and children to a builder
+	/* Private helper to recursively adds to a string builder
 	 * 
 	 * @param sb the string builder
 	 * @param node the node to add
 	 * @param indent the indentation
 	 * @throws IOException
 	 */
-	private void addNode(StringBuilder sb, Node node, String indent) throws IOException {
+	private void formatNode(StringBuilder sb, DataNode node, String indent) throws IOException {
 		
-		boolean isLeaf = node.isLeaf();
+		final boolean isLeaf = node.isLeaf();
 		
 		sb.append(indent).append(node.getName());
 		
@@ -77,12 +75,12 @@ public final class SDAFormatter implements Formatter {
 			  .append((char) SDA.QUOTE);
 	
 		if (! isLeaf) {
-			List<Node> nodes = node.nodes();
+			List<DataNode> nodes = node.nodes();
 			boolean empty = nodes.isEmpty();
 		
 			sb.append(" ").append((char)SDA.LBRACE).append((empty ? " " : "\n"));
-			if (! empty) for (Node child : nodes) 
-				addNode(sb, child, indent + this.indent);
+			if (! empty) for (DataNode child : nodes) 
+				formatNode(sb, child, indent + this.indent);
 			sb.append(empty ? "" : indent).append((char) SDA.RBRACE);
 		}
 		

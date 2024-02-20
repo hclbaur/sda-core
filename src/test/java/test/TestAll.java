@@ -13,7 +13,8 @@ public final class TestAll {
 		System.out.print("\nTestSDAParser: ");
 		test.TestSDAParser.main(args);
 
-		//System.out.print("\nTestSDAParserAlt: ");
-		//test.TestSDAParserAlt.main(args);
+//		System.out.print("\nTestSDAParserAlt: ");
+//		test.TestSDAParserAlt.main(args);
+		
 	}
 }

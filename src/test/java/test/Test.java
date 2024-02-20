@@ -1,21 +1,29 @@
 package test;
 
+
 import java.util.function.Function;
 
-/** A convenience class with testing methods that accept Lamba expressions */
-public final class Test {
+/** A convenience class with testing methods that accept Lambda expressions */
+public class Test {
 
-	private Function<String, String> strfun;
+	Function<String, String> strfun;
+	String prefix;
 	
-	public Test(Function<String, String> strfun) {
-		this.strfun = strfun;
+	public Test(Function<String, String> strfun, String prefix) {
+		this.strfun = strfun; this.prefix = prefix;
 	}
 	
-	public void test(String scenario, String input, String expected) {
+	public Test(Function<String, String> strfun) {
+		this(strfun, "");
+	}
+	
+	public void ts1(String scenario, String str, String expected) {
 		
-		String result = strfun.apply(input);
+		String result = strfun.apply(str);
 
-		if (expected == null) expected = input;
+		if (expected == null) expected = str;
+		expected = prefix + expected;
+		
 		if (result.equals(expected)) 
 			System.out.print(scenario + " ");
 		else {
@@ -26,22 +34,22 @@ public final class Test {
 	}
 
 	
-	public void testError(String scenario, String input, String expected) {
-		
-		try { 
-			strfun.apply(input);
-		}
-		catch (Exception e) { 
-			if (e.getMessage().equals(expected)) 
-				System.out.print(scenario + " ");
-			else {
-				System.out.println("\n" + scenario + " FAILED!");
-				System.out.println("    EXPECTED: " + expected);
-				System.out.println("    RETURNED: " + e.getMessage());
-			}
-			return;
-		}
-		System.out.println(scenario + " FAILED - exception expected");
-	}
+//	public void testError(String scenario, String input, String expected) {
+//		
+//		try { 
+//			strfun.apply(input);
+//		}
+//		catch (Exception e) { 
+//			if (e.getMessage().equals(expected)) 
+//				System.out.print(scenario + " ");
+//			else {
+//				System.out.println("\n" + scenario + " FAILED!");
+//				System.out.println("    EXPECTED: " + expected);
+//				System.out.println("    RETURNED: " + e.getMessage());
+//			}
+//			return;
+//		}
+//		System.out.println(scenario + " FAILED - exception expected");
+//	}
 
 }

@@ -38,14 +38,14 @@ Nodes with *simple* content like this are usually called "leaf nodes", as oppose
 
 SDA uses a block style notation to create nodes with *complex* content, and as such, to organise date in hierarchical form. There is (at least in theory) no limit to the level of nesting; nodes can contain nodes, that can contain other nodes, *ad infinitum*.
 
-Perhaps surprisingly, SDA nodes can have both simple and complex content (or *mixed* content if you like) as in:
+Perhaps surprisingly, SDA nodes can have both simple and complex content as in:
 
 	name "johnd" {
 		first "John"
 		last "Doe"
 	}
 
-SDA syntax does not get more complicated than this. Of course, there are rules we must adhere to in order to produce proper or *well-formed* SDA. These are the subject of the next section.
+SDA syntax does not get more complicated than this. Of course, there are rules we must adhere to in order to produce proper or *well-formed* SDA. These are the subject of the next section, but you can also refer to this formal [specification](/docs/SPECIFICATION.md).
 
 
 ## The rules
@@ -96,7 +96,7 @@ and both would be correct representations of the same data. In fact, so would
 
 	person{name"John   Doe"}
 
-but this is not a recommended rendering style if some level of readability is desired. It could be used to minimize storage, though.
+but this is not a recommended rendering style if some level of readability is desired. It could be used to minimize storage or network use.
 
 ### The root of all…
 
@@ -113,7 +113,7 @@ SDA nodes can be empty, in more than one way in fact. For example, this is a nod
 
 	empty ""
 
-and so is this one, except that here we have empty complex content:
+and so is this one, except that here we also have empty complex content:
 
 	empty {}
 	
