@@ -1,6 +1,6 @@
 # SDA Specification
 
-The following grammar describes an SDA document in EBNF notatation:
+The following grammar describes an SDA document in EBNF notation:
 
 <pre>
 

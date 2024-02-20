@@ -1,6 +1,6 @@
 # Release Notes
 
-## [2.2.0] - in development
+## [2.2.0] - 2024-02-20
 
 As of this release, Node is refactored into an interface (Node), an abstract 
 class (AbstractNode) and a concrete class (DataNode). Also, the exception 
