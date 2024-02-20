@@ -25,7 +25,8 @@ public class DataNode extends AbstractNode {
 	 * @see #setName
 	 */
 	public DataNode(String name) {
-		super(); setName(name); this.value = "";
+		//super(); 
+		setName(name); this.value = "";
 	}
 
 	
@@ -40,7 +41,8 @@ public class DataNode extends AbstractNode {
 	 * @see #setValue
 	 */
 	public DataNode(String name, String value) {
-		super(); setName(name); setValue(value);
+		//super(); 
+		setName(name); setValue(value);
 	}
 
 

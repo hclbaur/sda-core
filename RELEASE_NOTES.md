@@ -9,9 +9,10 @@ classes have been thrown around a bit (pun intended).
 - `Removed` java.text.ParseException.
 - `Renamed` SyntaxException to SDAParseException.
 - `Replaced` SDA.parser() with SDA.parse().
-- Added abstract ParseException.
-- Added abstract ProcessingException.
+- Added ParseException.
+- Added ProcessingException.
 - Added Node.get(Predicate).
+- Added Result and Results.
 - Closed issues: #7.
 
 ## Compatibility
