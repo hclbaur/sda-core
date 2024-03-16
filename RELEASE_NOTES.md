@@ -1,6 +1,16 @@
 # Release Notes
 
-## [2.2.0] - 2024-02-20
+## [2.2.1] - 2024-??-??
+
+In development.
+
+## Compatibility
+
+- Requires at least Java 8.
+
+## Previous releases
+
+### [2.2.0] - 2024-02-20
 
 As of this release, Node is refactored into an interface (Node), an abstract 
 class (AbstractNode) and a concrete class (DataNode). Also, the exception 
@@ -14,12 +24,6 @@ classes have been thrown around a bit (pun intended).
 - Added Node.get(Predicate).
 - Added Result and Results.
 - Closed issues: #7.
-
-## Compatibility
-
-- Requires at least Java 8.
-
-## Previous releases
 
 ### [2.1.1] - 2023-10-20
 

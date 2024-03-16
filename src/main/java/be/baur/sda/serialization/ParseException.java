@@ -1,7 +1,5 @@
 package be.baur.sda.serialization;
 
-import java.io.IOException;
-
 /**
  * A {@code ParseException} is thrown by a {@code Parser} if a parsing error
  * occurs.
@@ -9,39 +7,27 @@ import java.io.IOException;
  * @see Parser
  */
 @SuppressWarnings("serial")
-public abstract class ParseException extends IOException {
-
-	final int errorOffset; // position where the error was found
+public abstract class ParseException extends java.text.ParseException {
 
 	/**
-	 * Creates a parse exception with an error message and offset.
+	 * Creates a parse exception with an error message and offset (counted in
+	 * characters from the start of the input).
 	 * 
 	 * @param message     an error message
 	 * @param errorOffset the position where the error was found
 	 */
 	public ParseException(String message, int errorOffset) {
-		super(message); this.errorOffset = errorOffset;
+		super(message, errorOffset); 
 	}
 
 
 	/**
-	 * Returns the position where the error was found (counted in characters from
-	 * the start of the input).
+	 * Returns a pre-formatted message that includes the error position (offset).
 	 * 
-	 * @return the error offset
-	 */
-	public int getErrorOffset() {
-		return errorOffset;
-	}
-	
-	
-	/**
-	 * Returns a message that includes the error position.
-	 * 
-	 * @return "error at position <i>position</i>: <i>message</i>"
+	 * @return "error at position <i>offset</i>: <i>error text</i>"
 	 */
 	public String getLocalizedMessage() {
-		return "error at position " + errorOffset + ": " + getMessage();
+		return "error at position " + this.getErrorOffset() + ": " + getMessage();
 	}
 
 }

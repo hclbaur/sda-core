@@ -1,6 +1,5 @@
 package test;
 
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.function.Function;
 
@@ -72,7 +71,7 @@ public final class TestSDAParserAlt {
 		UnitTestPerformance<String> p = new UnitTestPerformance<String>(str -> {
 			try {
 				parser.parse(new StringReader(str));
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		});
