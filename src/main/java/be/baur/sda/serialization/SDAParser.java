@@ -37,6 +37,7 @@ public final class SDAParser implements Parser<DataNode> {
 	 * 
 	 * @throws SDAParseException if an SDA parsing error occurs
 	 */
+	@Override
 	public DataNode parse(Reader input) throws IOException, SDAParseException {
 
 		final Scanner scanner = new Scanner(input);

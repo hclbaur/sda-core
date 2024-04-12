@@ -26,6 +26,7 @@ public abstract class ParseException extends java.text.ParseException {
 	 * 
 	 * @return "error at position <i>offset</i>: <i>error text</i>"
 	 */
+	@Override
 	public String getLocalizedMessage() {
 		return "error at position " + this.getErrorOffset() + ": " + getMessage();
 	}

@@ -38,6 +38,7 @@ public abstract class ProcessingException extends IOException {
 	 * @return "error at <i>path</i>: <i>message</i>"
 	 * @see Node#path()
 	 */
+	@Override
 	public String getLocalizedMessage() {
 		return (errorNode != null ? ("error at " + errorNode.path() + ": ") : "") + getMessage();
 	}

@@ -22,6 +22,7 @@ import be.baur.sda.serialization.SDAParseException;
  */
 public final class SDAParser implements Parser<DataNode> {
 
+	@Override
 	public DataNode parse(Reader input) throws IOException, SDAParseException {
 
 		Tokenizer lexer = new Tokenizer(input);

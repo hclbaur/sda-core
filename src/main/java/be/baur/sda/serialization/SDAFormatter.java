@@ -50,6 +50,7 @@ public final class SDAFormatter implements Formatter<DataNode> {
 	}
 	
 	
+	@Override
 	public void format(Writer output, DataNode node) throws IOException { 
 		StringBuilder sb = new StringBuilder(); formatNode(sb, node, ""); 
 		output.write(sb.toString()); output.flush();
