@@ -107,6 +107,22 @@ public class DataNode extends AbstractNode {
 
 
 	/**
+	 * Returns a deep copy of this node.
+	 * 
+	 * @return a node
+	 */
+	public final DataNode copy() {
+		DataNode cp = new DataNode(this.getName(), this.getValue());
+		if (! this.isLeaf()) {
+			cp.add(null);
+			for (Node child : this.nodes()) 
+				cp.add(((DataNode) child).copy());
+		}
+		return cp;
+	}
+	
+	
+	/**
 	 * Returns a string representing this node in SDA notation. For example:
 	 * 
 	 * <pre>

@@ -4,6 +4,8 @@
 
 In development.
 
+- Added DataNode.copy() method.
+
 ## Compatibility
 
 - Requires at least Java 8.
@@ -23,12 +25,12 @@ classes have been thrown around a bit (pun intended).
 - Added ProcessingException.
 - Added Node.get(Predicate).
 - Added Result and Results.
-- Closed issues: #7.
+- Closed issues #7.
 
 ### [2.1.1] - 2023-10-20
 
 - Added Node.remove().
-- Closed issues: #3, #6 and #9.
+- Closed issues #3, #6 and #9.
 
 ### [2.1.0] - 2023-09-29
 
@@ -42,7 +44,7 @@ been added to make up for the loss of NodeSet.
 - `Removed` Node.getNodes(), use Node.nodes() instead.
 - `Removed` Node.isComplex(), use !Node.isLeaf() instead.
 - Added Node.get(String), find(String) and find(Predicate).
-- Closed issues: #1, #2, #4 and #5.
+- Closed issues #1, #2, #4 and #5.
 
 ### [2.0.0] - 2022-10-09
 
