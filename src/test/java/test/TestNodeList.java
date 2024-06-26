@@ -21,11 +21,12 @@ public final class TestNodeList {
 		Node addressbook = SDA.parse(new InputStreamReader(in,"UTF-8"));
 		
 		List<DataNode> contacts = addressbook.find("contact");
-		List<Node> names = new ArrayList<Node>();
-		List<Node> numbers = new ArrayList<Node>();
 		
+		List<Node> names = new ArrayList<Node>();
 		contacts.forEach(n -> names.add( n.get("firstname") ));
-		contacts.stream().flatMap(n -> n.find("phonenumber").stream()).forEach(n -> numbers.add(n));
+		
+		//contacts.stream().flatMap(n -> n.find("phonenumber").stream()).forEach(n -> numbers.add(n));
+		List<Node> numbers = addressbook.findDescendant(n -> n.getName().equals("phonenumber"));
 		
 		t.ts1("S01", addressbook.path(), "/addressbook");
 		t.ts1("S02", contacts.get(0).getValue(), "1");

@@ -5,6 +5,7 @@
 In development.
 
 - Added DataNode.copy() method.
+- Added Node.findDescendant() method.
 
 ## Compatibility
 

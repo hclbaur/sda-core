@@ -161,6 +161,25 @@ public interface Node {
 		return list;
 	}
 
+	
+	/**
+	 * Returns a list of descendant nodes that satisfy the given predicate, or an
+	 * empty list if no such nodes are found. In the resulting list, matching child
+	 * nodes are returned before matching sibling nodes (and their children).
+	 * 
+	 * @param predicate a boolean valued function of one argument
+	 * @return a list, not null
+	 */
+	@SuppressWarnings("unchecked")
+	default <T extends Node> List<T> findDescendant(Predicate<? super Node> predicate) {
+		List<T> list = new ArrayList<T>();
+		for (Node node : nodes()) {
+			if (predicate.test(node))
+				list.add((T) node);
+			list.addAll(node.findDescendant(predicate));
+		}
+		return list;
+	}
 
 	/**
 	 * Returns the location of this node in X-path style. If a node occurs more than
