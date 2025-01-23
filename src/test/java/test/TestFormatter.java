@@ -20,7 +20,6 @@ public final class TestFormatter {
 			return s;
 		});
 		
-		//PrintWriter out = new PrintWriter(System.out);
 		StringWriter out = new StringWriter();
         final DataNode node = SDA.parse(new StringReader("node\"1\"{node2{empty1\"\"empty2{}empty\"3\"{}}}"));
 		formatter4.format(out, node);

@@ -6,6 +6,7 @@ In development.
 
 - Added DataNode.copy() method.
 - Added Node.findDescendant() method.
+- Closed issue #16 (SDAFormatter throws if input node is null).
 
 ## Compatibility
 
@@ -26,7 +27,7 @@ classes have been thrown around a bit (pun intended).
 - Added ProcessingException.
 - Added Node.get(Predicate).
 - Added Result and Results.
-- Closed issues #7.
+- Closed issue #7.
 
 ### [2.1.1] - 2023-10-20
 

@@ -18,7 +18,7 @@ import be.baur.sda.Node;
 public interface Formatter<T extends Node> {
 	
 	/**
-	 * Renders a node on the specified output stream.
+	 * Serialize and write a node to a character output stream.
 	 * 
 	 * @param output an output stream
 	 * @param node the node to be rendered

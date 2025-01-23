@@ -181,8 +181,9 @@ public final class SDA {
 	
 	
 	/**
-	 * Renders a data node on the specified output stream using the default SDA
-	 * formatter.
+	 * A convenience method to format a data node using the default SDA formatter.
+	 * 
+	 * @see SDAFormatter#format
 	 * 
 	 * @param output an output stream
 	 * @param node   the node to be rendered

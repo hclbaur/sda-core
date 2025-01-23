@@ -50,14 +50,22 @@ public final class SDAFormatter implements Formatter<DataNode> {
 	}
 	
 	
+	/**
+	 * Serialize a data node to an SDA string and write it to a character output
+	 * stream. This method will ignore a null reference (and write nothing).
+	 */
 	@Override
-	public void format(Writer output, DataNode node) throws IOException { 
-		StringBuilder sb = new StringBuilder(); formatNode(sb, node, ""); 
-		output.write(sb.toString()); output.flush();
+	public void format(Writer output, DataNode node) throws IOException {
+		if (node != null) {
+			StringBuilder sb = new StringBuilder();
+			formatNode(sb, node, "");
+			output.write(sb.toString());
+			output.flush();
+		}
 	}
 
 	
-	/* Private helper to recursively adds to a string builder
+	/* Private helper that recursively adds to a string builder.
 	 * 
 	 * @param sb the string builder
 	 * @param node the node to add
