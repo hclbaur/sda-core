@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Objects;
 
 import be.baur.sda.Node;
 
@@ -28,7 +29,7 @@ public interface Formatter<T extends Node> {
 	 * <i>Note:</i> mplementations may flush() but must not close() the output
 	 * stream.
 	 * 
-	 * @param output an output stream
+	 * @param output an output stream, not null
 	 * @param node   the node to be rendered
 	 * @throws IOException if an I/O operation failed
 	 */
@@ -42,8 +43,9 @@ public interface Formatter<T extends Node> {
 	 * @param file the file to be created or overwritten
 	 * @throws IOException if an I/O operation failed
 	 */
-	default void format(File file, T node) throws IOException {
+	default void format(final File file, T node) throws IOException {
 
+		Objects.requireNonNull(file, "input file must not be null");
 		BufferedWriter output = new BufferedWriter(
 			new OutputStreamWriter(new FileOutputStream(file), "UTF-8")
 		);

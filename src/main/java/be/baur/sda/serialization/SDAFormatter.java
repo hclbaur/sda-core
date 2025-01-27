@@ -6,6 +6,7 @@ package be.baur.sda.serialization;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
+import java.util.Objects;
 
 import be.baur.sda.DataNode;
 import be.baur.sda.SDA;
@@ -46,6 +47,7 @@ public final class SDAFormatter implements Formatter<DataNode> {
 	 * @throws IllegalArgumentException if depth is less than 0.
 	 */
 	public SDAFormatter(int depth) {
+
 		if (depth < 0) throw 
 			new IllegalArgumentException("invalid indentation depth (" + depth + ")");
 		this.indent = new String(new char[depth]).replace("\0", " ");
@@ -54,10 +56,12 @@ public final class SDAFormatter implements Formatter<DataNode> {
 	
 	/**
 	 * Serialize a data node in SDA format and write it to a character output
-	 * stream. This method will ignore a null reference (and write nothing).
+	 * stream. This method will ignore a null node reference (and write nothing).
 	 */
 	@Override
-	public void format(Writer output, DataNode node) throws IOException {
+	public void format(final Writer output, DataNode node) throws IOException {
+
+		Objects.requireNonNull(output, "output writer must not be null");
 		if (node != null) {
 			format(output, node, "");
 			output.flush();

@@ -2,6 +2,8 @@ package be.baur.sda.serialization;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.StringReader;
+import java.util.Objects;
 
 import be.baur.sda.Node;
 
@@ -18,10 +20,31 @@ public interface Parser<T extends Node> {
 	 * Creates a node from a character input stream.
 	 * 
 	 * @param input an input stream
-	 * @return a (root) node
+	 * @return a (root) node, never null
 	 * @throws IOException    if an I/O operation failed
 	 * @throws ParseException if a parsing error occurs
 	 */
-	T parse(Reader input) throws IOException, ParseException;
+	public T parse(Reader input) throws IOException, ParseException;
 
+
+	/**
+	 * Creates a node from a string.
+	 * 
+	 * @param input an input string, not null
+	 * @return a (root) node, never null
+	 * @throws IOException    if an I/O operation failed
+	 * @throws ParseException if a parsing error occurs
+	 */
+	default T parse(String input) throws IOException, ParseException {
+
+		Objects.requireNonNull(input, "input string must not be null");
+		return parse(new StringReader(input));
+	}
+
+	public static void main(String[] args) throws ParseException, IOException {
+		SDAParser p = new SDAParser();
+		StringReader t = null;   // NPE !
+		//String t = null;   // NPE !
+		p.parse(t);
+	}
 }
