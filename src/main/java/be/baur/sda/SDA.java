@@ -1,5 +1,6 @@
 package be.baur.sda;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
@@ -164,7 +165,6 @@ public final class SDA {
 	
 	
 	private static SDAParser PARSER = new SDAParser();  // singleton parser
-	private static SDAFormatter FORMATTER = new SDAFormatter();  // singleton formatter
 	
 	/**
 	 * Creates a data node from a character input stream in SDA format, using the
@@ -179,11 +179,13 @@ public final class SDA {
 		return PARSER.parse(input);
 	}
 	
+
+	private static SDAFormatter FORMATTER = new SDAFormatter();  // singleton formatter
 	
 	/**
 	 * A convenience method to format a data node using the default SDA formatter.
 	 * 
-	 * @see SDAFormatter#format
+	 * @see SDAFormatter
 	 * 
 	 * @param output an output stream
 	 * @param node   the node to be rendered
@@ -191,5 +193,33 @@ public final class SDA {
 	 */
 	public static void format(Writer output, DataNode node) throws IOException {
 		FORMATTER.format(output, node);
+	}
+
+
+	/**
+	 * A convenience method to format a data node using the default SDA formatter.
+	 * 
+	 * @see SDAFormatter
+	 * 
+	 * @param node the node to be rendered
+	 * @param file the file to be created or overwritten
+	 * @throws IOException if an I/O operation failed
+	 */
+	public static void format(File file, DataNode node) throws IOException {
+		FORMATTER.format(file, node);
+	}
+
+
+	/**
+	 * A convenience method to format a data node using the default SDA formatter.
+	 * 
+	 * @see SDAFormatter
+	 * 
+	 * @param node the node to be rendered
+	 * @return a string representing the node
+	 * @throws IOException if an I/O operation failed
+	 */
+	public static String format(DataNode node) throws IOException {
+		return FORMATTER.format(node);
 	}
 }

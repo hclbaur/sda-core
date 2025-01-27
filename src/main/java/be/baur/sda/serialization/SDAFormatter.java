@@ -24,6 +24,8 @@ import be.baur.sda.SDA;
  * }
  * </pre>
  * 
+ * Once created, this formatter is stateless and reusable.
+ * <p>
  * @see DataNode
  */
 public final class SDAFormatter implements Formatter<DataNode> {
@@ -51,35 +53,28 @@ public final class SDAFormatter implements Formatter<DataNode> {
 	
 	
 	/**
-	 * Serialize a data node to an SDA string and write it to a character output
+	 * Serialize a data node in SDA format and write it to a character output
 	 * stream. This method will ignore a null reference (and write nothing).
 	 */
 	@Override
 	public void format(Writer output, DataNode node) throws IOException {
 		if (node != null) {
-			StringBuilder sb = new StringBuilder();
-			formatNode(sb, node, "");
-			output.write(sb.toString());
+			format(output, node, "");
 			output.flush();
 		}
 	}
 
-	
-	/* Private helper that recursively adds to a string builder.
-	 * 
-	 * @param sb the string builder
-	 * @param node the node to add
-	 * @param indent the indentation
-	 * @throws IOException
-	 */
-	private void formatNode(StringBuilder sb, DataNode node, String indent) throws IOException {
+
+	/* Private helper to create SDA content. 
+	 * */
+	private void format(Writer output, DataNode node, String indent) throws IOException {
 		
 		final boolean isLeaf = node.isLeaf();
 		
-		sb.append(indent).append(node.getName());
+		output.append(indent).append(node.getName());
 		
 		if (! node.getValue().isEmpty() || isLeaf)
-			sb.append(" ").append((char) SDA.QUOTE)
+			output.append(" ").append((char) SDA.QUOTE)
 			  .append(SDA.encode(node.getValue()))
 			  .append((char) SDA.QUOTE);
 	
@@ -87,13 +82,13 @@ public final class SDAFormatter implements Formatter<DataNode> {
 			List<DataNode> nodes = node.nodes();
 			boolean empty = nodes.isEmpty();
 		
-			sb.append(" ").append((char)SDA.LBRACE).append((empty ? " " : "\n"));
+			output.append(" ").append((char)SDA.LBRACE).append((empty ? " " : "\n"));
 			if (! empty) for (DataNode child : nodes) 
-				formatNode(sb, child, indent + this.indent);
-			sb.append(empty ? "" : indent).append((char) SDA.RBRACE);
+				format(output, child, indent + this.indent); // recursive call
+			output.append(empty ? "" : indent).append((char) SDA.RBRACE);
 		}
 		
-		sb.append("\n");
+		output.append("\n");
 	}
 
 }

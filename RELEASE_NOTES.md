@@ -1,16 +1,18 @@
 # Release Notes
 
-## [2.2.1] - 2024-??-??
+## [2.2.1] - 2025-??-??
 
 In development.
 
 - Added DataNode.copy() method.
 - Added Node.findDescendant() method.
+- Added default methods Formatter.format(File, Node) and Formatter.format(Node).
+- Added convenience methods SDA.format(File, DataNode) and SDA.format(DataNode).
 - Closed issue #16 (SDAFormatter throws if input node is null).
 
 ## Compatibility
 
-- Requires at least Java 8.
+- Requires Java 8.
 
 ## Previous releases
 
