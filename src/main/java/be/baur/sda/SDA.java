@@ -187,7 +187,7 @@ public final class SDA {
 	 * 
 	 * @see SDAFormatter
 	 * 
-	 * @param output an output stream
+	 * @param output an output stream, not null
 	 * @param node   the node to be rendered
 	 * @throws IOException if an I/O operation failed
 	 */
@@ -202,7 +202,7 @@ public final class SDA {
 	 * @see SDAFormatter
 	 * 
 	 * @param node the node to be rendered
-	 * @param file the file to be created or overwritten
+	 * @param file the file to be created or overwritten, not null
 	 * @throws IOException if an I/O operation failed
 	 */
 	public static void format(File file, DataNode node) throws IOException {
@@ -220,6 +220,6 @@ public final class SDA {
 	 * @throws IOException if an I/O operation failed
 	 */
 	public static String format(DataNode node) throws IOException {
-		return FORMATTER.format(node);
+		return FORMATTER.format(node); // will never throw, but ok
 	}
 }
