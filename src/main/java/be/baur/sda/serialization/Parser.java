@@ -1,7 +1,10 @@
 package be.baur.sda.serialization;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.Objects;
@@ -39,8 +42,20 @@ public interface Parser<T extends Node> {
 	default T parse(File file) throws IOException, ParseException {
 
 		Objects.requireNonNull(file, "input file must not be null");
-		return null; // implement, do not forget to remove main method
-
+		try (
+			FileInputStream fs = new FileInputStream(file);
+			Reader is = new InputStreamReader(fs, "UTF-8");
+			Reader br = new BufferedReader(is);
+		) {
+			return parse(br);
+		} catch (IOException e) {
+			throw new IOException("error reading from " + file, e);
+		}
+//		catch (ParseException e) {
+//			// I want to re-throw after adding the file name as extra information, but how? 
+//			// Enhance ParseException? Make a FileParseException?
+//			throw e;
+//		}
 	}
 
 
@@ -58,6 +73,8 @@ public interface Parser<T extends Node> {
 		return parse(new StringReader(input));
 	}
 
+	
+	// must delete this later
 	public static void main(String[] args) throws ParseException, IOException {
 		SDAParser p = new SDAParser();
 		StringReader t = null;   // NPE !
