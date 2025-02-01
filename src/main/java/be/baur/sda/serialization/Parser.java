@@ -48,14 +48,13 @@ public interface Parser<T extends Node> {
 			Reader br = new BufferedReader(is);
 		) {
 			return parse(br);
-		} catch (IOException e) {
+		} 
+		catch (IOException e) {
 			throw new IOException("error reading from " + file, e);
 		}
-//		catch (ParseException e) {
-//			// I want to re-throw after adding the file name as extra information, but how? 
-//			// Enhance ParseException? Make a FileParseException?
-//			throw e;
-//		}
+		catch (ParseException e) {
+			throw new FileParseException(file.toString(), e);
+		}
 	}
 
 
@@ -73,12 +72,4 @@ public interface Parser<T extends Node> {
 		return parse(new StringReader(input));
 	}
 
-	
-	// must delete this later
-	public static void main(String[] args) throws ParseException, IOException {
-		SDAParser p = new SDAParser();
-		StringReader t = null;   // NPE !
-		//String t = null;   // NPE !
-		p.parse(t);
-	}
 }

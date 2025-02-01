@@ -24,12 +24,12 @@ public final class TestSDAParser {
 	
 	public static void main(String[] args) throws Exception {
 
-		Node hello = parser.parse(new StringReader("message\"greeting\"{text\"hello world\"}"));
+		Node hello = parser.parse("message\"greeting\"{text\"hello world\"}");
 		System.out.println(hello);
 
 		Function<String, String> strfun = str -> {
 			try {
-				return parser.parse(new StringReader(str)).toString();
+				return parser.parse(str).toString();
 			} catch (Exception e) {
 				return e.getLocalizedMessage();
 			}
@@ -78,7 +78,7 @@ public final class TestSDAParser {
 		
 		UnitTestPerformance<String> perf = new UnitTestPerformance<String>(str -> {
 			try {
-				parser.parse(new StringReader(str));
+				parser.parse(str);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
