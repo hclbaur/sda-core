@@ -2,35 +2,45 @@ package be.baur.sda.serialization;
 
 /**
  * A {@code FileParseException} is thrown by a {@code Parser} if a parsing error
- * occurs while processing character input read from a file.
+ * occurs while processing character input read from a file. The 
  * 
  * @see Parser
  */
 @SuppressWarnings("serial")
 public class FileParseException extends ParseException {
 
-	private String fileName; // name of the file that is being parsed
+	private String filename; // name of the file that is being parsed
 	
 	/**
 	 * Creates a file parse exception caused by a parse exception.
 	 * 
-	 * @param fileName name of the file being parsed
+	 * @param filename the name of the file being parsed
 	 * @param cause    the exception causing this exception to be thrown
 	 */
-	public FileParseException(String fileName, ParseException cause) {
+	public FileParseException(String filename, ParseException cause) {
 		super(cause.getMessage(), cause.getErrorOffset());
-		initCause(cause); this.fileName = fileName;
+		initCause(cause); this.filename = filename;
 	}
 
 
 	/**
-	 * Returns a pre-formatted message that includes the filename and error position (offset).
+	 * Returns the name of the file the error occurred in.
 	 * 
-	 * @return "error parsing <i>filename</i> at position <i>offset</i>: <i>error text</i>"
+	 * @return a file name
+	 */
+	public String getErrorFilename() {
+		return filename;
+	}
+	
+	
+	/**
+	 * Returns a pre-formatted message that includes the filename.
+	 * 
+	 * @return "error parsing <i>filename</i>: <i>error text</i>"
 	 */
 	@Override
 	public String getLocalizedMessage() {
-		return "error parsing " + fileName + " at position " + getErrorOffset() + ": " + getMessage();
+		return "error parsing " + filename + ": " + getMessage();
 	}
 
 }

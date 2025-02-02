@@ -1,6 +1,5 @@
 package test;
 
-import java.io.StringReader;
 import java.util.function.Function;
 
 import be.baur.sda.Node;
