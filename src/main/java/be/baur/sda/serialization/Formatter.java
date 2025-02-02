@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Objects;
 
 import be.baur.sda.Node;
 
@@ -25,10 +26,10 @@ public interface Formatter<T extends Node> {
 	/**
 	 * Serializes and writes a node to a character output stream.
 	 * <p>
-	 * <i>Note:</i> mplementations may flush() but must not close() the output
-	 * stream.
+	 * <i>Note:</i> Implementations should typically flush() but must not close()
+	 * the output stream.
 	 * 
-	 * @param output an output stream
+	 * @param output an output stream, not null
 	 * @param node   the node to be rendered
 	 * @throws IOException if an I/O operation failed
 	 */
@@ -39,17 +40,22 @@ public interface Formatter<T extends Node> {
 	 * Serializes a node and writes it to a file in UTF-8 encoding.
 	 * 
 	 * @param node the node to be rendered
-	 * @param file the file to be created or overwritten
+	 * @param file the file to be created or overwritten, not null
 	 * @throws IOException if an I/O operation failed
 	 */
-	default void format(File file, T node) throws IOException {
+	default void format(final File file, T node) throws IOException {
 
-		BufferedWriter output = new BufferedWriter(
-			new OutputStreamWriter(new FileOutputStream(file), "UTF-8")
-		);
-		format(output, node);
-		output.close();
-	}	
+		Objects.requireNonNull(file, "input file must not be null");
+		try (
+			FileOutputStream fs = new FileOutputStream(file);
+			Writer os = new OutputStreamWriter(fs, "UTF-8");
+			Writer bw = new BufferedWriter(os);
+		) {
+			format(bw, node);
+		} catch (Exception e) {
+			throw new IOException("error writing to " + file, e);
+		}
+	}
 		
 	
 	/**
@@ -61,9 +67,13 @@ public interface Formatter<T extends Node> {
 	 */
 	default String format(T node) throws IOException {
 
-		Writer output = new StringWriter();
-		format(output, node);
-		return output.toString();
+		Writer sw = new StringWriter();
+		try {
+			format(sw, node);
+		} catch (Exception e) {
+			throw new IOException("error formatting node " + node.getName(), e);
+		}
+		return sw.toString();
 	}
-	
+
 }
