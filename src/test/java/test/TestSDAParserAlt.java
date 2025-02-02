@@ -1,6 +1,5 @@
 package test;
 
-import java.io.StringReader;
 import java.util.function.Function;
 
 import be.baur.sda.Node;
@@ -26,12 +25,12 @@ public final class TestSDAParserAlt {
 	
 	public static void main(String[] args) throws Exception {
 
-		Node helloworld = parser.parse(new StringReader("greeting{message\"hello world\"}"));
+		Node helloworld = parser.parse("greeting{message\"hello world\"}");
 		System.out.println(helloworld);
 
 		Function<String, String> strfun = str -> {
 			try {
-				return parser.parse(new StringReader(str)).toString();
+				return parser.parse(str).toString();
 			} catch (Exception e) {
 				return ((SDAParseException)e).getLocalizedMessage();
 			}
@@ -70,7 +69,7 @@ public final class TestSDAParserAlt {
 		// test performance
 		UnitTestPerformance<String> p = new UnitTestPerformance<String>(str -> {
 			try {
-				parser.parse(new StringReader(str));
+				parser.parse(str);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

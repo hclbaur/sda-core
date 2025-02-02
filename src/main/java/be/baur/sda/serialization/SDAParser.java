@@ -2,6 +2,7 @@ package be.baur.sda.serialization;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Objects;
 
 import be.baur.sda.DataNode;
 import be.baur.sda.SDA;
@@ -40,6 +41,7 @@ public final class SDAParser implements Parser<DataNode> {
 	@Override
 	public DataNode parse(Reader input) throws IOException, SDAParseException {
 
+		Objects.requireNonNull(input, "input reader must not be null");
 		final Scanner scanner = new Scanner(input);
 		
 		scanner.advance(true); // advance to the first non-whitespace character

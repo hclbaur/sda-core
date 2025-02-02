@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 
+import be.baur.sda.serialization.ParseException;
 import be.baur.sda.serialization.SDAFormatter;
 import be.baur.sda.serialization.SDAParseException;
 import be.baur.sda.serialization.SDAParser;
@@ -167,8 +168,7 @@ public final class SDA {
 	private static SDAParser PARSER = new SDAParser();  // singleton parser
 	
 	/**
-	 * Creates a data node from a character input stream in SDA format, using the
-	 * default SDA parser.
+	 * Creates a data node from a character stream, using the default SDA parser.
 	 * 
 	 * @param input an input stream
 	 * @return a (root) node
@@ -179,15 +179,42 @@ public final class SDA {
 		return PARSER.parse(input);
 	}
 	
+	
+	/**
+	 * Creates a data node from an input file, using the default SDA parser.
+	 * 
+	 * @param file an input file
+	 * @return a (root) node
+	 * @throws IOException    if an I/O operation failed
+	 * @throws ParseException if an SDA parsing error occurs
+	 */
+	public static DataNode parse(File file) throws IOException, ParseException {
+		return PARSER.parse(file);
+	}
+	
+	
+	/**
+	 * Creates a data node from a string, using the default SDA parser.
+	 * 
+	 * @param input an input string
+	 * @return a (root) node
+	 * @throws IOException    if an I/O operation failed
+	 * @throws ParseException if an SDA parsing error occurs
+	 */
+	public static DataNode parse(String input) throws IOException, ParseException {
+		return PARSER.parse(input);
+	}
+	
 
 	private static SDAFormatter FORMATTER = new SDAFormatter();  // singleton formatter
 	
 	/**
-	 * A convenience method to format a data node using the default SDA formatter.
+	 * Writes a formatted data node to a character stream, using the default SDA
+	 * formatter.
 	 * 
 	 * @see SDAFormatter
 	 * 
-	 * @param output an output stream
+	 * @param output an output stream, not null
 	 * @param node   the node to be rendered
 	 * @throws IOException if an I/O operation failed
 	 */
@@ -197,12 +224,12 @@ public final class SDA {
 
 
 	/**
-	 * A convenience method to format a data node using the default SDA formatter.
+	 * Writes a formatted data node to a file, using the default SDA formatter.
 	 * 
 	 * @see SDAFormatter
 	 * 
 	 * @param node the node to be rendered
-	 * @param file the file to be created or overwritten
+	 * @param file the file to be created or overwritten, not null
 	 * @throws IOException if an I/O operation failed
 	 */
 	public static void format(File file, DataNode node) throws IOException {
@@ -211,7 +238,7 @@ public final class SDA {
 
 
 	/**
-	 * A convenience method to format a data node using the default SDA formatter.
+	 * Formats a data node as a string, using the default SDA formatter.
 	 * 
 	 * @see SDAFormatter
 	 * 
@@ -220,6 +247,6 @@ public final class SDA {
 	 * @throws IOException if an I/O operation failed
 	 */
 	public static String format(DataNode node) throws IOException {
-		return FORMATTER.format(node);
+		return FORMATTER.format(node); // will never throw, but ok
 	}
 }

@@ -1,4 +1,4 @@
-import java.io.FileReader;
+import java.io.File;
 import java.util.List;
 
 import be.baur.sda.DataNode;
@@ -9,8 +9,7 @@ public class demo {
 
 	public static void main(String[] args) throws Exception {
 		
-		FileReader fin = new FileReader(args[0]);
-		Node root = SDA.parse(fin);
+		Node root = SDA.parse(new File(args[0]));
 		
 		if (! root.isParent()) return;
 

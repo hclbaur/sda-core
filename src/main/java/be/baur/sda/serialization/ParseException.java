@@ -11,13 +11,13 @@ public abstract class ParseException extends java.text.ParseException {
 
 	/**
 	 * Creates a parse exception with an error message and offset (counted in
-	 * characters from the start of the input).
+	 * number of characters read up to the point where the error occurred).
 	 * 
 	 * @param message     an error message
-	 * @param errorOffset the position where the error was found
+	 * @param errorOffset the error position, non-negative integer
 	 */
 	public ParseException(String message, int errorOffset) {
-		super(message, errorOffset); 
+		super(message, errorOffset < 0 ? 0 : errorOffset); 
 	}
 
 
