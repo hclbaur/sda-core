@@ -11,7 +11,7 @@ The following grammar describes an SDA document in EBNF notation:
 
 <b>nodeset</b> = '{', [<b>ws</b>], {<b>node</b>}, [<b>ws</b>], '}'
 
-<b>tag</b> = {'_'}, <b>letter</b>, { <b>letter</b> | <b>digit</b> | '_' } ;
+<b>tag</b> = ( '_', <b>digit</b> | {'_'}, <b>letter</b> ), { <b>letter</b> | <b>digit</b> | '_' } ;
 
 <b>letter</b> = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J'
        | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T'
@@ -36,8 +36,8 @@ An SDA document consists of a single (root) node, which is composed of a name
 tag and a value, or a tag with an optional value followed by a set of zero or 
 more child nodes - all of which may be separated by whitespace.
 
-A tag is an identifier that starts with zero or more underscores and a letter, 
-then followed by any number of letters, digits and/or underscores.
+A tag consists of letters, digits and underscores. It cannot start with a digit 
+and must contain at least one character that is not an underscore.
 
 A value is a character string enclosed in double quotes. A backslash must be 
 used to escape any double quotes or backslashes that are part of the value.

@@ -60,7 +60,7 @@ For SDA to be syntactically sound, the following rules must be followed:
 
 ### Tags
 
-Node names (tags) are case sensitive tokens (so they cannot contain whitespace). This means that the following tags
+Node names are case sensitive tokens (so they cannot contain whitespace). This means that the following tags
 
 	myname "John"
 	MYNAME "John"
