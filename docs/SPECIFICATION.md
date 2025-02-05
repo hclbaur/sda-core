@@ -1,30 +1,28 @@
 # SDA Specification
 
-The following grammar describes an SDA document in EBNF notation:
+The following grammar describes an SDA document in EBNF notation, following the
+notation rules for XML grammar, located [here](https://www.w3.org/TR/xml/#sec-notation):
 
 <pre>
 
 <b>sda</b> = <b>node</b> ;
 
-<b>node</b> = <b>tag</b>, [<b>ws</b>], <b>value</b> 
-     | <b>tag</b>, [<b>ws</b>], [<b>value</b>], [<b>ws</b>], <b>nodeset</b> ;
+<b>node</b> = <b>tag</b> <b>ws</b>? <b>value</b> 
+     | <b>tag</b> <b>ws</b>? <b>value</b>? <b>ws</b>? <b>nodeset</b> ;
 
-<b>nodeset</b> = '{', [<b>ws</b>], {<b>node</b>}, [<b>ws</b>], '}'
+<b>nodeset</b> = '{' <b>ws</b>? (<b>node</b> <b>ws</b>?)* '}'
 
-<b>tag</b> = ( '_', <b>digit</b> | {'_'}, <b>letter</b> ), { <b>letter</b> | <b>digit</b> | '_' } ;
+<b>tag</b> = ('_'* <b>letter</b> | '_' <b>digit</b>) (<b>letter</b> | <b>digit</b> | '_')* ;
 
-<b>letter</b> = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J'
-       | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T'
-	   | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z'
-	   | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j'
-	   | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't'
-	   | 'u' | 'v' | 'w' | 'x' | 'y' | 'z' ;
+tagstart = '_' | letter
+tag = stagstart (tagstart | digit)*
+CORRECT?
 
-<b>digit</b> = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' ;
+<b>value</b> = '"' ( [^"\] | '\"' | '\\' )* '"' ;
 
-<b>value</b> = '"', { ( <b>characters</b> - '"' - '\' ) | '\"' | '\\' }, '"' ;
+<b>letter</b> = [a-zA-Z] ;
 
-<b>characters</b> = ? all characters ?
+<b>digit</b> = [0-9] ;
 
 <b>ws</b> = ? white space characters ?
 
