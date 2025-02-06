@@ -74,7 +74,7 @@ public final class SDA {
 	 * @return true or false
 	 */
 	public static boolean isNamePart(int c) {
-		return (isLetter(c) || isDigit(c) || c == USCORE);
+		return (isLetter(c) || c == USCORE || isDigit(c));
 	}
 	
 	
@@ -87,9 +87,6 @@ public final class SDA {
 	 * @param name a string
 	 * @return true or false
 	 */
-//	public static boolean isName(String name) {
-//		return (name == null) ? false : SourceVersion.isIdentifier(name);
-//	}
 	public static boolean isName(String name) {
 		
 		if (name == null || name.isEmpty()) return false;
@@ -109,7 +106,8 @@ public final class SDA {
 		
 		return (alfanum > 0);
 	}
-	
+
+
 /*
 	public static void main(String[] args) {
 
@@ -124,15 +122,17 @@ public final class SDA {
 		s="aa"; System.out.println(s + ": " + isName(s));
 		s="_a"; System.out.println(s + ": " + isName(s));
 		s="a_"; System.out.println(s + ": " + isName(s));
+		s="_2"; System.out.println(s + ": " + isName(s));
 		s="a2"; System.out.println(s + ": " + isName(s));
+		s="2a"; System.out.println(s + ": " + isName(s));
 		
 		s="a a"; System.out.println(s + ": " + isName(s));	
 		s="___"; System.out.println(s + ": " + isName(s));	
 		
 		s="_a_"; System.out.println(s + ": " + isName(s));	
 		s="a_a"; System.out.println(s + ": " + isName(s));	
-		
-		long runs = 20;
+	
+		long runs = 30;
 		long total = 0, r = runs;
 		while (r > 0) {
 			long i = 10000000;
@@ -147,7 +147,7 @@ public final class SDA {
 		}
 		System.out.print(" avg: " + (total/runs));
 	}
-*/	
+*/
 
 
 	private static final String bslash = "" + (char)SDA.BSLASH;
