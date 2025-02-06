@@ -7,16 +7,12 @@ notation rules for XML grammar, located [here](https://www.w3.org/TR/xml/#sec-no
 
 <b>sda</b> = <b>node</b> ;
 
-<b>node</b> = <b>tag</b> <b>ws</b>? <b>value</b> 
-     | <b>tag</b> <b>ws</b>? <b>value</b>? <b>ws</b>? <b>nodeset</b> ;
+<b>node</b> = <b>tag</b> <b>S</b>? <b>value</b> 
+     | <b>tag</b> <b>S</b>? <b>value</b>? <b>S</b>? <b>nodeset</b> ;
 
-<b>nodeset</b> = '{' <b>ws</b>? (<b>node</b> <b>ws</b>?)* '}'
+<b>nodeset</b> = '{' <b>S</b>? (<b>node</b> <b>S</b>?)* '}'
 
-<b>tag</b> = ('_'* <b>letter</b> | '_' <b>digit</b>) (<b>letter</b> | <b>digit</b> | '_')* ;
-
-tagstart = '_' | letter
-tag = stagstart (tagstart | digit)*
-CORRECT?
+<b>tag</b> = (<b>us</b>* <b>letter</b> | <b>us</b> <b>digit</b>) (<b>us</b> | <b>letter</b> | <b>digit</b>)* ;
 
 <b>value</b> = '"' ( [^"\] | '\"' | '\\' )* '"' ;
 
@@ -24,7 +20,9 @@ CORRECT?
 
 <b>digit</b> = [0-9] ;
 
-<b>ws</b> = ? white space characters ?
+<b>us</b> = '_' ;
+
+<b>S</b> = ? white space characters ?
 
 </pre>
 
