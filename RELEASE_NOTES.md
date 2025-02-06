@@ -11,7 +11,7 @@ In development.
 - Added default methods Formatter.format(File, Node) and Formatter.format(Node).
 - Added convenience methods SDA.format(File, DataNode) and SDA.format(DataNode).
 - Closed issue #16 (SDAFormatter throws if input node is null).
-- Closed issue #17 (Add a parse(File) method and review exceptions).
+- Closed issue #12 (Add a parse(File) method and review exceptions).
 
 ## Compatibility
 
