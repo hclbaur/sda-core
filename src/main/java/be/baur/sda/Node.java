@@ -97,12 +97,14 @@ public interface Node {
 
 
 	/**
-	 * Removes a child node from this node. Implementations should specify how
-	 * special cases like null or non-child nodes (or other anomalies) are handled.
+	 * Removes a child node from this node. This method takes after the remove
+	 * method of the {@code Collection} interface and implementations should strive
+	 * to comply with the specified requirements.
+	 * 
+	 * @see Collection#remove(Object)
 	 * 
 	 * @param node the node to be removed
-	 * @return true if the node was removed, false otherwise
-	 * @see #add
+	 * @return true if this node changed as a result of the call
 	 */
 	boolean remove(Node node);
 
