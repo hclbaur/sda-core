@@ -84,13 +84,13 @@ public interface Node {
 
 
 	/**
-	 * Adds a child node to this node. This method is modeled after the add method
-	 * of the {@code Collection} interface and implementations should strive to
-	 * comply with the specified requirements.
+	 * Adds a child node to this node. This method takes after the add method of the
+	 * {@code Collection} interface and implementations should strive to comply with
+	 * the specified requirements.
 	 * 
 	 * @see Collection#add(Object)
 	 * 
-	 * @param node a node to be added
+	 * @param node the node to be added
 	 * @return true if this node changed as a result of the call
 	 */
 	boolean add(Node node);
@@ -100,7 +100,7 @@ public interface Node {
 	 * Removes a child node from this node. Implementations should specify how
 	 * special cases like null or non-child nodes (or other anomalies) are handled.
 	 * 
-	 * @param node a node to be removed
+	 * @param node the node to be removed
 	 * @return true if the node was removed, false otherwise
 	 * @see #add
 	 */
