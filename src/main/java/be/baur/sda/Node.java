@@ -1,6 +1,7 @@
 package be.baur.sda;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -83,21 +84,23 @@ public interface Node {
 
 
 	/**
-	 * Adds a child node to this node. Implementations should specify how special
-	 * cases like null or duplicate nodes (or other anomalies) are handled.
+	 * Adds a child node to this node. This method takes after the add method of the
+	 * {@code Collection} interface and implementations should strive to comply with
+	 * the specified requirements.
 	 * 
-	 * @param node a node to be added
-	 * @return true if the node was added, false otherwise
-	 * @see #remove
+	 * @see Collection#add(Object)
+	 * 
+	 * @param node the node to be added
+	 * @return true if this node changed as a result of the call
 	 */
-	<T extends Node> boolean add(T node);
+	boolean add(Node node);
 
 
 	/**
 	 * Removes a child node from this node. Implementations should specify how
 	 * special cases like null or non-child nodes (or other anomalies) are handled.
 	 * 
-	 * @param node a node to be removed
+	 * @param node the node to be removed
 	 * @return true if the node was removed, false otherwise
 	 * @see #add
 	 */
