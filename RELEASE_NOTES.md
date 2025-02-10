@@ -4,6 +4,7 @@
 
 In development.
 
+- `Renamed` Node.find() to getAll() and findDescendants() to find().
 - `Renamed` ProcessingException to NodeException.
 - `Renamed` package be.baur.sda.serialization to be.baur.sda.io.
 - Added DataNode.copy() method.
