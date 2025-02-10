@@ -20,13 +20,13 @@ public final class TestNodeList {
 		String filename = TestNodeList.class.getResource("/addressbook.sda").getFile();
 		DataNode book = SDA.parse(new File(filename));
 		
-		List<DataNode> contacts = book.find("contact");
+		List<DataNode> contacts = book.getAll("contact");
 		
 		List<Node> names = new ArrayList<Node>();
 		contacts.forEach(n -> names.add( n.get("firstname") ));
 		
 		//contacts.stream().flatMap(n -> n.find("phonenumber").stream()).forEach(n -> numbers.add(n));
-		List<Node> numbers = book.findDescendant(n -> n.getName().equals("phonenumber"));
+		List<Node> numbers = book.find(n -> n.getName().equals("phonenumber"));
 		
 		t.ts1("S01", book.path(), "/addressbook");
 		t.ts1("S02", contacts.get(0).getValue(), "1");

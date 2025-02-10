@@ -145,8 +145,8 @@ public interface Node {
 	 * @param name a node name
 	 * @return a list, not null
 	 */
-	default <T extends Node> List<T> find(final String name) {
-		return find(n -> n.getName().equals(name));
+	default <T extends Node> List<T> getAll(String name) {
+		return getAll(n -> n.getName().equals(name));
 	}
 
 
@@ -158,7 +158,7 @@ public interface Node {
 	 * @return a list, not null
 	 */
 	@SuppressWarnings("unchecked")
-	default <T extends Node> List<T> find(Predicate<? super Node> predicate) {
+	default <T extends Node> List<T> getAll(Predicate<? super Node> predicate) {
 		List<T> list = new ArrayList<T>();
 		for (Node node : nodes())
 			if (predicate.test(node))
@@ -176,12 +176,12 @@ public interface Node {
 	 * @return a list, not null
 	 */
 	@SuppressWarnings("unchecked")
-	default <T extends Node> List<T> findDescendant(Predicate<? super Node> predicate) {
+	default <T extends Node> List<T> find(Predicate<? super Node> predicate) {
 		List<T> list = new ArrayList<T>();
 		for (Node node : nodes()) {
 			if (predicate.test(node))
 				list.add((T) node);
-			list.addAll(node.findDescendant(predicate));
+			list.addAll(node.find(predicate));
 		}
 		return list;
 	}
@@ -199,7 +199,7 @@ public interface Node {
 		
 		final String name = getName();
 		final Node parent = getParent();
-		final List<Node> same = (parent != null) ? parent.find(name) : null;
+		final List<Node> same = (parent != null) ? parent.getAll(name) : null;
 		final int pos = (same != null && same.size() > 1) ? same.indexOf(this)+1 : 0;
 
 		return (parent != null ? parent.path() : "")
