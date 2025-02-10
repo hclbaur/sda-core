@@ -2,7 +2,8 @@
 
 ## [2.3.0] - 2025-02-10
 
-In development.
+This year's first release adds a few convenience methods, closes a minor issue
+and renames a package, a class and two methods (merely for aesthetic reasons).
 
 - `Renamed` Node.find() to Node.getAll().
 - `Renamed` ProcessingException to NodeException.
