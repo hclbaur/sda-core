@@ -4,6 +4,7 @@
 
 In development.
 
+- `Renamed` ProcessingException to NodeException.
 - `Renamed` package be.baur.sda.serialization to be.baur.sda.io.
 - Added DataNode.copy() method.
 - Added Node.findDescendant() method.
