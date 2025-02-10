@@ -1,13 +1,12 @@
 package test;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import be.baur.sda.DataNode;
 import be.baur.sda.Node;
 import be.baur.sda.SDA;
-import be.baur.sda.DataNode;
 
 public final class TestNodeList {
 
@@ -17,17 +16,19 @@ public final class TestNodeList {
 			return s;
 		});
 		
-		InputStream in = TestNodeList.class.getResourceAsStream("/addressbook.sda");
-		Node addressbook = SDA.parse(new InputStreamReader(in,"UTF-8"));
+
+		String filename = TestNodeList.class.getResource("/addressbook.sda").getFile();
+		DataNode book = SDA.parse(new File(filename));
 		
-		List<DataNode> contacts = addressbook.find("contact");
+		List<DataNode> contacts = book.getAll("contact");
+		
 		List<Node> names = new ArrayList<Node>();
-		List<Node> numbers = new ArrayList<Node>();
-		
 		contacts.forEach(n -> names.add( n.get("firstname") ));
-		contacts.stream().flatMap(n -> n.find("phonenumber").stream()).forEach(n -> numbers.add(n));
 		
-		t.ts1("S01", addressbook.path(), "/addressbook");
+		//contacts.stream().flatMap(n -> n.find("phonenumber").stream()).forEach(n -> numbers.add(n));
+		List<Node> numbers = book.find(n -> n.getName().equals("phonenumber"));
+		
+		t.ts1("S01", book.path(), "/addressbook");
 		t.ts1("S02", contacts.get(0).getValue(), "1");
 		t.ts1("S03", contacts.get(0).path(), "/addressbook/contact[1]");
 		t.ts1("S04", contacts.get(1).getValue(), "2");

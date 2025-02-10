@@ -1,12 +1,14 @@
 package be.baur.sda;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 
-import be.baur.sda.serialization.SDAFormatter;
-import be.baur.sda.serialization.SDAParseException;
-import be.baur.sda.serialization.SDAParser;
+import be.baur.sda.io.ParseException;
+import be.baur.sda.io.SDAFormatter;
+import be.baur.sda.io.SDAParseException;
+import be.baur.sda.io.SDAParser;
 
 /**
  * This class defines static constants and utility methods.
@@ -72,7 +74,7 @@ public final class SDA {
 	 * @return true or false
 	 */
 	public static boolean isNamePart(int c) {
-		return (isLetter(c) || isDigit(c) || c == USCORE);
+		return (isLetter(c) || c == USCORE || isDigit(c));
 	}
 	
 	
@@ -85,9 +87,6 @@ public final class SDA {
 	 * @param name a string
 	 * @return true or false
 	 */
-//	public static boolean isName(String name) {
-//		return (name == null) ? false : SourceVersion.isIdentifier(name);
-//	}
 	public static boolean isName(String name) {
 		
 		if (name == null || name.isEmpty()) return false;
@@ -107,7 +106,8 @@ public final class SDA {
 		
 		return (alfanum > 0);
 	}
-	
+
+
 /*
 	public static void main(String[] args) {
 
@@ -122,15 +122,17 @@ public final class SDA {
 		s="aa"; System.out.println(s + ": " + isName(s));
 		s="_a"; System.out.println(s + ": " + isName(s));
 		s="a_"; System.out.println(s + ": " + isName(s));
+		s="_2"; System.out.println(s + ": " + isName(s));
 		s="a2"; System.out.println(s + ": " + isName(s));
+		s="2a"; System.out.println(s + ": " + isName(s));
 		
 		s="a a"; System.out.println(s + ": " + isName(s));	
 		s="___"; System.out.println(s + ": " + isName(s));	
 		
 		s="_a_"; System.out.println(s + ": " + isName(s));	
 		s="a_a"; System.out.println(s + ": " + isName(s));	
-		
-		long runs = 20;
+	
+		long runs = 30;
 		long total = 0, r = runs;
 		while (r > 0) {
 			long i = 10000000;
@@ -145,7 +147,7 @@ public final class SDA {
 		}
 		System.out.print(" avg: " + (total/runs));
 	}
-*/	
+*/
 
 
 	private static final String bslash = "" + (char)SDA.BSLASH;
@@ -164,11 +166,9 @@ public final class SDA {
 	
 	
 	private static SDAParser PARSER = new SDAParser();  // singleton parser
-	private static SDAFormatter FORMATTER = new SDAFormatter();  // singleton formatter
 	
 	/**
-	 * Creates a data node from a character input stream in SDA format, using the
-	 * default SDA parser.
+	 * Creates a data node from a character stream, using the default SDA parser.
 	 * 
 	 * @param input an input stream
 	 * @return a (root) node
@@ -181,14 +181,72 @@ public final class SDA {
 	
 	
 	/**
-	 * Renders a data node on the specified output stream using the default SDA
+	 * Creates a data node from an input file, using the default SDA parser.
+	 * 
+	 * @param file an input file
+	 * @return a (root) node
+	 * @throws IOException    if an I/O operation failed
+	 * @throws ParseException if an SDA parsing error occurs
+	 */
+	public static DataNode parse(File file) throws IOException, ParseException {
+		return PARSER.parse(file);
+	}
+	
+	
+	/**
+	 * Creates a data node from a string, using the default SDA parser.
+	 * 
+	 * @param input an input string
+	 * @return a (root) node
+	 * @throws IOException    if an I/O operation failed
+	 * @throws ParseException if an SDA parsing error occurs
+	 */
+	public static DataNode parse(String input) throws IOException, ParseException {
+		return PARSER.parse(input);
+	}
+	
+
+	private static SDAFormatter FORMATTER = new SDAFormatter();  // singleton formatter
+	
+	/**
+	 * Writes a formatted data node to a character stream, using the default SDA
 	 * formatter.
 	 * 
-	 * @param output an output stream
+	 * @see SDAFormatter
+	 * 
+	 * @param output an output stream, not null
 	 * @param node   the node to be rendered
 	 * @throws IOException if an I/O operation failed
 	 */
 	public static void format(Writer output, DataNode node) throws IOException {
 		FORMATTER.format(output, node);
+	}
+
+
+	/**
+	 * Writes a formatted data node to a file, using the default SDA formatter.
+	 * 
+	 * @see SDAFormatter
+	 * 
+	 * @param node the node to be rendered
+	 * @param file the file to be created or overwritten, not null
+	 * @throws IOException if an I/O operation failed
+	 */
+	public static void format(File file, DataNode node) throws IOException {
+		FORMATTER.format(file, node);
+	}
+
+
+	/**
+	 * Formats a data node as a string, using the default SDA formatter.
+	 * 
+	 * @see SDAFormatter
+	 * 
+	 * @param node the node to be rendered
+	 * @return a string representing the node
+	 * @throws IOException if an I/O operation failed
+	 */
+	public static String format(DataNode node) throws IOException {
+		return FORMATTER.format(node); // will never throw, but ok
 	}
 }

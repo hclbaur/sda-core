@@ -65,42 +65,68 @@ public abstract class AbstractNode implements Node {
 
 
 	/**
-	 * Adds a child node to this node. Adding a node that already has a parent will
-	 * cause a run-time exception. Adding null to a leaf node will create an empty
-	 * child list for that node, but has no effect otherwise.
+	 * Adds a child node to this node. Adding null to a leaf node will create an
+	 * empty child list for that node, but has no effect otherwise.
 	 * 
-	 * @throws IllegalStateException if the provided node already has a parent
+	 * @throws ClassCastException       if the node does not extend
+	 *                                  {@code AbstractNode}
+	 * @throws IllegalArgumentException if the node already has another parent
 	 */
 	@Override
-	public final <T extends Node> boolean add(T node) {
-		if (nodes == null) {
+	public boolean add(Node node) {
+
+		boolean changed = false; // whether this object was changed
+
+		if (nodes == null) { // initialize a node list if we have no one yet
 			synchronized (this) { // prevent re-assignment by another thread
-				if (nodes == null) nodes = new ArrayList<AbstractNode>();
+				if (nodes == null) {
+					nodes = new ArrayList<AbstractNode>();
+					changed = true;
+				}
 			}
 		}
+
 		if (node != null) {
-			if (node.getParent() != null)
-				throw new IllegalStateException("node '" + node.getName() + "' already has a parent");
-			if (node instanceof AbstractNode && nodes.add((AbstractNode) node)) {
+
+			if (! (node instanceof AbstractNode))
+				throw new ClassCastException("node must extend " + AbstractNode.class);
+			if (node.getParent() != null) {
+				if (node.getParent() != this)
+					throw new IllegalArgumentException("node '" + node.getName() + "' already has a parent");
+				return changed;
+			}
+
+			if (nodes.add((AbstractNode) node)) {
 				((AbstractNode) node).setParent(this);
 				return true;
 			}
 		}
-		return false;
+
+		return changed;
 	}
 
 
 	/**
-	 * Removes a child node from this node. This method will ignore null, nodes not
-	 * extending this abstract class, and nodes that are not children of this node.
+	 * Removes a child node from this node. This method will ignore null and nodes
+	 * that are not children of this node.
+	 * 
+	 * @throws ClassCastException if the node does not extend {@code AbstractNode}
 	 */
 	@Override
-	public final boolean remove(Node node) {
+	public boolean remove(Node node) {
+
 		// if nodes ever can change back to null, we will need synchronization
-		if (node != null && nodes != null && node instanceof AbstractNode && nodes.remove(node)) {
-			((AbstractNode) node).setParent(null);
-			return true;
+		if (node != null) {
+			
+			if (! (node instanceof AbstractNode))
+				throw new ClassCastException("node must extend " + AbstractNode.class);
+
+			if (nodes.remove(node)) {
+				((AbstractNode) node).setParent(null);
+				return true;
+			}
 		}
+
 		return false;
 	}
 

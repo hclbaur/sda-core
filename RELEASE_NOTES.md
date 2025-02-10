@@ -1,6 +1,29 @@
 # Release Notes
 
-## [2.2.0] - 2024-02-20
+## [2.3.0] - 2025-02-10
+
+This year's first release adds a few convenience methods, closes a minor issue
+and renames a package, a class and two methods (merely for aesthetic reasons).
+
+- `Renamed` Node.find() to Node.getAll().
+- `Renamed` ProcessingException to NodeException.
+- `Renamed` package be.baur.sda.serialization to be.baur.sda.io.
+- Added DataNode.copy() method and Node.find() (descendants) method.
+- Added default methods Parser.parse(File) and Parser.parse(String).
+- Added convenience methods SDA.parse(File) and SDA.parse(String).
+- Added default methods Formatter.format(File, Node) and Formatter.format(Node).
+- Added convenience methods SDA.format(File, DataNode) and SDA.format(DataNode).
+- Closed issue #16 (SDAFormatter throws if input node is null).
+- Closed issue #12 (Add a parse(File) method and review exceptions).
+- Closed issue #17 (Inappropriate IllegalStateException in AbstractNode.add()).
+
+## Compatibility
+
+- Requires Java 8.
+
+## Previous releases
+
+### [2.2.0] - 2024-02-20
 
 As of this release, Node is refactored into an interface (Node), an abstract 
 class (AbstractNode) and a concrete class (DataNode). Also, the exception 
@@ -13,18 +36,12 @@ classes have been thrown around a bit (pun intended).
 - Added ProcessingException.
 - Added Node.get(Predicate).
 - Added Result and Results.
-- Closed issues: #7.
-
-## Compatibility
-
-- Requires at least Java 8.
-
-## Previous releases
+- Closed issue #7.
 
 ### [2.1.1] - 2023-10-20
 
 - Added Node.remove().
-- Closed issues: #3, #6 and #9.
+- Closed issues #3, #6 and #9.
 
 ### [2.1.0] - 2023-09-29
 
@@ -38,7 +55,7 @@ been added to make up for the loss of NodeSet.
 - `Removed` Node.getNodes(), use Node.nodes() instead.
 - `Removed` Node.isComplex(), use !Node.isLeaf() instead.
 - Added Node.get(String), find(String) and find(Predicate).
-- Closed issues: #1, #2, #4 and #5.
+- Closed issues #1, #2, #4 and #5.
 
 ### [2.0.0] - 2022-10-09
 

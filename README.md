@@ -21,7 +21,7 @@ For example:
 		}
 	}
 
-As you can see the format borders on self-explanatory. Nevertheless, I wrote a [tutorial](docs/TUTORIAL.md).
+As you can see the format borders on self-explanatory. Nevertheless, I wrote a [tutorial](docs/TUTORIAL.md) and a formal [specification](docs/SPECIFICATION.md).
 
 ## Running the demo
 
@@ -38,7 +38,7 @@ which will output the following
 	  Number 1: 06-33333333
 	  Number 2: 06-44444444
 
-When you look at the [code](src/test/java/demo.java) you will see that parsing the input file takes a single line of code, after which you can process the nodes.
+When you look at the [code](src/main/java/demo.java) you will see that parsing the input file takes a single line of code, after which you can process the nodes.
 
 However, there is a catch. The parser does not *validate* the input; it only checks that it is *well-formed*. Basically, if all the curly braces properly match, all values are quoted, and the node names have no funny characters, the parser doesn't really care what the data represents. 
 
@@ -65,7 +65,7 @@ and it will output
 	Alice has 1 phone number(s).
 	  Number 1: 06-22222222
 	Exception in thread "main" java.lang.NullPointerException
-			at demo.main(demo.java:23)
+			at demo.main(demo.java:21)
 	
 Oops. The demo expects all contacts to be properly named, but as it happens, the second one is anonymous. And the programmer (that would me) failed to write more defensive code!
 

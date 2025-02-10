@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.Reader;
 
 import be.baur.sda.SDA;
-import be.baur.sda.serialization.SDAParseException;
+import be.baur.sda.io.SDAParseException;
 
 /** 
  * A <code>Tokenizer</code> (or lexical analyzer) is associated with an 

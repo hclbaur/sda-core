@@ -2,7 +2,7 @@ package be.baur.sda;
 
 import java.util.List;
 
-import be.baur.sda.serialization.SDAFormatter;
+import be.baur.sda.io.SDAFormatter;
 
 /**
  * A {@code DataNode} is the basic building block of an SDA document. It has a
@@ -106,6 +106,22 @@ public class DataNode extends AbstractNode {
 	}
 
 
+	/**
+	 * Returns a deep copy of this node.
+	 * 
+	 * @return a node
+	 */
+	public final DataNode copy() {
+		DataNode cp = new DataNode(this.getName(), this.getValue());
+		if (! this.isLeaf()) {
+			cp.add(null);
+			for (Node child : this.nodes()) 
+				cp.add(((DataNode) child).copy());
+		}
+		return cp;
+	}
+	
+	
 	/**
 	 * Returns a string representing this node in SDA notation. For example:
 	 * 

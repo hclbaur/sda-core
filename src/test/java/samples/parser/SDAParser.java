@@ -6,8 +6,8 @@ import java.io.Reader;
 import java.util.Stack;
 
 import be.baur.sda.DataNode;
-import be.baur.sda.serialization.Parser;
-import be.baur.sda.serialization.SDAParseException;
+import be.baur.sda.io.Parser;
+import be.baur.sda.io.SDAParseException;
 
 /**
  * Alternative SDA parser (actually the first one I wrote, and lacking support
@@ -22,6 +22,7 @@ import be.baur.sda.serialization.SDAParseException;
  */
 public final class SDAParser implements Parser<DataNode> {
 
+	@Override
 	public DataNode parse(Reader input) throws IOException, SDAParseException {
 
 		Tokenizer lexer = new Tokenizer(input);
