@@ -34,6 +34,7 @@ public interface Node {
 	/**
 	 * Returns the parent of this node or null if it has no parent.
 	 * 
+	 * @param <T> the type of node
 	 * @return the parent node, may be null
 	 */
 	<T extends Node> T getParent();
@@ -43,6 +44,7 @@ public interface Node {
 	 * Returns the ultimate ancestor of this node. This method returns the node
 	 * itself if it has no parent (in which case it <i>is</i> the root node).
 	 * 
+	 * @param <T> the type of node
 	 * @return the root node, not null, may be this node
 	 */
 	@SuppressWarnings("unchecked")
@@ -56,6 +58,7 @@ public interface Node {
 	 * Returns an <i>unmodifiable</i> list of child nodes, which may be empty. This
 	 * method never returns null.
 	 * 
+	 * @param <T> the type of node
 	 * @return a list, not null
 	 */
 	<T extends Node> List<T> nodes();
@@ -113,6 +116,7 @@ public interface Node {
 	 * Returns the first child node with the specified name, or null if no such node
 	 * is found. This method uses the result of {@link #getName} to find a match.
 	 * 
+	 * @param <T> the type of node
 	 * @param name a node name
 	 * @return a node, may be null
 	 */
@@ -125,6 +129,7 @@ public interface Node {
 	 * Returns the first child node that satisfy the given predicate, or null if no
 	 * such node is found.
 	 * 
+	 * @param <T> the type of node
 	 * @param predicate a boolean valued function of one argument
 	 * @return a node, may be null
 	 */
@@ -142,11 +147,12 @@ public interface Node {
 	 * such nodes are found. This method uses the result of {@link #getName} to find
 	 * matching nodes.
 	 * 
+	 * @param <T> the type of node
 	 * @param name a node name
 	 * @return a list, not null
 	 */
-	default <T extends Node> List<T> find(final String name) {
-		return find(n -> n.getName().equals(name));
+	default <T extends Node> List<T> getAll(String name) {
+		return getAll(n -> n.getName().equals(name));
 	}
 
 
@@ -154,11 +160,12 @@ public interface Node {
 	 * Returns a list of child nodes that satisfy the given predicate, or an empty
 	 * list if no such nodes are found.
 	 * 
+	 * @param <T> the type of node
 	 * @param predicate a boolean valued function of one argument
 	 * @return a list, not null
 	 */
 	@SuppressWarnings("unchecked")
-	default <T extends Node> List<T> find(Predicate<? super Node> predicate) {
+	default <T extends Node> List<T> getAll(Predicate<? super Node> predicate) {
 		List<T> list = new ArrayList<T>();
 		for (Node node : nodes())
 			if (predicate.test(node))
@@ -172,16 +179,17 @@ public interface Node {
 	 * empty list if no such nodes are found. In the resulting list, matching child
 	 * nodes are returned before matching sibling nodes (and their children).
 	 * 
+	 * @param <T> the type of node
 	 * @param predicate a boolean valued function of one argument
 	 * @return a list, not null
 	 */
 	@SuppressWarnings("unchecked")
-	default <T extends Node> List<T> findDescendant(Predicate<? super Node> predicate) {
+	default <T extends Node> List<T> find(Predicate<? super Node> predicate) {
 		List<T> list = new ArrayList<T>();
 		for (Node node : nodes()) {
 			if (predicate.test(node))
 				list.add((T) node);
-			list.addAll(node.findDescendant(predicate));
+			list.addAll(node.find(predicate));
 		}
 		return list;
 	}
@@ -199,7 +207,7 @@ public interface Node {
 		
 		final String name = getName();
 		final Node parent = getParent();
-		final List<Node> same = (parent != null) ? parent.find(name) : null;
+		final List<Node> same = (parent != null) ? parent.getAll(name) : null;
 		final int pos = (same != null && same.size() > 1) ? same.indexOf(this)+1 : 0;
 
 		return (parent != null ? parent.path() : "")

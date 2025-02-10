@@ -3,7 +3,7 @@ package test;
 import java.util.function.Function;
 
 import be.baur.sda.Node;
-import be.baur.sda.serialization.SDAParser;
+import be.baur.sda.io.SDAParser;
 
 public final class TestSDAParser {
 

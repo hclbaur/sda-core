@@ -1,7 +1,7 @@
 /**
  * 
  */
-package be.baur.sda.serialization;
+package be.baur.sda.io;
 
 import java.io.BufferedWriter;
 import java.io.File;

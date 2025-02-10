@@ -2,7 +2,7 @@ package be.baur.sda;
 
 import java.util.List;
 
-import be.baur.sda.serialization.SDAFormatter;
+import be.baur.sda.io.SDAFormatter;
 
 /**
  * A {@code DataNode} is the basic building block of an SDA document. It has a

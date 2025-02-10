@@ -3,7 +3,7 @@ package test;
 import java.util.function.Function;
 
 import be.baur.sda.Node;
-import be.baur.sda.serialization.SDAParseException;
+import be.baur.sda.io.SDAParseException;
 import samples.parser.SDAParser;
 
 public final class TestSDAParserAlt {

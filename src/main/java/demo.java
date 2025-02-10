@@ -13,10 +13,10 @@ public class demo {
 		
 		if (! root.isParent()) return;
 
-		for (Node contact : root.find("contact")) {
+		for (Node contact : root.getAll("contact")) {
 			
 			DataNode name = contact.get("firstname");
-			List<DataNode> numbers = contact.find("phonenumber");
+			List<DataNode> numbers = contact.getAll("phonenumber");
 			
 			System.out.println(name.getValue() + " has " + numbers.size() + " phone number(s).");
 			

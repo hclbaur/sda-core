@@ -1,4 +1,4 @@
-package be.baur.sda.serialization;
+package be.baur.sda.io;
 
 import java.io.BufferedReader;
 import java.io.File;

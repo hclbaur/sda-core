@@ -1,11 +1,14 @@
 # Release Notes
 
-## [2.2.1] - 2025-??-??
+## [2.3.0] - 2025-02-10
 
-In development.
+This year's first release adds a few convenience methods, closes a minor issue
+and renames a package, a class and two methods (merely for aesthetic reasons).
 
-- Added DataNode.copy() method.
-- Added Node.findDescendant() method.
+- `Renamed` Node.find() to Node.getAll().
+- `Renamed` ProcessingException to NodeException.
+- `Renamed` package be.baur.sda.serialization to be.baur.sda.io.
+- Added DataNode.copy() method and Node.find() (descendants) method.
 - Added default methods Parser.parse(File) and Parser.parse(String).
 - Added convenience methods SDA.parse(File) and SDA.parse(String).
 - Added default methods Formatter.format(File, Node) and Formatter.format(Node).

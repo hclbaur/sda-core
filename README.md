@@ -65,7 +65,7 @@ and it will output
 	Alice has 1 phone number(s).
 	  Number 1: 06-22222222
 	Exception in thread "main" java.lang.NullPointerException
-			at demo.main(demo.java:23)
+			at demo.main(demo.java:21)
 	
 Oops. The demo expects all contacts to be properly named, but as it happens, the second one is anonymous. And the programmer (that would me) failed to write more defensive code!
 
