@@ -25,8 +25,8 @@ import be.baur.sda.SDA;
  * }
  * </pre>
  * 
- * Once created, this formatter is stateless and reusable.
- * <p>
+ * Once created, this formatter is stateless and reusable.<br>
+ * <br>
  * @see DataNode
  */
 public final class SDAFormatter implements Formatter<DataNode> {

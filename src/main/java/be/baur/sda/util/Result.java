@@ -27,6 +27,7 @@ public class Result <T> {
 	/**
 	 * Returns an OK result.
 	 * 
+	 * @param <T> the type of result
 	 * @return a result, not null
 	 */
 	public static <T> Result<T> OK() {
@@ -37,6 +38,7 @@ public class Result <T> {
 	/**
 	 * Returns an OK result with a value.
 	 * 
+	 * @param <T> the type of result
 	 * @param value a value
 	 * @return a result, not null
 	 */
@@ -48,6 +50,7 @@ public class Result <T> {
 	/**
 	 * Returns an OK result with an informational message.
 	 * 
+	 * @param <T> the type of result
 	 * @param message a message
 	 * @return a result, not null
 	 */
@@ -59,6 +62,7 @@ public class Result <T> {
 	/**
 	 * Returns an OK result with a value and an informational message.
 	 * 
+	 * @param <T> the type of result
 	 * @param value   a value
 	 * @param message a message
 	 * @return a result, not null
@@ -73,6 +77,7 @@ public class Result <T> {
 	/**
 	 * Returns an error result with a diagnostic message.
 	 * 
+	 * @param <T> the type of result
 	 * @param message a message, not null
 	 * @return a result, not null
 	 */
@@ -85,6 +90,7 @@ public class Result <T> {
 	/**
 	 * Returns an error result with a value and a diagnostic message.
 	 * 
+	 * @param <T> the type of result
 	 * @param value   a value
 	 * @param message a message, not null
 	 * @return a result, not null
