@@ -1,9 +1,10 @@
 # Release Notes
 
-## [2.2.1] - 2025-??-??
+## [2.3.0] - 2025-??-??
 
 In development.
 
+- `Renamed` package be.baur.sda.serialization to be.baur.sda.io.
 - Added DataNode.copy() method.
 - Added Node.findDescendant() method.
 - Added default methods Parser.parse(File) and Parser.parse(String).

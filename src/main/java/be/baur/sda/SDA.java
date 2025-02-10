@@ -5,10 +5,10 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 
-import be.baur.sda.serialization.ParseException;
-import be.baur.sda.serialization.SDAFormatter;
-import be.baur.sda.serialization.SDAParseException;
-import be.baur.sda.serialization.SDAParser;
+import be.baur.sda.io.ParseException;
+import be.baur.sda.io.SDAFormatter;
+import be.baur.sda.io.SDAParseException;
+import be.baur.sda.io.SDAParser;
 
 /**
  * This class defines static constants and utility methods.

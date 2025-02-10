@@ -4,7 +4,7 @@ import java.io.File;
 
 import be.baur.sda.DataNode;
 import be.baur.sda.SDA;
-import be.baur.sda.serialization.SDAFormatter;
+import be.baur.sda.io.SDAFormatter;
 
 public final class TestFormatter {
 	

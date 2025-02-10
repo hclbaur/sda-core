@@ -1,4 +1,4 @@
-package be.baur.sda.serialization;
+package be.baur.sda.io;
 
 /**
  * An {@code SDAParseException} is thrown by an {@code SDAParser} if the SDA

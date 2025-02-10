@@ -1,4 +1,4 @@
-package be.baur.sda.serialization;
+package be.baur.sda.io;
 
 /**
  * A {@code FileParseException} is thrown by a {@code Parser} if a parsing error

@@ -1,4 +1,4 @@
-package be.baur.sda.serialization;
+package be.baur.sda.io;
 
 import java.io.IOException;
 import java.io.Reader;
