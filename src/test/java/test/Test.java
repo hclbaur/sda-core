@@ -1,6 +1,7 @@
 package test;
 
 
+import java.io.File;
 import java.util.function.Function;
 
 /** A convenience class with testing methods that accept Lambda expressions */
@@ -34,22 +35,9 @@ public class Test {
 	}
 
 	
-//	public void testError(String scenario, String input, String expected) {
-//		
-//		try { 
-//			strfun.apply(input);
-//		}
-//		catch (Exception e) { 
-//			if (e.getMessage().equals(expected)) 
-//				System.out.print(scenario + " ");
-//			else {
-//				System.out.println("\n" + scenario + " FAILED!");
-//				System.out.println("    EXPECTED: " + expected);
-//				System.out.println("    RETURNED: " + e.getMessage());
-//			}
-//			return;
-//		}
-//		System.out.println(scenario + " FAILED - exception expected");
-//	}
+	// convenience method to load a resource file
+	public static File getResourceFile(String name) {
+		return new File(Test.class.getResource(name).getFile());
+	}
 
 }

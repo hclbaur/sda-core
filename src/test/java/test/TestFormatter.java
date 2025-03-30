@@ -1,7 +1,5 @@
 package test;
 
-import java.io.File;
-
 import be.baur.sda.DataNode;
 import be.baur.sda.SDA;
 import be.baur.sda.io.SDAFormatter;
@@ -29,8 +27,7 @@ public final class TestFormatter {
 				"    }\n" + 
 				"}\n");
 		
-		String filename = TestFormatter.class.getResource("/addressbook.sda").getFile();
-		DataNode book = SDA.parse(new File(filename));
+		DataNode book = SDA.parse(Test.getResourceFile("/addressbook.sda"));
 		str = formatter.format(book);
 		t.ts1("S02", str, "addressbook {\n" + 
 				"	contact \"1\" {\n" + 

@@ -32,14 +32,14 @@ public interface Parser<T extends Node> {
 
 
 	/**
-	 * Creates a node from a file with SDA content.
+	 * Creates a node from a file with SDA content, assuming UTF-8 encoding.
 	 * 
 	 * @param file an input file, not null
 	 * @return a (root) node, never null
-	 * @throws IOException    if an I/O operation failed
-	 * @throws ParseException if a parsing error occurs
+	 * @throws IOException        if an I/O operation failed
+	 * @throws FileParseException if a parsing error occurs
 	 */
-	default T parse(File file) throws IOException, ParseException {
+	default T parse(File file) throws IOException, FileParseException {
 
 		Objects.requireNonNull(file, "input file must not be null");
 		try (

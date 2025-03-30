@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 
+import be.baur.sda.io.FileParseException;
 import be.baur.sda.io.ParseException;
 import be.baur.sda.io.SDAFormatter;
 import be.baur.sda.io.SDAParseException;
@@ -181,14 +182,15 @@ public final class SDA {
 	
 	
 	/**
-	 * Creates a data node from an input file, using the default SDA parser.
+	 * Creates a data node from an input file (assuming UTF-8 encoding) using the
+	 * default SDA parser.
 	 * 
 	 * @param file an input file
 	 * @return a (root) node
-	 * @throws IOException    if an I/O operation failed
-	 * @throws ParseException if an SDA parsing error occurs
+	 * @throws IOException        if an I/O operation failed
+	 * @throws FileParseException if an SDA parsing error occurs
 	 */
-	public static DataNode parse(File file) throws IOException, ParseException {
+	public static DataNode parse(File file) throws IOException, FileParseException {
 		return PARSER.parse(file);
 	}
 	

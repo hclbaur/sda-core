@@ -1,6 +1,5 @@
 package test;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +16,9 @@ public final class TestNodeList {
 		});
 		
 
-		String filename = TestNodeList.class.getResource("/addressbook.sda").getFile();
-		DataNode book = SDA.parse(new File(filename));
+		DataNode book = SDA.parse(Test.getResourceFile("/addressbook.sda"));
 		
 		List<DataNode> contacts = book.getAll("contact");
-		
 		List<Node> names = new ArrayList<Node>();
 		contacts.forEach(n -> names.add( n.get("firstname") ));
 		
