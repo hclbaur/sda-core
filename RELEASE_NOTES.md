@@ -1,6 +1,16 @@
 # Release Notes
 
-## [2.3.0] - 2025-02-10
+## [2.4.0] - in development
+
+- As of this release, Java 11 is required.
+
+## Compatibility
+
+- Requires Java 11.
+
+## Previous releases
+
+### [2.3.0] - 2025-02-10
 
 This year's first release adds a few convenience methods, closes a minor issue
 and renames a package, a class and two methods (merely for aesthetic reasons).
@@ -16,12 +26,6 @@ and renames a package, a class and two methods (merely for aesthetic reasons).
 - Closed issue #16 (SDAFormatter throws if input node is null).
 - Closed issue #12 (Add a parse(File) method and review exceptions).
 - Closed issue #17 (Inappropriate IllegalStateException in AbstractNode.add()).
-
-## Compatibility
-
-- Requires Java 8.
-
-## Previous releases
 
 ### [2.2.0] - 2024-02-20
 
