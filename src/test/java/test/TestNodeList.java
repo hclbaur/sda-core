@@ -25,16 +25,18 @@ public final class TestNodeList {
 		//contacts.stream().flatMap(n -> n.find("phonenumber").stream()).forEach(n -> numbers.add(n));
 		List<Node> numbers = book.find(n -> n.getName().equals("phonenumber"));
 		
-		t.ts1("S01", book.path(), "/addressbook");
-		t.ts1("S02", contacts.get(0).getValue(), "1");
-		t.ts1("S03", contacts.get(0).path(), "/addressbook/contact[1]");
-		t.ts1("S04", contacts.get(1).getValue(), "2");
-		t.ts1("S05", contacts.get(1).path(), "/addressbook/contact[2]");
-		t.ts1("S06", names.get(0).path(), "/addressbook/contact[1]/firstname");
-		t.ts1("S07", names.get(1).path(), "/addressbook/contact[2]/firstname");
-		t.ts1("S08", numbers.get(0).path(), "/addressbook/contact[1]/phonenumber[1]");
-		t.ts1("S09", numbers.get(1).path(), "/addressbook/contact[1]/phonenumber[2]");
-		t.ts1("S10", numbers.get(2).path(), "/addressbook/contact[2]/phonenumber[1]");
-		t.ts1("S11", numbers.get(3).path(), "/addressbook/contact[2]/phonenumber[2]");
+		t.s("S01", book.path(), "/addressbook");
+		t.s("S02", contacts.get(0).getValue(), "1");
+		t.s("S03", contacts.get(0).path(), "/addressbook/contact[1]");
+		t.s("S04", contacts.get(1).getValue(), "2");
+		t.s("S05", contacts.get(1).path(), "/addressbook/contact[2]");
+		t.s("S06", names.get(0).path(), "/addressbook/contact[1]/firstname");
+		t.s("S07", names.get(1).path(), "/addressbook/contact[2]/firstname");
+		t.s("S08", numbers.get(0).path(), "/addressbook/contact[1]/phonenumber[1]");
+		t.s("S09", numbers.get(1).path(), "/addressbook/contact[1]/phonenumber[2]");
+		t.s("S10", numbers.get(2).path(), "/addressbook/contact[2]/phonenumber[1]");
+		t.s("S11", numbers.get(3).path(), "/addressbook/contact[2]/phonenumber[2]");
+		
+		t.checkFailures();
 	}
 }
