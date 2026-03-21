@@ -13,7 +13,7 @@ public final class RunTest extends TestCase {
 		System.out.print("TestSDAFormat : ");
 		test.TestSDAFormat.main(args);
 
-		System.out.print("\nTestNodeList  : ");
+		System.out.print("\nTestDataNode  : ");
 		test.TestDataNode.main(args);
 
 		System.out.print("\nTestSDAParser : ");

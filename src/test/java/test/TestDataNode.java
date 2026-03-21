@@ -13,7 +13,6 @@ public final class TestDataNode {
 		Test t = new Test(s -> {
 			return s;
 		});
-		
 
 		DataNode book = SDA.parse(Test.getResourceFile("/addressbook.sda"));
 		
@@ -38,8 +37,11 @@ public final class TestDataNode {
 		t.s("S12", String.valueOf(numbers.remove(null)), "false");
 		t.s("S13", String.valueOf(numbers.remove(book)), "false");
 		t.s("S14", String.valueOf(numbers.remove(3)), "phonenumber \"06-44444444\"");
-		t.s("S15", String.valueOf(numbers.remove(numbers.get(0))), "true");
-		t.s("S16", String.valueOf(numbers.size()), "2");
+		DataNode first = (DataNode) numbers.get(0);
+		t.s("S15", String.valueOf(numbers.remove(first)), "true");
+		t.s("S16", String.valueOf(numbers.size()), "2"); // nodes 0 and 3 were removed
+		t.s("S17", String.valueOf(numbers.add(first)), "true"); // re-add node 0 at end
+		t.s("S18", String.valueOf(contacts.get(0).add(first)), "false"); // already a child
 		
 		t.checkFailures();
 	}

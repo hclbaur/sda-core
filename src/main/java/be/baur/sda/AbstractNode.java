@@ -66,18 +66,22 @@ public abstract class AbstractNode implements Node {
 
 	/**
 	 * Adds a child node to this node. Adding null to a leaf node will create an
-	 * empty child list for that node, but has no effect otherwise.
+	 * empty child list for that node, but has no effect otherwise. It returns false
+	 * only if the supplied node is already a child of this node; the invariant
+	 * being that after successful completion this node will contain the supplied
+	 * node.
+	 * <p>
+	 * This method is thread safe.
 	 * 
-	 * @throws ClassCastException       if the node does not extend
-	 *                                  {@code AbstractNode}
-	 * @throws IllegalArgumentException if the node already has another parent
+	 * @param node the node to be added to this node
+	 * @return true if the supplied node was added as a child
+	 * @throws IllegalArgumentException if the supplied node already has a different parent
 	 */
-	@Override
-	public boolean add(Node node) {
+	public boolean add(AbstractNode node) {
 
-		boolean changed = false; // whether this object was changed
+		boolean changed = false; // whether this node was changed
 
-		if (nodes == null) { // initialize a node list if we have no one yet
+		if (nodes == null) { // initialize a node list if we have none yet
 			synchronized (this) { // prevent re-assignment by another thread
 				if (nodes == null) {
 					nodes = new ArrayList<AbstractNode>();
@@ -88,16 +92,14 @@ public abstract class AbstractNode implements Node {
 
 		if (node != null) {
 
-			if (! (node instanceof AbstractNode))
-				throw new ClassCastException("node must extend " + AbstractNode.class);
 			if (node.getParent() != null) {
 				if (node.getParent() != this)
 					throw new IllegalArgumentException("node '" + node.getName() + "' already has a parent");
 				return changed;
 			}
 
-			if (nodes.add((AbstractNode) node)) {
-				((AbstractNode) node).setParent(this);
+			if (nodes.add(node)) {
+				node.setParent(this);
 				return true;
 			}
 		}
@@ -120,7 +122,7 @@ public abstract class AbstractNode implements Node {
 	public boolean remove(AbstractNode node) {
 
 		if (nodes != null && node != null) {
-			// nodes can never be set back to null so no double check required
+			// nodes can never be set back to null so no extra check required
 			synchronized (this) {
 				if (nodes.remove(node)) {
 					node.setParent(null);

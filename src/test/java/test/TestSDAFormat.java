@@ -47,19 +47,19 @@ public final class TestSDAFormat {
 	
 		// test performance
 		
-//		UnitTestPerformance<Node> perf = new UnitTestPerformance<Node>(
-//			n -> { n.toString(); }   // test toString
-//		);
-//		perf.run("\nP01", book, 25000, 25);
+		var p = new TestPerf<DataNode>(
+			n -> { n.toString(); }   // test toString
+		);
+		p.run("P01", book, 25000, 15);
 
-//		UnitTestPerformance<Node> perf = new UnitTestPerformance<Node>(n -> {
-//			try {
-//				formatter.format(book); // test formatter
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		});
-//		perf.run("\nP02", node, 25000, 25);
+		p = new TestPerf<DataNode>(n -> {
+			try {
+				formatter.format(book); // test formatter
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+		p.run(" P02", node, 25000, 15);
 
 	}
 }

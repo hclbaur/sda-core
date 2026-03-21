@@ -1,7 +1,6 @@
 package be.baur.sda;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -13,6 +12,24 @@ import java.util.function.Predicate;
  */
 public interface Node {
 
+	/**
+	 * Returns an <i>unmodifiable</i> list of child nodes, which may be empty. This
+	 * method never returns null.
+	 * 
+	 * @param <T> the type of node
+	 * @return a list of nodes, not null
+	 */
+	<T extends Node> List<T> nodes();
+
+	/**
+	 * Returns the parent of this node or null if it has no parent.
+	 * 
+	 * @param <T> the type of node
+	 * @return the parent node, may be null
+	 */
+	<T extends Node> T getParent();
+
+	// Default methods below this line
 
 	/**
 	 * Returns the name of this node. Typically, a node name is an identifier by
@@ -30,15 +47,6 @@ public interface Node {
 
 
 	/**
-	 * Returns the parent of this node or null if it has no parent.
-	 * 
-	 * @param <T> the type of node
-	 * @return the parent node, may be null
-	 */
-	<T extends Node> T getParent();
-
-
-	/**
 	 * Returns the ultimate ancestor of this node. This method returns the node
 	 * itself if it has no parent (in which case it <i>is</i> the root node).
 	 * 
@@ -50,16 +58,6 @@ public interface Node {
 		final Node parent = getParent();
 		return ((parent != null) ? parent.root() : (T) this);
 	}
-
-
-	/**
-	 * Returns an <i>unmodifiable</i> list of child nodes, which may be empty. This
-	 * method never returns null.
-	 * 
-	 * @param <T> the type of node
-	 * @return a list, not null
-	 */
-	<T extends Node> List<T> nodes();
 
 
 	/**
@@ -82,19 +80,6 @@ public interface Node {
 	default boolean isParent() {
 		return ! nodes().isEmpty();
 	}
-
-
-	/**
-	 * Adds a child node to this node. This method takes after the add method of the
-	 * {@code Collection} interface and implementations should strive to comply with
-	 * the specified requirements.
-	 * 
-	 * @see Collection#add(Object)
-	 * 
-	 * @param node the node to be added
-	 * @return true if this node changed as a result of the call
-	 */
-	boolean add(Node node);
 
 
 	/**
@@ -178,6 +163,7 @@ public interface Node {
 		}
 		return list;
 	}
+
 
 	/**
 	 * Returns the location of this node in X-path style. If a node occurs more than

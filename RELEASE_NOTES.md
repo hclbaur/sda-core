@@ -2,6 +2,7 @@
 
 ## [2.4.0] - in development
 
+- `Removed` method add() from Node interface.
 - `Removed` method remove() from Node interface.
 - As of this release, Java 11 is required.
 
