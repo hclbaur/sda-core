@@ -14,7 +14,7 @@ public final class RunTest extends TestCase {
 		test.TestSDAFormat.main(args);
 
 		System.out.print("\nTestNodeList  : ");
-		test.TestNodeList.main(args);
+		test.TestDataNode.main(args);
 
 		System.out.print("\nTestSDAParser : ");
 		test.TestSDAParser.main(args);

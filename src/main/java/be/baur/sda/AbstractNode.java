@@ -107,26 +107,27 @@ public abstract class AbstractNode implements Node {
 
 
 	/**
-	 * Removes a child node from this node. This method will ignore null and nodes
-	 * that are not children of this node.
+	 * Removes a child node from this node. This method ignores null references and
+	 * nodes that are not children of this node. It returns true only if this node
+	 * was changed as a result of calling the method; the invariant being that after
+	 * successful completion this node will not contain the (alleged) child node.
+	 * <p>
+	 * This method is thread safe.
 	 * 
-	 * @throws ClassCastException if the node does not extend {@code AbstractNode}
+	 * @param node the node to be removed from this node
+	 * @return true if this node contained the child node
 	 */
-	@Override
-	public boolean remove(Node node) {
+	public boolean remove(AbstractNode node) {
 
-		// if nodes ever can change back to null, we will need synchronization
-		if (node != null) {
-			
-			if (! (node instanceof AbstractNode))
-				throw new ClassCastException("node must extend " + AbstractNode.class);
-
-			if (nodes.remove(node)) {
-				((AbstractNode) node).setParent(null);
-				return true;
+		if (nodes != null && node != null) {
+			// nodes can never be set back to null so no double check required
+			synchronized (this) {
+				if (nodes.remove(node)) {
+					node.setParent(null);
+					return true;
+				}
 			}
 		}
-
 		return false;
 	}
 

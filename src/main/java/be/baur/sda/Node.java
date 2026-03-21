@@ -8,10 +8,8 @@ import java.util.function.Predicate;
 /**
  * A {@code Node} is an object in a tree-like structure that stems from a single
  * root node. A node may have child nodes (in which case it is called a parent
- * node), or it may be a leaf node. Nodes usually have information attached, the
- * nature of which depends on the implementation.
- * 
- * @see AbstractNode
+ * node). Nodes usually have information attached, the nature of which depends
+ * on the implementation.
  */
 public interface Node {
 
@@ -23,7 +21,7 @@ public interface Node {
 	 * This method should not return null. The default method returns the simple
 	 * name of the class implementing this interface.
 	 * 
-	 * @return the node name, not null
+	 * @return the node name, not null, may be empty
 	 * @see Class#getSimpleName
 	 */
 	default String getName() {
@@ -97,19 +95,6 @@ public interface Node {
 	 * @return true if this node changed as a result of the call
 	 */
 	boolean add(Node node);
-
-
-	/**
-	 * Removes a child node from this node. This method takes after the remove
-	 * method of the {@code Collection} interface and implementations should strive
-	 * to comply with the specified requirements.
-	 * 
-	 * @see Collection#remove(Object)
-	 * 
-	 * @param node the node to be removed
-	 * @return true if this node changed as a result of the call
-	 */
-	boolean remove(Node node);
 
 
 	/**
