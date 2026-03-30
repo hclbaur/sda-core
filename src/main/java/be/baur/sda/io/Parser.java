@@ -18,7 +18,7 @@ import be.baur.sda.Node;
  * 
  * @see SDAParser
  */
-public interface Parser<T extends Node> {
+public interface Parser<T extends Node<?>> {
 
 	/**
 	 * Creates a node from a character input stream.

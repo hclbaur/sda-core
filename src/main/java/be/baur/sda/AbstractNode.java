@@ -10,19 +10,19 @@ import java.util.List;
  * 
  * @see DataNode
  */
-public abstract class AbstractNode implements Node {
+public abstract class AbstractNode<T extends AbstractNode<T>> implements Node<T> {
 
-	private AbstractNode parent; // reference to a parent, null if this is not a child node
-	private List<AbstractNode> nodes; // reference to child nodes, null if this is a leaf node
-	private final List<AbstractNode> EMPTY_LIST = Collections.emptyList(); // an empty node list
+	private T parent; // reference to a parent, null if this is not a child node
+	private List<T> nodes; // reference to child nodes, null if this is a leaf node
+	private final List<T> EMPTY_LIST = Collections.emptyList(); // an empty node list
 
 	
 	/*
 	 * Sets the parent. This is called internally to maintain parent-child
 	 * integrity when adding or removing child nodes. Do not make public !
 	 */
-	private final void setParent(AbstractNode parent) {
-		this.parent = parent;
+	protected final void setParent(T node) {
+		this.parent = node;
 	}
 	
 	
@@ -30,35 +30,33 @@ public abstract class AbstractNode implements Node {
 	 * This <i>protected</i> method allows direct access to the internal list of child
 	 * nodes, and may return a null reference.
 	 */
-	protected final List<AbstractNode> getNodeList() {
+	protected final List<T> getNodeList() {
 		return nodes;
 	}
 
 	
-	@SuppressWarnings("unchecked")
 	@Override
-	public final <T extends Node> T getParent() {
-		return (T) parent;
+	public final T getParent() {
+		return parent;
 	}
 
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends Node> List<T> nodes() {
-		if (nodes == null) return (List<T>) EMPTY_LIST;
-		return (List<T>) Collections.unmodifiableList(nodes);
+	public List<T> nodes() {
+		if (nodes == null) return EMPTY_LIST;
+		return Collections.unmodifiableList(nodes);
 	}
 
 	
 	@Override
-	// possibly somewhat more efficient than the default method
+	// more efficient than the default method
 	public boolean isLeaf() {
 		return (nodes == null || nodes.isEmpty());
 	}
 	
 	
 	@Override
-	// possibly somewhat more efficient than the default method
+	// more efficient than the default method
 	public boolean isParent() {
 		return !(nodes == null || nodes.isEmpty());
 	}
@@ -77,14 +75,15 @@ public abstract class AbstractNode implements Node {
 	 * @return true if the supplied node was added as a child
 	 * @throws IllegalArgumentException if the supplied node already has a different parent
 	 */
-	public boolean add(AbstractNode node) {
+	@SuppressWarnings("unchecked")
+	public boolean add(T node) {
 
 		boolean changed = false; // whether this node was changed
 
 		if (nodes == null) { // initialize a node list if we have none yet
 			synchronized (this) { // prevent re-assignment by another thread
 				if (nodes == null) {
-					nodes = new ArrayList<AbstractNode>();
+					nodes = new ArrayList<T>();
 					changed = true;
 				}
 			}
@@ -99,7 +98,7 @@ public abstract class AbstractNode implements Node {
 			}
 
 			if (nodes.add(node)) {
-				node.setParent(this);
+				node.setParent((T) this);
 				return true;
 			}
 		}
@@ -119,7 +118,7 @@ public abstract class AbstractNode implements Node {
 	 * @param node the node to be removed from this node
 	 * @return true if this node contained the child node
 	 */
-	public boolean remove(AbstractNode node) {
+	public boolean remove(T node) {
 
 		if (nodes != null && node != null) {
 			// nodes can never be set back to null so no extra check required

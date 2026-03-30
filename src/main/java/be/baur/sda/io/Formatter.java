@@ -21,7 +21,7 @@ import be.baur.sda.Node;
  * 
  * @see SDAFormatter
  */
-public interface Formatter<T extends Node> {
+public interface Formatter<T extends Node<?>> {
 	
 	/**
 	 * Serializes and writes a node to a character output stream.

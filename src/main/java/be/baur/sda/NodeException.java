@@ -9,7 +9,7 @@ import java.io.IOException;
 @SuppressWarnings("serial")
 public abstract class NodeException extends IOException {
 
-	final private Node errorNode;
+	final private Node<?> errorNode;
 	
 	/**
 	 * Creates an exception with an error message and node.
@@ -17,7 +17,7 @@ public abstract class NodeException extends IOException {
 	 * @param node    the node where the error was found
 	 * @param message an error message
 	 */
-	public NodeException(Node node, String message) {
+	public NodeException(Node<?> node, String message) {
 		super(message); this.errorNode = node;
 	}
 
@@ -27,7 +27,7 @@ public abstract class NodeException extends IOException {
 	 * 
 	 * @return a node
 	 */
-	public Node getErrorNode() {
+	public Node<?> getErrorNode() {
 		return errorNode;
 	}
 	

@@ -10,7 +10,7 @@ import java.util.function.Predicate;
  * node). Nodes usually have information attached, the nature of which depends
  * on the implementation.
  */
-public interface Node {
+public interface Node<T extends Node<T>> {
 
 	/**
 	 * Returns an <i>unmodifiable</i> list of child nodes, which may be empty. This
@@ -19,7 +19,7 @@ public interface Node {
 	 * @param <T> the type of node
 	 * @return a list of nodes, not null
 	 */
-	<T extends Node> List<T> nodes();
+	List<T> nodes();
 
 	/**
 	 * Returns the parent of this node or null if it has no parent.
@@ -27,7 +27,7 @@ public interface Node {
 	 * @param <T> the type of node
 	 * @return the parent node, may be null
 	 */
-	<T extends Node> T getParent();
+	T getParent();
 
 	// Default methods below this line
 
@@ -54,9 +54,9 @@ public interface Node {
 	 * @return the root node, not null, may be this node
 	 */
 	@SuppressWarnings("unchecked")
-	default <T extends Node> T root() {
-		final Node parent = getParent();
-		return ((parent != null) ? parent.root() : (T) this);
+	default T root() {
+		final T parent = getParent();
+		return ((parent != null) ? (T) parent.root() : (T) this);
 	}
 
 
@@ -90,7 +90,7 @@ public interface Node {
 	 * @param name a node name
 	 * @return a node, may be null
 	 */
-	default <T extends Node> T get(String name) {
+	default T get(String name) {
 		return get(n -> n.getName().equals(name));
 	}
 
@@ -103,11 +103,10 @@ public interface Node {
 	 * @param predicate a boolean valued function of one argument
 	 * @return a node, may be null
 	 */
-	@SuppressWarnings("unchecked")
-	default <T extends Node> T get(Predicate<? super Node> predicate) {
-		for (Node node : nodes())
+	default T get(Predicate<? super T> predicate) {
+		for (T node : nodes())
 			if (predicate.test(node))
-				return (T) node;
+				return node;
 		return null;
 	}
 
@@ -121,7 +120,7 @@ public interface Node {
 	 * @param name a node name
 	 * @return a list, not null
 	 */
-	default <T extends Node> List<T> getAll(String name) {
+	default List<T> getAll(String name) {
 		return getAll(n -> n.getName().equals(name));
 	}
 
@@ -134,12 +133,11 @@ public interface Node {
 	 * @param predicate a boolean valued function of one argument
 	 * @return a list, not null
 	 */
-	@SuppressWarnings("unchecked")
-	default <T extends Node> List<T> getAll(Predicate<? super Node> predicate) {
+	default List<T> getAll(Predicate<? super T> predicate) {
 		List<T> list = new ArrayList<T>();
-		for (Node node : nodes())
+		for (T node : nodes())
 			if (predicate.test(node))
-				list.add((T) node);
+				list.add(node);
 		return list;
 	}
 
@@ -153,12 +151,11 @@ public interface Node {
 	 * @param predicate a boolean valued function of one argument
 	 * @return a list, not null
 	 */
-	@SuppressWarnings("unchecked")
-	default <T extends Node> List<T> find(Predicate<? super Node> predicate) {
+	default List<T> find(Predicate<? super T> predicate) {
 		List<T> list = new ArrayList<T>();
-		for (Node node : nodes()) {
+		for (T node : nodes()) {
 			if (predicate.test(node))
-				list.add((T) node);
+				list.add(node);
 			list.addAll(node.find(predicate));
 		}
 		return list;
@@ -177,8 +174,8 @@ public interface Node {
 	default String path() {
 		
 		final String name = getName();
-		final Node parent = getParent();
-		final List<Node> same = (parent != null) ? parent.getAll(name) : null;
+		final T parent = getParent();
+		final List<T> same = (parent != null) ? parent.getAll(name) : null;
 		final int pos = (same != null && same.size() > 1) ? same.indexOf(this)+1 : 0;
 
 		return (parent != null ? parent.path() : "")

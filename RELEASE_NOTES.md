@@ -2,9 +2,12 @@
 
 ## [2.4.0] - in development
 
+The Node interface (as well as the AbstractNode and DataNode class) were changed 
+to improve type safety and ease of use (less casting required in application code). 
+Also, as of this release, Java 11 is required.
+
 - `Removed` method add() from Node interface.
 - `Removed` method remove() from Node interface.
-- As of this release, Java 11 is required.
 
 ## Compatibility
 

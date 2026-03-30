@@ -11,7 +11,7 @@ import be.baur.sda.io.SDAFormatter;
  * 
  * @see AbstractNode
  */
-public class DataNode extends AbstractNode {
+public class DataNode extends AbstractNode<DataNode> {
 
 	private String name;  // the name tag, never null or empty
 	private String value; // a value, never null, may be empty
@@ -115,8 +115,8 @@ public class DataNode extends AbstractNode {
 		DataNode cp = new DataNode(this.getName(), this.getValue());
 		if (! this.isLeaf()) {
 			cp.add(null);
-			for (Node child : this.nodes()) 
-				cp.add(((DataNode) child).copy());
+			for (DataNode child : this.nodes()) 
+				cp.add(child.copy());
 		}
 		return cp;
 	}
@@ -142,7 +142,7 @@ public class DataNode extends AbstractNode {
 	@Override
 	public String toString() {
 
-		final List<AbstractNode> nodes = getNodeList();
+		final var nodes = (List<DataNode>) getNodeList();
 		final StringBuilder sb = new StringBuilder(name);
 		
 		if (! value.isEmpty() || nodes == null) 
@@ -151,7 +151,7 @@ public class DataNode extends AbstractNode {
 
 		if (nodes != null) {
 			sb.append(" ").append((char)SDA.LBRACE).append(" ");
-			for (Node node : nodes) 
+			for (DataNode node : nodes) 
 				sb.append(node.toString()).append(" ");
 			sb.append((char)SDA.RBRACE);
 		}

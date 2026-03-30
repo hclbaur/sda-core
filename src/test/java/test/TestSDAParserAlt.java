@@ -2,7 +2,6 @@ package test;
 
 import java.util.function.Function;
 
-import be.baur.sda.Node;
 import be.baur.sda.io.SDAParseException;
 import samples.parser.SDAParser;
 
@@ -25,7 +24,7 @@ public final class TestSDAParserAlt {
 	
 	public static void main(String[] args) throws Exception {
 
-		Node helloworld = parser.parse("greeting{message\"hello world\"}");
+		var helloworld = parser.parse("greeting{message\"hello world\"}");
 		System.out.println(helloworld);
 
 		Function<String, String> strfun = str -> {
