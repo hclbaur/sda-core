@@ -42,7 +42,7 @@ public class DataNode extends AbstractNode<DataNode> {
 	 */
 	public DataNode(String name, String value) {
 		//super(); 
-		setName(name); setValue(value);
+		setName(name); setValue(value); // UNSAFE [Bloch] ?
 	}
 
 
@@ -93,14 +93,19 @@ public class DataNode extends AbstractNode<DataNode> {
 	public final String getValue() {
 		return value;
 	}
-	
-	
+
+
 	/**
 	 * Returns true if this node has no child list. This method returns false for a
 	 * parent node <i>and</i> for a "vacant parent" with an empty child list (as in
 	 * <code>node{ }</code> for example).
+	 * <p>
+	 * <i>Note</i>: this method is not the opposite of the {@code isParent()} method, 
+	 * which also returns false for a vacant parent node.
+	 * 
+	 * @return true or false
+	 * @see AbstractNode#isParent
 	 */
-	@Override
 	public boolean isLeaf() {
 		return (getNodeList() == null);
 	}

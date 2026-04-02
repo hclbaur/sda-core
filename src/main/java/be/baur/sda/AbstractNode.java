@@ -17,9 +17,9 @@ public abstract class AbstractNode<T extends AbstractNode<T>> implements Node<T>
 	private final List<T> EMPTY_LIST = Collections.emptyList(); // an empty node list
 
 	
-	/*
-	 * Sets the parent. This is called internally to maintain parent-child
-	 * integrity when adding or removing child nodes. Do not make public !
+	/**
+	 * This <i>protected</i> method sets the parent. It is called internally to
+	 * maintain parent-child integrity when adding or removing child nodes.
 	 */
 	protected final void setParent(T node) {
 		this.parent = node;
@@ -27,8 +27,10 @@ public abstract class AbstractNode<T extends AbstractNode<T>> implements Node<T>
 	
 	
 	/**
-	 * This <i>protected</i> method allows direct access to the internal list of child
-	 * nodes, and may return a null reference.
+	 * This <i>protected</i> method allows direct access to the internal list of
+	 * child nodes, and may return a null reference.
+	 * 
+	 * @return a <i>modifiable</i> list of nodes, may be null
 	 */
 	protected final List<T> getNodeList() {
 		return nodes;
@@ -47,17 +49,10 @@ public abstract class AbstractNode<T extends AbstractNode<T>> implements Node<T>
 		return Collections.unmodifiableList(nodes);
 	}
 
-	
+
 	@Override
-	// more efficient than the default method
-	public boolean isLeaf() {
-		return (nodes == null || nodes.isEmpty());
-	}
-	
-	
-	@Override
-	// more efficient than the default method
 	public boolean isParent() {
+		// more efficient than the default method
 		return !(nodes == null || nodes.isEmpty());
 	}
 

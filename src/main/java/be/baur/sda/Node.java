@@ -32,7 +32,7 @@ public interface Node<T extends Node<T>> {
 	// Default methods below this line
 
 	/**
-	 * Returns the name of this node. Typically, a node name is an identifier by
+	 * Returns the name of this node. Typically, this is an identifier by
 	 * which it can be found or addressed. A node name does not have to be unique.
 	 * <p>
 	 * This method should not return null. The default method returns the simple
@@ -51,7 +51,7 @@ public interface Node<T extends Node<T>> {
 	 * itself if it has no parent (in which case it <i>is</i> the root node).
 	 * 
 	 * @param <T> the type of node
-	 * @return the root node, not null, may be this node
+	 * @return the root node, not null, may be this
 	 */
 	@SuppressWarnings("unchecked")
 	default T root() {
@@ -61,21 +61,9 @@ public interface Node<T extends Node<T>> {
 
 
 	/**
-	 * Returns true if this node has no child nodes.
-	 * 
-	 * @return true or false
-	 * @see #isParent
-	 */
-	default boolean isLeaf() {
-		return nodes().isEmpty();
-	}
-
-
-	/**
 	 * Returns true if this node has one or more child nodes.
 	 * 
 	 * @return true or false
-	 * @see #isLeaf
 	 */
 	default boolean isParent() {
 		return ! nodes().isEmpty();
