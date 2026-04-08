@@ -25,7 +25,6 @@ public class DataNode extends AbstractNode<DataNode> {
 	 * @see #setName
 	 */
 	public DataNode(String name) {
-		//super(); 
 		setName(name); this.value = "";
 	}
 
@@ -41,8 +40,7 @@ public class DataNode extends AbstractNode<DataNode> {
 	 * @see #setValue
 	 */
 	public DataNode(String name, String value) {
-		//super(); 
-		setName(name); setValue(value); // UNSAFE [Bloch] ?
+		setName(name); setValue(value);
 	}
 
 
@@ -100,14 +98,14 @@ public class DataNode extends AbstractNode<DataNode> {
 	 * parent node <i>and</i> for a "vacant parent" with an empty child list (as in
 	 * <code>node{ }</code> for example).
 	 * <p>
-	 * <i>Note</i>: this method is not the opposite of the {@code isParent()} method, 
-	 * which also returns false for a vacant parent node.
+	 * <strong>Warning</strong>: this method is not the logical opposite of the
+	 * {@code isParent()} method, which also returns false for a vacant parent node.
 	 * 
 	 * @return true or false
 	 * @see AbstractNode#isParent
 	 */
-	public boolean isLeaf() {
-		return (getNodeList() == null);
+	public final boolean isLeaf() {
+		return (nodeList() == null);
 	}
 
 
@@ -147,7 +145,7 @@ public class DataNode extends AbstractNode<DataNode> {
 	@Override
 	public String toString() {
 
-		final var nodes = (List<DataNode>) getNodeList();
+		final var nodes = (List<DataNode>) nodeList();
 		final StringBuilder sb = new StringBuilder(name);
 		
 		if (! value.isEmpty() || nodes == null) 
