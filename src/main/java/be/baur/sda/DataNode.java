@@ -52,7 +52,7 @@ public class DataNode extends AbstractNode<DataNode> {
 	 * @throws IllegalArgumentException if the name is invalid
 	 */
 	public final void setName(String name) {
-		if (! SDA.isName(name)) 
+		if (! SDA.isNodeName(name)) 
 			throw new IllegalArgumentException("invalid node name (" + name + ")");
 		this.name = name;
 	}

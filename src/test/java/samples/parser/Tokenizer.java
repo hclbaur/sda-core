@@ -77,7 +77,7 @@ final class Tokenizer {
             
             if (state == IDENTIFIER) {
                 
-				if ( SDA.isNamePart(c) ) {
+				if ( SDA.isNodeNamePart(c) ) {
                     // part of an identifier, add it to the current value
                     value += (char)c; continue;
                 }				
@@ -122,7 +122,7 @@ final class Tokenizer {
                     // quote starts a string
                     state = STRING; continue;
                 }
-                if ( SDA.isNameStart(c) ) {
+                if ( SDA.isNodeNameStart(c) ) {
                     // start of an identifier
                     state = IDENTIFIER; value += (char)c; continue;
                 }

@@ -145,12 +145,12 @@ public final class SDAParser implements Parser<DataNode> {
 	    	String s = "";
 	    	
 	    	checkEOF();
-	    	if (! SDA.isNameStart(c)) 
+	    	if (! SDA.isNodeNameStart(c)) 
 	    		throw exception(p, "node name cannot start with '%c'", c);
 	    	
 	    	do { // add to result until we get something that is not part of a node name
 	    		s = s + (char)c; advance(false);
-	    	} while (SDA.isNamePart(c));
+	    	} while (SDA.isNodeNamePart(c));
 
 	    	if (Character.isWhitespace(c)) advance(true);
 	    	checkEOF();  // dangling node names are not allowed

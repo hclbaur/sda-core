@@ -21,7 +21,7 @@ public final class SDA {
 	/** A right brace (ends a node list). */
 	public static final int RBRACE = '}'; 
 	
-	/** A quote (encloses simple content). */
+	/** A QUOTE_STR (encloses simple content). */
 	public static final int QUOTE = '"'; 
 	
 	/** A back slash (the escape character). */
@@ -62,7 +62,7 @@ public final class SDA {
 	 * @param c a character
 	 * @return true or false
 	 */
-	public static boolean isNameStart(int c) {
+	public static boolean isNodeNameStart(int c) {
 		return (isLetter(c) || c == USCORE);
 	}
 	
@@ -73,7 +73,7 @@ public final class SDA {
 	 * @param c a character
 	 * @return true or false
 	 */
-	public static boolean isNamePart(int c) {
+	public static boolean isNodeNamePart(int c) {
 		return (isLetter(c) || c == USCORE || isDigit(c));
 	}
 	
@@ -87,19 +87,19 @@ public final class SDA {
 	 * @param name a string
 	 * @return true or false
 	 */
-	public static boolean isName(String name) {
+	public static boolean isNodeName(String name) {
 		
 		if (name == null || name.isEmpty()) return false;
 
 		int c = name.codePointAt(0);
-		if (! isNameStart(c)) return false;
+		if (! isNodeNameStart(c)) return false;
 		
 		int i = Character.charCount(c);
 		int alfanum = (c == USCORE) ? 0 : 1;
 		
 		while (i < name.length()) {
 			c = name.codePointAt(i);
-			if (!isNamePart(c))	return false;
+			if (!isNodeNamePart(c))	return false;
 			i += Character.charCount(c);
 			if (c != USCORE) ++alfanum;
 		}
@@ -150,8 +150,8 @@ public final class SDA {
 */
 
 
-	private static final String bslash = "" + (char)SDA.BSLASH;
-	private static final String quote = "" + (char)SDA.QUOTE;
+	private static final String BSLASH_STR = "" + (char)SDA.BSLASH;
+	private static final String QUOTE_STR = "" + (char)SDA.QUOTE;
 
 	/**
 	 * Encode a string as an SDA value. This method formats its argument as an SDA
@@ -161,11 +161,13 @@ public final class SDA {
 	 * @return the encoded string, like 'The \\ is called a \"backslash\" in English.'
 	 */
 	public static String encode(String value) {
-		return value.replace(bslash, bslash + bslash).replace(quote, bslash + quote);
+		return value
+			.replace(BSLASH_STR, BSLASH_STR + BSLASH_STR)
+			.replace(QUOTE_STR, BSLASH_STR + QUOTE_STR);
 	}
 	
 	
-	private static SDAParser PARSER = new SDAParser();  // singleton parser
+	private static final SDAParser PARSER = new SDAParser();  // singleton parser
 	
 	/**
 	 * Creates a data node from a character stream, using the default SDA parser.
@@ -207,7 +209,7 @@ public final class SDA {
 	}
 	
 
-	private static SDAFormatter FORMATTER = new SDAFormatter();  // singleton formatter
+	private static final SDAFormatter FORMATTER = new SDAFormatter();  // singleton formatter
 	
 	/**
 	 * Writes a formatted data node to a character stream, using the default SDA
