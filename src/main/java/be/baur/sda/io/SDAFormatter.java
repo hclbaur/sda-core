@@ -59,7 +59,7 @@ public final class SDAFormatter implements Formatter<DataNode> {
 	 * stream. This method will ignore a null node reference (and write nothing).
 	 */
 	@Override
-	public void format(final Writer output, DataNode node) throws IOException {
+	public void format(Writer output, DataNode node) throws IOException {
 
 		Objects.requireNonNull(output, "output writer must not be null");
 		if (node != null) {

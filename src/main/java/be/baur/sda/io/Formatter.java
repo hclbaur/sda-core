@@ -43,7 +43,7 @@ public interface Formatter<T extends Node<?>> {
 	 * @param file the file to be created or overwritten, not null
 	 * @throws IOException if an I/O operation failed
 	 */
-	default void format(final File file, T node) throws IOException {
+	default void format(File file, T node) throws IOException {
 
 		Objects.requireNonNull(file, "input file must not be null");
 		try (

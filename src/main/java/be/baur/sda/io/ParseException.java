@@ -7,7 +7,7 @@ package be.baur.sda.io;
  * @see Parser
  */
 @SuppressWarnings("serial")
-public abstract class ParseException extends java.text.ParseException {
+public class ParseException extends java.text.ParseException {
 
 	/**
 	 * Creates a parse exception with an error message and offset (counted in

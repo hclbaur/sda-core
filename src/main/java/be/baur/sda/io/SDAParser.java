@@ -36,10 +36,10 @@ public final class SDAParser implements Parser<DataNode> {
 	 * Creates a data node from a character input stream in SDA format. The parser
 	 * is re-usable and thread-safe, and can be run as a singleton instance.
 	 * 
-	 * @throws SDAParseException if an SDA parsing error occurs
+	 * @throws ParseException if an SDA parsing error occurs
 	 */
 	@Override
-	public DataNode parse(Reader input) throws IOException, SDAParseException {
+	public DataNode parse(Reader input) throws IOException, ParseException {
 
 		Objects.requireNonNull(input, "input reader must not be null");
 		final Scanner scanner = new Scanner(input);
@@ -55,7 +55,7 @@ public final class SDAParser implements Parser<DataNode> {
 
 	
 	// Recursive helper to get nodes from the input, follows straight from the EBNF.
-	private static DataNode parseNode(final Scanner scanner) throws SDAParseException, IOException {
+	private static DataNode parseNode(Scanner scanner) throws ParseException, IOException {
 
 		final DataNode node;
 		try {
@@ -97,10 +97,10 @@ public final class SDAParser implements Parser<DataNode> {
 	 * @param offset position where the error was found
 	 * @param format a format message, and
 	 * @param args   arguments, as in {@link String#format}
-	 * @return SDAParseException
+	 * @return ParseException
 	 */
-	private static final SDAParseException exception(int offset, String format, Object... args) {
-		return new SDAParseException(String.format(format, args), offset);
+	private static final ParseException exception(int offset, String format, Object... args) {
+		return new ParseException(String.format(format, args), offset);
 	}
 	
 
@@ -134,13 +134,13 @@ public final class SDAParser implements Parser<DataNode> {
 
 	    private static final int EOF = -1;
 	    /** Check and abort when EOF is reached. */
-	    void checkEOF() throws SDAParseException {
+	    void checkEOF() throws ParseException {
 	    	if (c == EOF) throw exception(p-1, "unexpected end of input");
 	    }
 	    
 	    
 	    /** Look for a valid node name and return it. */
-	    String getNodeName() throws SDAParseException, IOException  {
+	    String getNodeName() throws ParseException, IOException  {
 	    	
 	    	String s = "";
 	    	
@@ -160,7 +160,7 @@ public final class SDAParser implements Parser<DataNode> {
 	    
 	    
 	    /** Look for a quoted string and return it (without quotes). */
-	    String getQuotedString() throws SDAParseException, IOException  {
+	    String getQuotedString() throws ParseException, IOException  {
 	    	
 	    	String s = ""; boolean escape = false;
 	    	

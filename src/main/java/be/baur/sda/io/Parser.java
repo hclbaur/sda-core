@@ -53,7 +53,7 @@ public interface Parser<T extends Node<?>> {
 			throw new IOException("error reading from " + file, e);
 		}
 		catch (ParseException e) {
-			throw new FileParseException(file.toString(), e);
+			throw new FileParseException(file.getPath(), e);
 		}
 	}
 

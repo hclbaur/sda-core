@@ -99,7 +99,7 @@ public class DataNode extends AbstractNode<DataNode> {
 	 * <code>node{ }</code> for example).
 	 * <p>
 	 * <strong>Warning</strong>: this method is not the logical opposite of the
-	 * {@code isParent()} method, which also returns false for a vacant parent node.
+	 * {@code isParent()} method, which also returns false for a vacant parent.
 	 * 
 	 * @return true or false
 	 * @see AbstractNode#isParent
@@ -143,7 +143,7 @@ public class DataNode extends AbstractNode<DataNode> {
 	 * @return the SDA representation of this node
 	 */
 	@Override
-	public String toString() {
+	public final String toString() {
 
 		final var nodes = (List<DataNode>) nodeList();
 		final StringBuilder sb = new StringBuilder(name);

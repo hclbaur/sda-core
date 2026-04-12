@@ -2,7 +2,7 @@ package test;
 
 import java.util.function.Function;
 
-import be.baur.sda.io.SDAParseException;
+import be.baur.sda.io.ParseException;
 import samples.parser.SDAParser;
 
 public final class TestSDAParserAlt {
@@ -31,7 +31,7 @@ public final class TestSDAParserAlt {
 			try {
 				return parser.parse(str).toString();
 			} catch (Exception e) {
-				return ((SDAParseException)e).getLocalizedMessage();
+				return ((ParseException)e).getLocalizedMessage();
 			}
 		};
 				

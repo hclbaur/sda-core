@@ -8,7 +8,6 @@ import java.io.Writer;
 import be.baur.sda.io.FileParseException;
 import be.baur.sda.io.ParseException;
 import be.baur.sda.io.SDAFormatter;
-import be.baur.sda.io.SDAParseException;
 import be.baur.sda.io.SDAParser;
 
 /**
@@ -174,9 +173,9 @@ public final class SDA {
 	 * @param input an input stream
 	 * @return a (root) node
 	 * @throws IOException       if an I/O operation failed
-	 * @throws SDAParseException if an SDA parsing error occurs
+	 * @throws ParseException if an SDA parsing error occurs
 	 */
-	public static DataNode parse(Reader input) throws IOException, SDAParseException {
+	public static DataNode parse(Reader input) throws IOException, ParseException {
 		return PARSER.parse(input);
 	}
 	
