@@ -21,7 +21,7 @@ public final class SDA {
 	/** A right brace (ends a node list). */
 	public static final int RBRACE = '}'; 
 	
-	/** A QUOTE_STR (encloses simple content). */
+	/** A double quote (encloses simple content). */
 	public static final int QUOTE = '"'; 
 	
 	/** A back slash (the escape character). */
@@ -167,7 +167,7 @@ public final class SDA {
 	}
 	
 	
-	private static final SDAParser PARSER = new SDAParser();  // singleton parser
+	private static final SDAParser PARSER = new SDAParser();
 	
 	/**
 	 * Creates a data node from a character stream, using the default SDA parser.
@@ -209,7 +209,7 @@ public final class SDA {
 	}
 	
 
-	private static final SDAFormatter FORMATTER = new SDAFormatter();  // singleton formatter
+	private static final SDAFormatter FORMATTER = new SDAFormatter();
 	
 	/**
 	 * Writes a formatted data node to a character stream, using the default SDA
