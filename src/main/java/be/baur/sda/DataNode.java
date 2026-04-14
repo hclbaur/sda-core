@@ -129,16 +129,11 @@ public class DataNode extends AbstractNode<DataNode> {
 	 * Returns a string representing this node in SDA notation. For example:
 	 * 
 	 * <pre>
-	 * node ""
-	 * node { ... }
-	 * node "a value"
-	 * node "a value" { ... }
+	 * greeting { message "hello" }
 	 * </pre>
 	 * 
-	 * Where {@code ...} are (optional) child nodes. Note that the result is
-	 * formatted as a single line of text. For a more readable result, use an
-	 * {@link SDAFormatter}.
-	 * <p>
+	 * @apiNote the result is formatted as a single line of text. For a more
+	 *          readable presentation, use an {@link SDAFormatter}.
 	 * 
 	 * @return the SDA representation of this node
 	 */

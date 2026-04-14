@@ -157,10 +157,17 @@ public final class SDA {
 	 * Encode a string as an SDA value. This method formats its argument as an SDA
 	 * value, with backslashes and quotes properly escaped.
 	 * 
+	 * @implNote uses {@code String.replace} (maybe not the most efficient solution).
+	 * 
 	 * @param value a string, for example 'The \ is called a "backslash" in English.'
 	 * @return the encoded string, like 'The \\ is called a \"backslash\" in English.'
 	 */
 	public static String encode(String value) {
+		
+		// prevent NPE, do nothing if empty
+		if (value == null || value.isEmpty())
+			return value;
+
 		return value
 			.replace(BSLASH_STR, BSLASH_STR + BSLASH_STR)
 			.replace(QUOTE_STR, BSLASH_STR + QUOTE_STR);
