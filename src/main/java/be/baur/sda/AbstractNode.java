@@ -78,13 +78,10 @@ public abstract class AbstractNode<T extends AbstractNode<T>> implements Node<T>
 	 */
 	public boolean add(T node) {
 
-		boolean changed = false; // whether this node was changed
-
 		if (nodes == null) { // initialize a node list if we have none yet
 			synchronized (this) { // prevent re-assignment by another thread
 				if (nodes == null) {
 					nodes = new ArrayList<T>();
-					changed = true;
 				}
 			}
 		}
@@ -94,7 +91,7 @@ public abstract class AbstractNode<T extends AbstractNode<T>> implements Node<T>
 			if (node.getParent() != null) {
 				if (node.getParent() != this)
 					throw new IllegalArgumentException("node '" + node.getName() + "' already has a parent");
-				return changed;
+				return false;
 			}
 
 			if (nodes.add(node)) {
@@ -107,23 +104,23 @@ public abstract class AbstractNode<T extends AbstractNode<T>> implements Node<T>
 			}
 		}
 
-		return changed;
+		return false;
 	}
 
 // possible improvement
-	/**
-	 * Adds a child node to this node. It returns true if the supplied node was
-	 * added as a child, false if it was already a child of this node. The invariant
-	 * is that after successful completion this node will contain the supplied node.
-	 * 
-	 * @apiNote this method is thread safe.
-	 * 
-	 * @param node the node to be added to this node
-	 * @return true if the supplied node was added as a child
-	 * @throws NullPointerException     if the supplied node is null
-	 * @throws IllegalArgumentException if the supplied node already has a different
-	 *                                  parent
-	 */
+//	/**
+//	 * Adds a child node to this node. It returns true if the supplied node was
+//	 * added as a child, false if it was already a child of this node. The invariant
+//	 * is that after successful completion this node will contain the supplied node.
+//	 * 
+//	 * @apiNote this method is thread safe.
+//	 * 
+//	 * @param node the node to be added to this node
+//	 * @return true if the supplied node was added as a child
+//	 * @throws NullPointerException     if the supplied node is null
+//	 * @throws IllegalArgumentException if the supplied node already has a different
+//	 *                                  parent
+//	 */
 //@SuppressWarnings("unchecked")
 //public boolean add(T node) {
 //
@@ -145,21 +142,21 @@ public abstract class AbstractNode<T extends AbstractNode<T>> implements Node<T>
 //
 //	return false;
 //}
-
-
-/**
- * Ensures this node has an initialized (possibly empty) child list, making it a
- * vacant parent node. This is useful for rendering nodes with an empty
- * structure notation (e.g., {@code mynode "myvalue" { }}).
- * <p>
- * Calling this method multiple times is safe; if the child list is already
- * initialized, this method has no effect.
- * 
- * @apiNote this method is thread safe.
- * 
- * @return true if the child list was initialized by this call, false if it was
- *         already initialized
- */
+//
+//
+///**
+// * Ensures this node has an initialized (possibly empty) child list, making it a
+// * vacant parent node. This is useful for rendering nodes with an empty
+// * structure notation (e.g., {@code mynode "myvalue" { }}).
+// * <p>
+// * Calling this method multiple times is safe; if the child list is already
+// * initialized, this method has no effect.
+// * 
+// * @apiNote this method is thread safe.
+// * 
+// * @return true if the child list was initialized by this call, false if it was
+// *         already initialized
+// */
 //public boolean ensureVacant() {
 //
 //	if (nodes == null) {
