@@ -75,7 +75,7 @@ public final class SDAParser implements Parser<DataNode> {
 	
 			scanner.advanceSkipWhite();  // skip left brace and whitespace
 			
-			node.add(null);  // initialize child set, recursively add nodes
+			node.expand();  // initialize as vacant, recursively add nodes
 			while (scanner.c != SDA.RBRACE) {
 				node.add( parseNode(scanner) );
 			}

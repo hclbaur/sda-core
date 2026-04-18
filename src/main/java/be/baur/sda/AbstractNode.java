@@ -3,6 +3,7 @@ package be.baur.sda;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * An {@code AbstractNode} provides the bare-bones implementation of a node
@@ -37,14 +38,31 @@ public abstract class AbstractNode<T extends AbstractNode<T>> implements Node<T>
 	 * 
 	 * @return a <i>modifiable</i> list of nodes, may be null
 	 */
-	final List<T> nodeList() {
+	final List<T> getNodeList() {
 		return nodes;
 	}
 
+
+	/**
+	 * This <i>package-private</i> method is called for lazy initialization of the
+	 * internal list that holds any child nodes.
+	 * 
+	 * @apiNote this method is thread safe. Calling it more than once has no effect
+	 *          (it returns false if the nodes list had already been initialized).
+	 * 
+	 * @return true if the child list was initialized by this call.
+	 */
+	final boolean initNodeList() {
 	
-	@Override
-	public final T getParent() {
-		return parent;
+		if (nodes == null) {
+			synchronized (this) {
+				if (nodes == null) {
+					nodes = new ArrayList<T>();
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 
@@ -52,6 +70,12 @@ public abstract class AbstractNode<T extends AbstractNode<T>> implements Node<T>
 	public List<T> nodes() {
 		if (nodes == null) return EMPTY_LIST;
 		return Collections.unmodifiableList(nodes);
+	}
+
+	
+	@Override
+	public final T getParent() {
+		return parent;
 	}
 
 
@@ -63,112 +87,43 @@ public abstract class AbstractNode<T extends AbstractNode<T>> implements Node<T>
 
 
 	/**
-	 * Adds a child node to this node. Adding null to a leaf node will create an
-	 * empty child list for that node, but has no effect otherwise. It returns false
-	 * only if the supplied node is already a child of this node; the invariant
-	 * being that after successful completion this node will contain the supplied
-	 * node.
+	 * Adds a child node. This method returns false if the supplied node already was
+	 * a child of this node; the invariant being that after successful completion
+	 * this node contains the supplied node.
 	 * 
 	 * @apiNote this method is thread safe.
 	 * 
-	 * @param node the node to be added to this node
+	 * @param node the node to be added, not null
 	 * @return true if the supplied node was added as a child
-	 * @throws IllegalArgumentException if the supplied node already has a different
-	 *                                  parent
+	 * @throws UnsupportedOperationException if add() is not supported by this node
+	 * @throws IllegalArgumentException      if the supplied node already is a child
+	 *                                       of <i>another</i> node
 	 */
 	public boolean add(T node) {
 
-		if (nodes == null) { // initialize a node list if we have none yet
-			synchronized (this) { // prevent re-assignment by another thread
-				if (nodes == null) {
-					nodes = new ArrayList<T>();
-				}
-			}
+		Objects.requireNonNull(node, "child node must not be null");
+
+		if (node.getParent() != null) {
+			if (node.getParent() != this)
+				throw new IllegalArgumentException("node '" + node.getName() + "' already has a parent");
+			return false;
 		}
 
-		if (node != null) {
+		if (nodes == null) // minor optimization
+			initNodeList();
 
-			if (node.getParent() != null) {
-				if (node.getParent() != this)
-					throw new IllegalArgumentException("node '" + node.getName() + "' already has a parent");
-				return false;
-			}
-
-			if (nodes.add(node)) {
-				/* Safe cast assuming proper F-bounded polymorphism usage (T bound to
-				 * implementing type). See Javadoc of Node.getParent() and Node.root()
-				 */ @SuppressWarnings("unchecked")
-				T self = (T) this;
-				node.setParent(self);
-				return true;
-			}
+		if (nodes.add(node)) {
+			/*
+			 * Safe cast assuming proper F-bounded polymorphism usage (T bound to
+			 * implementing type). See Javadoc of Node.getParent() and Node.root()
+			 */ @SuppressWarnings("unchecked")
+			T self = (T) this;
+			node.setParent(self);
+			return true;
 		}
 
-		return false;
+		return false; // should never reach this
 	}
-
-// possible improvement
-//	/**
-//	 * Adds a child node to this node. It returns true if the supplied node was
-//	 * added as a child, false if it was already a child of this node. The invariant
-//	 * is that after successful completion this node will contain the supplied node.
-//	 * 
-//	 * @apiNote this method is thread safe.
-//	 * 
-//	 * @param node the node to be added to this node
-//	 * @return true if the supplied node was added as a child
-//	 * @throws NullPointerException     if the supplied node is null
-//	 * @throws IllegalArgumentException if the supplied node already has a different
-//	 *                                  parent
-//	 */
-//@SuppressWarnings("unchecked")
-//public boolean add(T node) {
-//
-//	if (node == null)
-//		throw new NullPointerException("node cannot be null");
-//
-//	if (node.getParent() != null) {
-//		if (node.getParent() != this)
-//			throw new IllegalArgumentException("node '" + node.getName() + "' already has a parent");
-//		return false;
-//	}
-//
-//	ensureVacant();
-//
-//	if (nodes.add(node)) {
-//		node.setParent((T) this);
-//		return true;
-//	}
-//
-//	return false;
-//}
-//
-//
-///**
-// * Ensures this node has an initialized (possibly empty) child list, making it a
-// * vacant parent node. This is useful for rendering nodes with an empty
-// * structure notation (e.g., {@code mynode "myvalue" { }}).
-// * <p>
-// * Calling this method multiple times is safe; if the child list is already
-// * initialized, this method has no effect.
-// * 
-// * @apiNote this method is thread safe.
-// * 
-// * @return true if the child list was initialized by this call, false if it was
-// *         already initialized
-// */
-//public boolean ensureVacant() {
-//
-//	if (nodes == null) {
-//		synchronized (this) {
-//			if (nodes == null) {
-//				nodes = new ArrayList<T>();
-//				return true;
-//			}
-//		}
-//	}
-//	return false;
-//}
 	
 
 	/**
@@ -181,6 +136,7 @@ public abstract class AbstractNode<T extends AbstractNode<T>> implements Node<T>
 	 * 
 	 * @param node the node to be removed from this node
 	 * @return true if this node contained the child node
+	 * @throws UnsupportedOperationException if remove() is not supported
 	 */
 	public boolean remove(T node) {
 

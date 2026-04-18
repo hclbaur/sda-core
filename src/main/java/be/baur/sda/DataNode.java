@@ -94,30 +94,47 @@ public class DataNode extends AbstractNode<DataNode> {
 
 
 	/**
-	 * Returns true if this node has no child list. This method returns false for a
-	 * parent node <i>and</i> for a "vacant parent" with an empty child list (as in
-	 * <code>node{ }</code> for example).
+	 * Turns a leaf node into a vacant (empty) parent. For instance, calling this
+	 * method on a node like
+	 * <p>
+	 * {@code value "42"}
+	 * <p>
+	 * will turn it into
+	 * <p>
+	 * {@code value "42" { }}
+	 * 
+	 * @return true if this node was expanded, or false if it already was
+	 */
+	public final boolean expand() {
+		return initNodeList();
+	}
+	
+	
+	/**
+	 * Returns true if this node has no child list (not even an empty one). This
+	 * method returns false for a parent node <i>and</i> for a vacant parent with
+	 * an empty node list, like <code>emptyNode{}</code>.
 	 * <p>
 	 * <strong>Warning</strong>: this method is not the logical opposite of the
-	 * {@code isParent()} method, which also returns false for a vacant parent.
+	 * {@code isParent()} method, which returns false for a vacant parent as well.
 	 * 
 	 * @return true or false
 	 * @see AbstractNode#isParent
 	 */
 	public final boolean isLeaf() {
-		return (nodeList() == null);
+		return (getNodeList() == null);
 	}
 
 
 	/**
 	 * Returns a deep copy of this node.
 	 * 
-	 * @return a node
+	 * @return a new node
 	 */
 	public final DataNode copy() {
 		DataNode cp = new DataNode(this.getName(), this.getValue());
 		if (! this.isLeaf()) {
-			cp.add(null);
+			//cp.expand(); not needed
 			for (DataNode child : this.nodes()) 
 				cp.add(child.copy());
 		}
@@ -140,7 +157,7 @@ public class DataNode extends AbstractNode<DataNode> {
 	@Override
 	public final String toString() {
 
-		final var nodes = (List<DataNode>) nodeList();
+		final var nodes = (List<DataNode>) getNodeList();
 		final StringBuilder sb = new StringBuilder(name);
 		
 		if (! value.isEmpty() || nodes == null) 

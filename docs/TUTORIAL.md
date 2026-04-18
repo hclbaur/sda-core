@@ -13,11 +13,7 @@
 
 ## Introduction
 
-This tutorial will teach you the SDA format, version 2. Unlike the documentation 
-for version 1, I will keep this one more to the point, and focus on what SDA is, 
-rather than what it is not, or how it relates to XML. But should you feel so
-inclined towards reading my musings on these matters, you can find the original 
-[here](/docs/SDA1.md). 
+This tutorial will teach you the SDA format, version 2. Unlike the documentation for version 1, I will keep this one more to the point, and focus on what SDA is, rather than what it is not, or how it relates to XML. But should you feel so inclined towards reading my musings on these matters, you can find the original [here](/docs/SDA1.md). 
 
 
 ## The basics
@@ -29,16 +25,16 @@ Consider the following:
 This constitutes about the simplest example of an SDA *node*, consisting of an identifier (or tag) and a value enclosed in double quotes. As you may have guessed, the value in this 
 example is a name. 
 
-Nodes with *simple* content like this are usually called "leaf nodes", as opposed to "parent nodes" which contain other nodes, like so: 
+Nodes with a *value* like this are usually called "leaf" nodes, as opposed to "composite" or "parent" nodes which contain other nodes, like so: 
 
 	name {
 		first "John"
 		last "Doe"
 	}
 
-SDA uses a block style notation to create nodes with *complex* content, and as such, to organise date in hierarchical form. There is (at least in theory) no limit to the level of nesting; nodes can contain nodes, that can contain other nodes, *ad infinitum*.
+SDA uses a block style notation to create composite nodes with *node* content, and as such, to organize data in hierarchical form. There is (at least in theory) no limit to the level of nesting; nodes can contain nodes, that can contain other nodes, *ad infinitum*.
 
-Perhaps surprisingly, SDA nodes can have both simple and complex content as in:
+Perhaps surprisingly, SDA nodes can have both a value *and* node content as in:
 
 	name "johnd" {
 		first "John"
@@ -53,8 +49,8 @@ SDA syntax does not get more complicated than this. Of course, there are rules w
 For SDA to be syntactically sound, the following rules must be followed:
 
 - Node names are case sensitive identifiers.
-- Simple content is enclosed in double quotes.
-- Whitespace is preserved in simple content only.
+- A value is enclosed in double quotes.
+- Whitespace is preserved in values only.
 - There can only be one top level node.
 - Empty nodes are relevant.
 
@@ -72,7 +68,7 @@ Tags may consist only of letters, digits and underscores. They cannot start with
 
 ### Content
 
-Simple content is *always* enclosed in double quotes. Unlike some other data formats (for example JSON) SDA is not strongly typed. Everything is essentially a `string`. In other words, the following examples are all *invalid* in SDA:
+A value is *always* enclosed in double quotes. Unlike some other data formats (for example JSON) SDA is not strongly typed. Everything is essentially a `string`. In other words, the following examples are all *invalid* in SDA:
 
 	age 54
 	birthday 1968-02-28
@@ -82,7 +78,7 @@ Since quotes are used to delimit the values, literal quotes that are *part* of t
 
 	example "The \\ is called a \"backslash\" in English."
 
-Only in simple content is whitespace considered significant and preserved. This means that if an application was to parse SDA and subsequently render it as text, only whitespace enclosed in quotes (including line breaks) is guaranteed to come out unaffected. For example:
+Only in a value is whitespace considered significant and preserved. This means that if an application was to parse SDA and subsequently render it as text, only whitespace enclosed in quotes (including line breaks) is guaranteed to come out unaffected. For example:
 
 	person {
 		name    "John   Doe"
@@ -90,7 +86,7 @@ Only in simple content is whitespace considered significant and preserved. This 
 
 might be formatted as
 
-	person{ name "John   Doe" }
+	person { name "John   Doe" }
 
 and both would be correct representations of the same data. In fact, so would
 
@@ -113,7 +109,7 @@ SDA nodes can be empty, in more than one way in fact. For example, this is a nod
 
 	empty ""
 
-and so is this one, except that here we also have empty complex content:
+and so is this one, except that here we also have empty composite content:
 
 	empty {}
 	
@@ -121,11 +117,11 @@ which is semantically equivalent to
 
 	empty "" {}
 
-By convention, and for the sake of readbility, we shall omit the implied empty value for nodes with complex content only.
+By convention, and for the sake of readability, we shall omit the implied empty value for nodes with composite content only.
 
-So, is `empty {}` a leaf node or a parent node? Obviously, it has no child nodes, so it must be a leaf node. On the other hand, one might argue it has an empty set of child nodes. Lacking a better term, we call this a "vacant parent", and it is neither a leaf nor a parent.
+So, is `empty {}` a leaf node or a parent node? Obviously, it has no child nodes, so it must be a leaf node. On the other hand, one might argue it has an empty set of child nodes. Lacking a better term, we may call this a vacant or empty parent, and it is neither a leaf nor a parent.
 
-Recall that in SDA, all simple content is enclosed in double quotes, including the empty value. There is no equivalent of an explicit `nil` or `null` value, so for all practical purposes, empty nodes in SDA may be considered to have actual - yet empty - content. And as such they are relevant, e.g. parsers should not ignore them, so omitting a node is not the same as including an empty one.
+Recall that in SDA, all values are enclosed in double quotes, including the empty value. There is no equivalent of an explicit `nil` or `null` value, so for all practical purposes, empty nodes in SDA may be considered to have actual - yet empty - content. And as such they are relevant, e.g. parsers should not ignore them, so omitting a node is not the same as including an empty one.
 
 
 ## Unsupported features

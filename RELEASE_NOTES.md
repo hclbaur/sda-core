@@ -10,9 +10,11 @@ Also, as of this release, Java 11 is required.
 - `Removed` method Node.remove().
 - `Removed` default method Node.isLeaf().
 - `Removed` method AbstractNode.isLeaf().
-- `Removed` SDAParseException().
+- `Removed` SDAParseException(), use ParseException.
 - `Changed` be.baur.sda.io.ParseException() is no longer abstract.
+- `Changed` AbstractNode.add() to no longer accept null.
 - `Renamed` SDA.isName() to SDA.isNodeName().
+- Added DataNode.expand() to replace add(null).
 
 ## Compatibility
 

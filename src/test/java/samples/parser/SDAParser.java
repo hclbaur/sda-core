@@ -91,10 +91,10 @@ public final class SDAParser implements Parser<DataNode> {
 
 					if (stack.peek().type == Tokenizer.IDENTIFIER) {
 
-						// pop identifier, create a complex node
+						// pop identifier, create a composite node
 						DataNode c; String name = stack.pop().value;
 						try {
-							c = new DataNode(name); c.add(null);
+							c = new DataNode(name); c.expand();
 						} catch (IllegalArgumentException x) {
 							throw new ParseException(x.getMessage(), lexer.getPos());
 						}
