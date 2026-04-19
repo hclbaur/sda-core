@@ -169,14 +169,19 @@ public interface Node<T extends Node<T>> {
 	 */
 	default String path() {
 		
-		T parent = getParent(); String name = getName(); 
-		var sameNodes = (parent != null) ? parent.getAll(name) : null;
-		final int pos = // position in list of nodes with the same name, see helper below
-			(sameNodes != null && sameNodes.size() > 1) ? position(sameNodes) : 0;
+		T parent = getParent(); 
+		
+		String name = getName();
+		if (name.isEmpty()) name = "*"; // not necessarily a DataNode
+		
+		if (parent == null) // start of the path, so return
+			return "/" + name;
+				
+		var sameNodes = parent.getAll(name);
+		// position in list of nodes with the same name
+		final int pos = sameNodes.size() > 1 ? position(sameNodes) : 0;
 
-		return (parent != null ? parent.path() : "")
-			+ "/" + (name.isEmpty() ? "*" : name)
-			+ (pos > 0 ? "[" + pos + "]" : "");
+		return parent.path() + "/" + name + (pos > 0 ? "[" + pos + "]" : "");
 	}
 
 
