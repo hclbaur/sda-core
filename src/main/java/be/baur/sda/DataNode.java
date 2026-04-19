@@ -134,7 +134,7 @@ public class DataNode extends AbstractNode<DataNode> {
 	public final DataNode copy() {
 		DataNode cp = new DataNode(this.getName(), this.getValue());
 		if (! this.isLeaf()) {
-			//cp.expand(); not needed
+			cp.expand();
 			for (DataNode child : this.nodes()) 
 				cp.add(child.copy());
 		}

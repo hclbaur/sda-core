@@ -3,7 +3,6 @@ package be.baur.sda;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * An {@code AbstractNode} provides the bare-bones implementation of a node
@@ -88,7 +87,7 @@ public abstract class AbstractNode<T extends AbstractNode<T>> implements Node<T>
 
 	/**
 	 * Adds a child node. This method returns false if the supplied node already was
-	 * a child of this node; the invariant being that after successful completion
+	 * a child of this node, preserving the invariant that once this method returns,
 	 * this node contains the supplied node.
 	 * 
 	 * @apiNote this method is thread safe.
@@ -96,12 +95,13 @@ public abstract class AbstractNode<T extends AbstractNode<T>> implements Node<T>
 	 * @param node the node to be added, not null
 	 * @return true if the supplied node was added as a child
 	 * @throws UnsupportedOperationException if add() is not supported by this node
-	 * @throws IllegalArgumentException      if the supplied node already is a child
-	 *                                       of <i>another</i> node
+	 * @throws IllegalArgumentException      if the supplied node is null, equal to
+	 *                                       this, or a child of another node
 	 */
 	public boolean add(T node) {
 
-		Objects.requireNonNull(node, "child node must not be null");
+		if (node == null || node == this)
+			throw new IllegalArgumentException("child node must not be null or equal to this");
 
 		if (node.getParent() != null) {
 			if (node.getParent() != this)
@@ -109,17 +109,19 @@ public abstract class AbstractNode<T extends AbstractNode<T>> implements Node<T>
 			return false;
 		}
 
-		if (nodes == null) // minor optimization
-			initNodeList();
+		synchronized (this) {
+			if (nodes == null) 
+				nodes = new ArrayList<T>();
 
-		if (nodes.add(node)) {
-			/*
-			 * Safe cast assuming proper F-bounded polymorphism usage (T bound to
-			 * implementing type). See Javadoc of Node.getParent() and Node.root()
-			 */ @SuppressWarnings("unchecked")
-			T self = (T) this;
-			node.setParent(self);
-			return true;
+			if (nodes.add(node)) {
+				/*
+				 * Safe cast assuming proper F-bounded polymorphism usage (T bound to
+				 * implementing type). See Javadoc of Node.getParent() and Node.root()
+				 */ @SuppressWarnings("unchecked")
+				T self = (T) this;
+				node.setParent(self);
+				return true;
+			}
 		}
 
 		return false; // should never reach this
@@ -127,10 +129,10 @@ public abstract class AbstractNode<T extends AbstractNode<T>> implements Node<T>
 	
 
 	/**
-	 * Removes a child node from this node. This method ignores null references and
-	 * nodes that are not children of this node. It returns true only if this node
-	 * was changed as a result of calling the method; the invariant being that after
-	 * successful completion this node will not contain the (alleged) child node.
+	 * Removes a child node. This method ignores null references and nodes that are
+	 * not children of this node. It returns true only if this node was changed as a
+	 * result of calling the method, preserving the invariant that once this method
+	 * returns, this node will not contain the supplied node.
 	 * 
 	 * @apiNote this method is thread safe.
 	 * 
