@@ -28,7 +28,7 @@ public class FileParseException extends ParseException {
 	 * 
 	 * @return a file name
 	 */
-	public String getErrorFilename() {
+	public String getFilename() {
 		return filename;
 	}
 	

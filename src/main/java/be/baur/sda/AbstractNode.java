@@ -19,11 +19,14 @@ public abstract class AbstractNode<T extends AbstractNode<T>> implements Node<T>
 
 	
 	/**
-	 * This <i>protected</i> method sets the parent. It is called internally to
-	 * maintain parent-child integrity when adding or removing child nodes.
+	 * This <i>protected</i> method sets the parent of this node. It is called
+	 * internally to maintain parent-child integrity when adding or removing child
+	 * nodes.
+	 * 
+	 * @param parent the parent node
 	 */
-	protected final void setParent(T node) {
-		this.parent = node;
+	protected final void setParent(T parent) {
+		this.parent = parent;
 	}
 	
 	

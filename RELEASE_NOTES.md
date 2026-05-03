@@ -2,9 +2,9 @@
 
 ## [2.4.0] - in development
 
-The Node interface (and any class implementing it) was changed to improve both
-type safety and ease of use (less type casting needed). 
-Also, as of this release, Java 11 is required.
+The Node interface (and any class implementing it) was changed to improve performance 
+and type safety. Overall, the library is cleaner and easier to understand and use (less 
+type casting needed). Also, as of this release, Java 11 is required.
 
 - `Removed` method Node.add().
 - `Removed` method Node.remove().
@@ -14,7 +14,9 @@ Also, as of this release, Java 11 is required.
 - `Changed` be.baur.sda.io.ParseException() is no longer abstract.
 - `Changed` AbstractNode.add() to no longer accept null.
 - `Renamed` SDA.isName() to SDA.isNodeName().
+- `Renamed` FileParseException.getErrorFilename() to getFilename().
 - Added DataNode.expand() to replace add(null).
+- Added HOWTO.md (closing issue #14).
 
 ## Compatibility
 

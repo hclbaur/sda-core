@@ -46,7 +46,7 @@ public class DataNode extends AbstractNode<DataNode> {
 
 	/**
 	 * Sets the name (tag) of this node. There are restrictions as to what names are
-	 * acceptable. Refer to {@link SDA#isName} for details.
+	 * acceptable. Refer to {@link SDA#isNodeName} for details.
 	 * 
 	 * @param name a valid node name
 	 * @throws IllegalArgumentException if the name is invalid
