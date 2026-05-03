@@ -21,13 +21,13 @@ import be.baur.sda.Node;
  * 
  * @see SDAFormatter
  */
-public interface Formatter<T extends Node> {
+public interface Formatter<T extends Node<?>> {
 	
 	/**
 	 * Serializes and writes a node to a character output stream.
-	 * <p>
-	 * <i>Note:</i> Implementations should typically flush() but must not close()
-	 * the output stream.
+	 * 
+	 * @implSpec implementations should typically flush() but must not close() the
+	 *           output stream.
 	 * 
 	 * @param output an output stream, not null
 	 * @param node   the node to be rendered
@@ -43,7 +43,7 @@ public interface Formatter<T extends Node> {
 	 * @param file the file to be created or overwritten, not null
 	 * @throws IOException if an I/O operation failed
 	 */
-	default void format(final File file, T node) throws IOException {
+	default void format(File file, T node) throws IOException {
 
 		Objects.requireNonNull(file, "input file must not be null");
 		try (

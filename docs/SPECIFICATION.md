@@ -12,7 +12,7 @@ notation rules for XML grammar, located [here](https://www.w3.org/TR/xml/#sec-no
 
 <b>nodeset</b> = '{' <b>S</b>? (<b>node</b> <b>S</b>?)* '}'
 
-<b>tag</b> = (<b>us</b>* <b>letter</b> | <b>us</b> <b>digit</b>) (<b>us</b> | <b>letter</b> | <b>digit</b>)* ;
+<b>tag</b> = (<b>us</b>* <b>letter</b> | <b>us</b>+ <b>digit</b>) (<b>us</b> | <b>letter</b> | <b>digit</b>)* ;
 
 <b>value</b> = '"' ( [^"\] | '\"' | '\\' )* '"' ;
 

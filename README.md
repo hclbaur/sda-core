@@ -21,7 +21,7 @@ For example:
 		}
 	}
 
-As you can see the format borders on self-explanatory. Nevertheless, I wrote a [tutorial](docs/TUTORIAL.md) and a formal [specification](docs/SPECIFICATION.md).
+As you can see the format borders on self-explanatory. Nevertheless, I wrote a [tutorial](docs/TUTORIAL.md), a formal [specification](docs/SPECIFICATION.md) and a [HOWTO](docs/HOWTO.md) that explains how to use the SDA core library. And of course there is the [Javadoc](https://hclbaur.github.io/sda-core/).
 
 ## Running the demo
 

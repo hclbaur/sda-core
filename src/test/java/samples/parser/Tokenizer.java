@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.Reader;
 
 import be.baur.sda.SDA;
-import be.baur.sda.io.SDAParseException;
+import be.baur.sda.io.ParseException;
 
 /** 
  * A <code>Tokenizer</code> (or lexical analyzer) is associated with an 
@@ -59,7 +59,7 @@ final class Tokenizer {
     }
     
     /** Returns the next <code>Token</code> from the input. */
-    Token getToken() throws IOException, SDAParseException {
+    Token getToken() throws IOException, ParseException {
 
         if (state == BLOCK_START) {
         	short s = state; 
@@ -77,7 +77,7 @@ final class Tokenizer {
             
             if (state == IDENTIFIER) {
                 
-				if ( SDA.isNamePart(c) ) {
+				if ( SDA.isNodeNamePart(c) ) {
                     // part of an identifier, add it to the current value
                     value += (char)c; continue;
                 }				
@@ -94,7 +94,7 @@ final class Tokenizer {
                     state = STRING; return new Token(IDENTIFIER, value); 
                 }
                 // otherwise it must be an invalid character
-                throw new SDAParseException("identifier cannot contain '" + (char)c + "'", pos);
+                throw new ParseException("identifier cannot contain '" + (char)c + "'", pos);
             }
             
             if (state == STRING) {
@@ -122,12 +122,12 @@ final class Tokenizer {
                     // quote starts a string
                     state = STRING; continue;
                 }
-                if ( SDA.isNameStart(c) ) {
+                if ( SDA.isNodeNameStart(c) ) {
                     // start of an identifier
                     state = IDENTIFIER; value += (char)c; continue;
                 }
 				if ( !Character.isWhitespace(c) ) // skip whitespace
-                    throw new SDAParseException("identifier cannot start with '" + (char)c + "'", pos);
+                    throw new ParseException("identifier cannot start with '" + (char)c + "'", pos);
             }
         }
         
@@ -138,9 +138,9 @@ final class Tokenizer {
 		}
 		
         if (state == STRING) 
-            throw new SDAParseException("trailing or pending quote", pos);
+            throw new ParseException("trailing or pending quote", pos);
         else if (state != UNDEFINED) 
-            throw new SDAParseException("unexpected end of input", pos);
+            throw new ParseException("unexpected end of input", pos);
         
         input.close();
         return new Token(EOF);

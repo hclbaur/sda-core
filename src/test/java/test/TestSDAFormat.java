@@ -1,12 +1,10 @@
 package test;
 
-import java.io.File;
-
 import be.baur.sda.DataNode;
 import be.baur.sda.SDA;
 import be.baur.sda.io.SDAFormatter;
 
-public final class TestFormatter {
+public final class TestSDAFormat {
 	
 	private static SDAFormatter formatter = new SDAFormatter();
 	private static SDAFormatter formatter4 = new SDAFormatter(4);
@@ -20,7 +18,7 @@ public final class TestFormatter {
 
         DataNode node = SDA.parse("node\"1\"{node2{empty1\"\"empty2{}empty\"3\"{}}}");
 		String str = formatter4.format(node);
-		t.ts1("S01", str, 
+		t.s("S01", str, 
 				"node \"1\" {\n" + 
 				"    node2 {\n" + 
 				"        empty1 \"\"\n" +
@@ -29,10 +27,9 @@ public final class TestFormatter {
 				"    }\n" + 
 				"}\n");
 		
-		String filename = TestFormatter.class.getResource("/addressbook.sda").getFile();
-		DataNode book = SDA.parse(new File(filename));
+		DataNode book = SDA.parse(Test.getResourceFile("/addressbook.sda"));
 		str = formatter.format(book);
-		t.ts1("S02", str, "addressbook {\n" + 
+		t.s("S02", str, "addressbook {\n" + 
 				"	contact \"1\" {\n" + 
 				"		firstname \"Alice\"\n" + 
 				"		phonenumber \"06-11111111\"\n" + 
@@ -45,22 +42,24 @@ public final class TestFormatter {
 				"	}\n" + 
 				"}\n"
 		);
+		
+		t.checkFailures();
 	
 		// test performance
 		
-//		UnitTestPerformance<Node> perf = new UnitTestPerformance<Node>(
-//			n -> { n.toString(); }   // test toString
-//		);
-//		perf.run("\nP01", book, 25000, 25);
+		var p = new TestPerf<DataNode>(
+			n -> { n.toString(); }   // test toString
+		);
+		p.run("P01", book, 25000, 15);
 
-//		UnitTestPerformance<Node> perf = new UnitTestPerformance<Node>(n -> {
-//			try {
-//				formatter.format(book); // test formatter
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		});
-//		perf.run("\nP02", node, 25000, 25);
+		p = new TestPerf<DataNode>(n -> {
+			try {
+				formatter.format(book); // test formatter
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+		p.run(" P02", node, 25000, 15);
 
 	}
 }

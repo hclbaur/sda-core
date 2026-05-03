@@ -5,9 +5,9 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 
+import be.baur.sda.io.FileParseException;
 import be.baur.sda.io.ParseException;
 import be.baur.sda.io.SDAFormatter;
-import be.baur.sda.io.SDAParseException;
 import be.baur.sda.io.SDAParser;
 
 /**
@@ -21,7 +21,7 @@ public final class SDA {
 	/** A right brace (ends a node list). */
 	public static final int RBRACE = '}'; 
 	
-	/** A quote (encloses simple content). */
+	/** A double quote (encloses simple content). */
 	public static final int QUOTE = '"'; 
 	
 	/** A back slash (the escape character). */
@@ -62,7 +62,7 @@ public final class SDA {
 	 * @param c a character
 	 * @return true or false
 	 */
-	public static boolean isNameStart(int c) {
+	public static boolean isNodeNameStart(int c) {
 		return (isLetter(c) || c == USCORE);
 	}
 	
@@ -73,7 +73,7 @@ public final class SDA {
 	 * @param c a character
 	 * @return true or false
 	 */
-	public static boolean isNamePart(int c) {
+	public static boolean isNodeNamePart(int c) {
 		return (isLetter(c) || c == USCORE || isDigit(c));
 	}
 	
@@ -87,19 +87,19 @@ public final class SDA {
 	 * @param name a string
 	 * @return true or false
 	 */
-	public static boolean isName(String name) {
+	public static boolean isNodeName(String name) {
 		
 		if (name == null || name.isEmpty()) return false;
 
 		int c = name.codePointAt(0);
-		if (! isNameStart(c)) return false;
+		if (! isNodeNameStart(c)) return false;
 		
 		int i = Character.charCount(c);
 		int alfanum = (c == USCORE) ? 0 : 1;
 		
 		while (i < name.length()) {
 			c = name.codePointAt(i);
-			if (!isNamePart(c))	return false;
+			if (!isNodeNamePart(c))	return false;
 			i += Character.charCount(c);
 			if (c != USCORE) ++alfanum;
 		}
@@ -150,22 +150,31 @@ public final class SDA {
 */
 
 
-	private static final String bslash = "" + (char)SDA.BSLASH;
-	private static final String quote = "" + (char)SDA.QUOTE;
+	private static final String BSLASH_STR = "" + (char)SDA.BSLASH;
+	private static final String QUOTE_STR = "" + (char)SDA.QUOTE;
 
 	/**
 	 * Encode a string as an SDA value. This method formats its argument as an SDA
 	 * value, with backslashes and quotes properly escaped.
 	 * 
+	 * @implNote uses {@code String.replace} (maybe not the most efficient solution).
+	 * 
 	 * @param value a string, for example 'The \ is called a "backslash" in English.'
 	 * @return the encoded string, like 'The \\ is called a \"backslash\" in English.'
 	 */
 	public static String encode(String value) {
-		return value.replace(bslash, bslash + bslash).replace(quote, bslash + quote);
+		
+		// prevent NPE, do nothing if empty
+		if (value == null || value.isEmpty())
+			return value;
+
+		return value
+			.replace(BSLASH_STR, BSLASH_STR + BSLASH_STR)
+			.replace(QUOTE_STR, BSLASH_STR + QUOTE_STR);
 	}
 	
 	
-	private static SDAParser PARSER = new SDAParser();  // singleton parser
+	private static final SDAParser PARSER = new SDAParser();
 	
 	/**
 	 * Creates a data node from a character stream, using the default SDA parser.
@@ -173,22 +182,23 @@ public final class SDA {
 	 * @param input an input stream
 	 * @return a (root) node
 	 * @throws IOException       if an I/O operation failed
-	 * @throws SDAParseException if an SDA parsing error occurs
+	 * @throws ParseException if an SDA parsing error occurs
 	 */
-	public static DataNode parse(Reader input) throws IOException, SDAParseException {
+	public static DataNode parse(Reader input) throws IOException, ParseException {
 		return PARSER.parse(input);
 	}
 	
 	
 	/**
-	 * Creates a data node from an input file, using the default SDA parser.
+	 * Creates a data node from an input file (assuming UTF-8 encoding) using the
+	 * default SDA parser.
 	 * 
 	 * @param file an input file
 	 * @return a (root) node
-	 * @throws IOException    if an I/O operation failed
-	 * @throws ParseException if an SDA parsing error occurs
+	 * @throws IOException        if an I/O operation failed
+	 * @throws FileParseException if an SDA parsing error occurs
 	 */
-	public static DataNode parse(File file) throws IOException, ParseException {
+	public static DataNode parse(File file) throws IOException, FileParseException {
 		return PARSER.parse(file);
 	}
 	
@@ -206,7 +216,7 @@ public final class SDA {
 	}
 	
 
-	private static SDAFormatter FORMATTER = new SDAFormatter();  // singleton formatter
+	private static final SDAFormatter FORMATTER = new SDAFormatter();
 	
 	/**
 	 * Writes a formatted data node to a character stream, using the default SDA

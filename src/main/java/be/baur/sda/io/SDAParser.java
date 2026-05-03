@@ -34,18 +34,18 @@ public final class SDAParser implements Parser<DataNode> {
 
 	/**
 	 * Creates a data node from a character input stream in SDA format. The parser
-	 * is re-usable and thread-safe, and can be run as a singleton instance.
+	 * is state-less and thread-safe, and can be run as a singleton instance.
 	 * 
-	 * @throws SDAParseException if an SDA parsing error occurs
+	 * @throws ParseException if an SDA parsing error occurs
 	 */
 	@Override
-	public DataNode parse(Reader input) throws IOException, SDAParseException {
+	public DataNode parse(Reader input) throws IOException, ParseException {
 
 		Objects.requireNonNull(input, "input reader must not be null");
 		final Scanner scanner = new Scanner(input);
 		
-		scanner.advance(true); // advance to the first non-whitespace character
-		DataNode node = parseNode(scanner); // and get the root node
+		scanner.advanceSkipWhite();
+		DataNode node = parseNode(scanner);
 
 		if (scanner.c != Scanner.EOF)
 			throw exception(scanner.p, "excess input after root node");
@@ -55,7 +55,7 @@ public final class SDAParser implements Parser<DataNode> {
 
 	
 	// Recursive helper to get nodes from the input, follows straight from the EBNF.
-	private static DataNode parseNode(final Scanner scanner) throws SDAParseException, IOException {
+	private static DataNode parseNode(Scanner scanner) throws ParseException, IOException {
 
 		final DataNode node;
 		try {
@@ -73,14 +73,14 @@ public final class SDAParser implements Parser<DataNode> {
 
 		if (scanner.c == SDA.LBRACE) { // complex content ahead
 	
-			scanner.advance(true);  // skip left brace and whitespace
+			scanner.advanceSkipWhite();  // skip left brace and whitespace
 			
-			node.add(null);  // initialize child set, recursively add nodes
+			node.expand();  // initialize as vacant, recursively add nodes
 			while (scanner.c != SDA.RBRACE) {
 				node.add( parseNode(scanner) );
 			}
 
-			scanner.advance(true); // skip right brace and whitespace
+			scanner.advanceSkipWhite(); // skip right brace and whitespace
 		}
 		else { // no complex content
 			if (value == null) // and no simple content either
@@ -97,17 +97,19 @@ public final class SDAParser implements Parser<DataNode> {
 	 * @param offset position where the error was found
 	 * @param format a format message, and
 	 * @param args   arguments, as in {@link String#format}
-	 * @return SDAParseException
+	 * @return ParseException
 	 */
-	private static final SDAParseException exception(int offset, String format, Object... args) {
-		return new SDAParseException(String.format(format, args), offset);
+	private static final ParseException exception(int offset, String format, Object... args) {
+		return new ParseException(String.format(format, args), offset);
 	}
 	
 
 	/**
 	 * Inner {@code Scanner} class for the {@code SDAParser}.
 	 */
-	private final class Scanner {
+	private static final class Scanner {
+	    
+	    private static final int EOF = -1;
 	    
 	    private Reader input; // the input stream
 		private int c; // current character in the stream
@@ -121,63 +123,77 @@ public final class SDAParser implements Parser<DataNode> {
 
 		
 		/**
-		 * Advance the scanner to the next character in the input stream.
-		 * If <code>skipWhite</code> is true, whitespace will be skipped.
+		 * Advance the scanner to the next character.
 		 */
-	    void advance(boolean skipWhite) throws IOException {
-	    	do {
-	    		c = input.read(); ++p;
-	    	} 
-	    	while (skipWhite && Character.isWhitespace(c));
-	    }
+		void advance() throws IOException {
+			c = input.read(); ++p;
+		}
 	    
+	    
+		/**
+		 * Advance the scanner to the next non-white space character.
+		 */
+		void advanceSkipWhite() throws IOException {
+			do {
+				c = input.read(); ++p;
+			} while (Character.isWhitespace(c));
+		}
 
-	    private static final int EOF = -1;
-	    /** Check and abort when EOF is reached. */
-	    void checkEOF() throws SDAParseException {
-	    	if (c == EOF) throw exception(p-1, "unexpected end of input");
-	    }
+
+		/**
+		 * Check and abort when EOF is reached.
+		 */
+		void checkEOF() throws ParseException {
+			if (c == EOF)
+				throw exception(p - 1, "unexpected end of input");
+		}
 	    
 	    
 	    /** Look for a valid node name and return it. */
-	    String getNodeName() throws SDAParseException, IOException  {
+	    String getNodeName() throws ParseException, IOException  {
 	    	
-	    	String s = "";
+	    	StringBuilder s = new StringBuilder(); 
 	    	
 	    	checkEOF();
-	    	if (! SDA.isNameStart(c)) 
+	    	if (! SDA.isNodeNameStart(c)) 
 	    		throw exception(p, "node name cannot start with '%c'", c);
 	    	
 	    	do { // add to result until we get something that is not part of a node name
-	    		s = s + (char)c; advance(false);
-	    	} while (SDA.isNamePart(c));
+	    		s.append((char) c); advance();
+	    	} while (SDA.isNodeNamePart(c));
 
-	    	if (Character.isWhitespace(c)) advance(true);
+	    	if (Character.isWhitespace(c)) advanceSkipWhite();
 	    	checkEOF();  // dangling node names are not allowed
 	 
-	    	return s;
+	    	return s.toString();
 	    }
 	    
 	    
 	    /** Look for a quoted string and return it (without quotes). */
-	    String getQuotedString() throws SDAParseException, IOException  {
+	    String getQuotedString() throws ParseException, IOException  {
 	    	
-	    	String s = ""; boolean escape = false;
+	    	StringBuilder s = new StringBuilder(); 
+	    	boolean escape = false;
 	    	
 	    	if (c != SDA.QUOTE)  // must start with quote
 	    		throw exception(p, "unexpected character '%c'", c);
 	    	
 	    	// add to result until we get the end quote or EOF, handle escaped characters  	
-	    	while (true) {
-	    		advance(false); checkEOF();
-	    		if (!escape && c == SDA.BSLASH) {escape = true; continue; };
-	    		if (escape) { s = s + (char)c; escape = false; continue; }
-	    		if (c == SDA.QUOTE) break;
-	    		s = s + (char)c;
-	    	}
+			while (true) {
+				advance(); checkEOF();
+				if (!escape && c == SDA.BSLASH) {
+					escape = true; continue;
+				}
+				if (escape) {
+					s.append((char) c);
+					escape = false; continue;
+				}
+				if (c == SDA.QUOTE) break;
+				s.append((char) c);
+			}
 	    	
-	    	advance(true); // skip over the end quote and white-space that follows
-	    	return s;
+			advanceSkipWhite(); // skip the end quote and any white-space that follows
+	    	return s.toString();
 	    }   
 	}
 }

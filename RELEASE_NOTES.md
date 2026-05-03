@@ -1,6 +1,30 @@
 # Release Notes
 
-## [2.3.0] - 2025-02-10
+## [2.4.0] - 2026-05-03
+
+The Node interface (and any class implementing it) was changed to improve performance 
+and type safety. Overall, the library is cleaner and easier to understand and use (less 
+type casting needed). Also, as of this release, Java 11 is required.
+
+- `Removed` method Node.add().
+- `Removed` method Node.remove().
+- `Removed` default method Node.isLeaf().
+- `Removed` method AbstractNode.isLeaf().
+- `Removed` SDAParseException(), use ParseException.
+- `Changed` be.baur.sda.io.ParseException() is no longer abstract.
+- `Changed` AbstractNode.add() to no longer accept null.
+- `Renamed` SDA.isName() to SDA.isNodeName().
+- `Renamed` FileParseException.getErrorFilename() to getFilename().
+- Added DataNode.expand() to replace add(null).
+- Added HOWTO.md (closing issue #14).
+
+## Compatibility
+
+- Requires Java 11.
+
+## Previous releases
+
+### [2.3.0] - 2025-02-10
 
 This year's first release adds a few convenience methods, closes a minor issue
 and renames a package, a class and two methods (merely for aesthetic reasons).
@@ -16,12 +40,6 @@ and renames a package, a class and two methods (merely for aesthetic reasons).
 - Closed issue #16 (SDAFormatter throws if input node is null).
 - Closed issue #12 (Add a parse(File) method and review exceptions).
 - Closed issue #17 (Inappropriate IllegalStateException in AbstractNode.add()).
-
-## Compatibility
-
-- Requires Java 8.
-
-## Previous releases
 
 ### [2.2.0] - 2024-02-20
 

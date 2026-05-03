@@ -11,7 +11,7 @@ import be.baur.sda.io.SDAFormatter;
  * 
  * @see AbstractNode
  */
-public class DataNode extends AbstractNode {
+public class DataNode extends AbstractNode<DataNode> {
 
 	private String name;  // the name tag, never null or empty
 	private String value; // a value, never null, may be empty
@@ -25,7 +25,6 @@ public class DataNode extends AbstractNode {
 	 * @see #setName
 	 */
 	public DataNode(String name) {
-		//super(); 
 		setName(name); this.value = "";
 	}
 
@@ -41,20 +40,19 @@ public class DataNode extends AbstractNode {
 	 * @see #setValue
 	 */
 	public DataNode(String name, String value) {
-		//super(); 
 		setName(name); setValue(value);
 	}
 
 
 	/**
 	 * Sets the name (tag) of this node. There are restrictions as to what names are
-	 * acceptable. Refer to {@link SDA#isName} for details.
+	 * acceptable. Refer to {@link SDA#isNodeName} for details.
 	 * 
 	 * @param name a valid node name
 	 * @throws IllegalArgumentException if the name is invalid
 	 */
 	public final void setName(String name) {
-		if (! SDA.isName(name)) 
+		if (! SDA.isNodeName(name)) 
 			throw new IllegalArgumentException("invalid node name (" + name + ")");
 		this.name = name;
 	}
@@ -93,15 +91,37 @@ public class DataNode extends AbstractNode {
 	public final String getValue() {
 		return value;
 	}
+
+
+	/**
+	 * Turns a leaf node into a vacant (empty) parent. For instance, calling this
+	 * method on a node like
+	 * <p>
+	 * {@code value "42"}
+	 * <p>
+	 * will turn it into
+	 * <p>
+	 * {@code value "42" { }}
+	 * 
+	 * @return true if this node was expanded, or false if it already was
+	 */
+	public final boolean expand() {
+		return initNodeList();
+	}
 	
 	
 	/**
-	 * Returns true if this node has no child list. This method returns false for a
-	 * parent node <i>and</i> for a "vacant parent" with an empty child list (as in
-	 * <code>node{ }</code> for example).
+	 * Returns true if this node has no child list (not even an empty one). This
+	 * method returns false for a parent node <i>and</i> for a vacant parent with
+	 * an empty node list, like <code>emptyNode{}</code>.
+	 * <p>
+	 * <strong>Warning</strong>: this method is not the logical opposite of the
+	 * {@code isParent()} method, which returns false for a vacant parent as well.
+	 * 
+	 * @return true or false
+	 * @see AbstractNode#isParent
 	 */
-	@Override
-	public boolean isLeaf() {
+	public final boolean isLeaf() {
 		return (getNodeList() == null);
 	}
 
@@ -109,14 +129,14 @@ public class DataNode extends AbstractNode {
 	/**
 	 * Returns a deep copy of this node.
 	 * 
-	 * @return a node
+	 * @return a new node
 	 */
 	public final DataNode copy() {
 		DataNode cp = new DataNode(this.getName(), this.getValue());
 		if (! this.isLeaf()) {
-			cp.add(null);
-			for (Node child : this.nodes()) 
-				cp.add(((DataNode) child).copy());
+			cp.expand();
+			for (DataNode child : this.nodes()) 
+				cp.add(child.copy());
 		}
 		return cp;
 	}
@@ -126,23 +146,18 @@ public class DataNode extends AbstractNode {
 	 * Returns a string representing this node in SDA notation. For example:
 	 * 
 	 * <pre>
-	 * node ""
-	 * node { ... }
-	 * node "a value"
-	 * node "a value" { ... }
+	 * greeting { message "hello" }
 	 * </pre>
 	 * 
-	 * Where {@code ...} are (optional) child nodes. Note that the result is
-	 * formatted as a single line of text. For a more readable result, use an
-	 * {@link SDAFormatter}.
-	 * <p>
+	 * @apiNote the result is formatted as a single line of text. For a more
+	 *          readable presentation, use an {@link SDAFormatter}.
 	 * 
 	 * @return the SDA representation of this node
 	 */
 	@Override
-	public String toString() {
+	public final String toString() {
 
-		final List<AbstractNode> nodes = getNodeList();
+		final var nodes = (List<DataNode>) getNodeList();
 		final StringBuilder sb = new StringBuilder(name);
 		
 		if (! value.isEmpty() || nodes == null) 
@@ -151,7 +166,7 @@ public class DataNode extends AbstractNode {
 
 		if (nodes != null) {
 			sb.append(" ").append((char)SDA.LBRACE).append(" ");
-			for (Node node : nodes) 
+			for (DataNode node : nodes) 
 				sb.append(node.toString()).append(" ");
 			sb.append((char)SDA.RBRACE);
 		}

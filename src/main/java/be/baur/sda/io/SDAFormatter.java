@@ -25,7 +25,7 @@ import be.baur.sda.SDA;
  * }
  * </pre>
  * 
- * Once created, this formatter is stateless and reusable.<br>
+ * Once created, this formatter is state-less and reusable.<br>
  * <br>
  * @see DataNode
  */
@@ -34,7 +34,9 @@ public final class SDAFormatter implements Formatter<DataNode> {
 	private final String indent;  // the string used for indentation
 	
 	
-	/** Creates a formatter which uses a tab character for indentation. */
+	/**
+	 * Creates a formatter which uses a tab character for indentation.
+	 */
 	public SDAFormatter() {
 		this.indent = "\t";
 	}
@@ -50,16 +52,18 @@ public final class SDAFormatter implements Formatter<DataNode> {
 
 		if (depth < 0) throw 
 			new IllegalArgumentException("invalid indentation depth (" + depth + ")");
-		this.indent = new String(new char[depth]).replace("\0", " ");
+		this.indent = " ".repeat(depth);
 	}
 	
 	
 	/**
 	 * Serialize a data node in SDA format and write it to a character output
 	 * stream. This method will ignore a null node reference (and write nothing).
+	 * 
+	 * @implNote this method will flush() but not close() the writer.
 	 */
 	@Override
-	public void format(final Writer output, DataNode node) throws IOException {
+	public void format(Writer output, DataNode node) throws IOException {
 
 		Objects.requireNonNull(output, "output writer must not be null");
 		if (node != null) {
