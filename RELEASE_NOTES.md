@@ -1,6 +1,6 @@
 # Release Notes
 
-## [2.4.0] - in development
+## [2.4.0] - 2026-05-03
 
 The Node interface (and any class implementing it) was changed to improve performance 
 and type safety. Overall, the library is cleaner and easier to understand and use (less 
