@@ -3,6 +3,7 @@
 ## [2.4.1] - In development
 
 - Added AbstractNode.add(index, node).
+- Added a simple SDA file editor.
 
 ## Compatibility
 
