@@ -26,8 +26,8 @@ public interface Formatter<T extends Node<?>> {
 	/**
 	 * Serializes and writes a node to a character output stream.
 	 * 
-	 * @implSpec implementations should typically flush() but must not close() the
-	 *           output stream.
+	 * @implSpec implementations may flush() but not close() the output stream (the
+	 *           caller owns the writer).
 	 * 
 	 * @param output an output stream, not null
 	 * @param node   the node to be rendered

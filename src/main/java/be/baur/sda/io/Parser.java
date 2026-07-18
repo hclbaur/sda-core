@@ -23,6 +23,9 @@ public interface Parser<T extends Node<?>> {
 	/**
 	 * Creates a node from a character input stream.
 	 * 
+	 * @implSpec implementations should not close() the input stream (the caller
+	 *           owns the reader).
+	 * 
 	 * @param input an input stream, not null
 	 * @return a (root) node, never null
 	 * @throws IOException    if an I/O operation failed

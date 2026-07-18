@@ -1,6 +1,16 @@
 # Release Notes
 
-## [2.4.0] - 2026-05-03
+## [2.4.1] - In development
+
+- Added AbstractNode.add(index, node).
+
+## Compatibility
+
+- Requires Java 11.
+
+## Previous releases
+
+### [2.4.0] - 2026-05-03
 
 The Node interface (and any class implementing it) was changed to improve performance 
 and type safety. Overall, the library is cleaner and easier to understand and use (less 
@@ -16,13 +26,7 @@ type casting needed). Also, as of this release, Java 11 is required.
 - `Renamed` SDA.isName() to SDA.isNodeName().
 - `Renamed` FileParseException.getErrorFilename() to getFilename().
 - Added DataNode.expand() to replace add(null).
-- Added HOWTO.md (closing issue #14).
-
-## Compatibility
-
-- Requires Java 11.
-
-## Previous releases
+- Closed issue #14 (Added HOWTO.md).
 
 ### [2.3.0] - 2025-02-10
 

@@ -1,7 +1,5 @@
 package be.baur.sda;
 
-import java.util.List;
-
 import be.baur.sda.io.SDAFormatter;
 
 /**
@@ -157,7 +155,7 @@ public class DataNode extends AbstractNode<DataNode> {
 	@Override
 	public final String toString() {
 
-		final var nodes = (List<DataNode>) getNodeList();
+		final var nodes = getNodeList();
 		final StringBuilder sb = new StringBuilder(name);
 		
 		if (! value.isEmpty() || nodes == null) 

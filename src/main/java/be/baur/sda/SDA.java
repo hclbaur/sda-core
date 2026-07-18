@@ -179,6 +179,8 @@ public final class SDA {
 	/**
 	 * Creates a data node from a character stream, using the default SDA parser.
 	 * 
+	 * @implNote this method will not close() the reader.
+	 * 
 	 * @param input an input stream
 	 * @return a (root) node
 	 * @throws IOException       if an I/O operation failed
@@ -206,7 +208,7 @@ public final class SDA {
 	/**
 	 * Creates a data node from a string, using the default SDA parser.
 	 * 
-	 * @param input an input string
+	 * @param input an input string, not null
 	 * @return a (root) node
 	 * @throws IOException    if an I/O operation failed
 	 * @throws ParseException if an SDA parsing error occurs
@@ -222,7 +224,7 @@ public final class SDA {
 	 * Writes a formatted data node to a character stream, using the default SDA
 	 * formatter.
 	 * 
-	 * @see SDAFormatter
+	 * @implNote this method will not close() the writer.
 	 * 
 	 * @param output an output stream, not null
 	 * @param node   the node to be rendered

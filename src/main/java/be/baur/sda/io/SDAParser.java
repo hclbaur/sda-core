@@ -36,6 +36,8 @@ public final class SDAParser implements Parser<DataNode> {
 	 * Creates a data node from a character input stream in SDA format. The parser
 	 * is state-less and thread-safe, and can be run as a singleton instance.
 	 * 
+	 * @implNote this method will not close() the reader.
+	 * 
 	 * @throws ParseException if an SDA parsing error occurs
 	 */
 	@Override

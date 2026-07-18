@@ -45,7 +45,7 @@ public final class SDAFormatter implements Formatter<DataNode> {
 	/**
 	 * Creates a formatter which uses consecutive blanks for indentation.
 	 * 
-	 * @param depth the indentation depth
+	 * @param depth the indentation depth (number of blanks)
 	 * @throws IllegalArgumentException if depth is less than 0.
 	 */
 	public SDAFormatter(int depth) {
@@ -60,7 +60,7 @@ public final class SDAFormatter implements Formatter<DataNode> {
 	 * Serialize a data node in SDA format and write it to a character output
 	 * stream. This method will ignore a null node reference (and write nothing).
 	 * 
-	 * @implNote this method will flush() but not close() the writer.
+	 * @implNote this method will not close() the writer.
 	 */
 	@Override
 	public void format(Writer output, DataNode node) throws IOException {

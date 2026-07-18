@@ -37,15 +37,17 @@ SDA allows nodes to contain other nodes, creating a tree structure:
 ```
 DataNode person = new DataNode("person");
 person.add(new DataNode("firstName", "John"));
-person.add(new DataNode("lastName", "Doe"));
+person.add(new DataNode("lastName", "Kennedy"));
+person.add(1, new DataNode("middleName", "F."));
 ```
 
-This creates a structure like:
+The last statement adds a node at index 1 rather than at the end, so the result will be:
 
 ```
 person {
     firstName "John"
-    lastName "Doe"
+	middleName "F."
+    lastName "Kennedy"
 }
 ```
 
@@ -56,7 +58,7 @@ DataNode folder = new DataNode("folder");
 folder.expand();
 ```
 
-This represents: `folder { }`, and this is neither a leaf nor a parent node (see below).
+This represents: `folder { }`, and this is neither a leaf nor a parent node (see section 4).
 
 Unlike many data formats, SDA uniquely allows a node to have **both** a value and child nodes:
 
@@ -244,7 +246,7 @@ import java.io.File;
 SDA.format(new File("output.sda"), node);
 ```
 
-For advanced formatting options (custom indentation):
+Formatting options (custom indentation):
 
 ```
 import be.baur.sda.io.SDAFormatter;
@@ -262,7 +264,7 @@ String result = output.toString();
 
 ## 8. Practical Example: Address Book
 
-Here's a complete example demonstrating the key concepts:
+Here's an example demonstrating the key concepts:
 ```
 import be.baur.sda.DataNode;
 import be.baur.sda.SDA;

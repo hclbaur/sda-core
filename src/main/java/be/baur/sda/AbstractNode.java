@@ -28,7 +28,7 @@ public abstract class AbstractNode<T extends AbstractNode<T>> implements Node<T>
 	protected final void setParent(T parent) {
 		this.parent = parent;
 	}
-	
+
 	
 	/**
 	 * This <i>package-private</i> method allows direct access to the internal list
@@ -44,7 +44,7 @@ public abstract class AbstractNode<T extends AbstractNode<T>> implements Node<T>
 		return nodes;
 	}
 
-
+	
 	/**
 	 * This <i>package-private</i> method is called for lazy initialization of the
 	 * internal list that holds any child nodes.
@@ -55,7 +55,7 @@ public abstract class AbstractNode<T extends AbstractNode<T>> implements Node<T>
 	 * @return true if the child list was initialized by this call.
 	 */
 	final boolean initNodeList() {
-	
+
 		if (nodes == null) {
 			synchronized (this) {
 				if (nodes == null) {
@@ -67,10 +67,11 @@ public abstract class AbstractNode<T extends AbstractNode<T>> implements Node<T>
 		return false;
 	}
 
-
+	
 	@Override
 	public List<T> nodes() {
-		if (nodes == null) return EMPTY_LIST;
+		if (nodes == null)
+			return EMPTY_LIST;
 		return Collections.unmodifiableList(nodes);
 	}
 
@@ -80,7 +81,7 @@ public abstract class AbstractNode<T extends AbstractNode<T>> implements Node<T>
 		return parent;
 	}
 
-
+	
 	@Override
 	public boolean isParent() {
 		// more efficient than the default method
@@ -97,23 +98,23 @@ public abstract class AbstractNode<T extends AbstractNode<T>> implements Node<T>
 	 * 
 	 * @param node the node to be added, not null
 	 * @return true if the supplied node was added as a child
-	 * @throws UnsupportedOperationException if add() is not supported by this node
-	 * @throws IllegalArgumentException      if the supplied node is null, equal to
-	 *                                       this, or a child of another node
+	 * @throws UnsupportedOperationException if add is not supported by this node
+	 * @throws IllegalArgumentException      if the supplied node is null, identical
+	 *                                       to this, or a child of another node
 	 */
 	public boolean add(T node) {
 
 		if (node == null || node == this)
-			throw new IllegalArgumentException("child node must not be null or equal to this");
+			throw new IllegalArgumentException("child node must not be null or identical to this");
 
 		if (node.getParent() != null) {
 			if (node.getParent() != this)
 				throw new IllegalArgumentException("node '" + node.getName() + "' already has a parent");
-			return false;
+			return false; // node is already a child of this node
 		}
 
 		synchronized (this) {
-			if (nodes == null) 
+			if (nodes == null)
 				nodes = new ArrayList<T>();
 
 			if (nodes.add(node)) {
@@ -127,10 +128,57 @@ public abstract class AbstractNode<T extends AbstractNode<T>> implements Node<T>
 			}
 		}
 
-		return false; // should never reach this
+		return false; // should never get here 
+	}
+
+	
+	/**
+	 * Adds a child node at the specified index. Any node at that position (and any
+	 * subsequent nodes) are shifted to make room, having their index incremented by
+	 * one.
+	 * <p>
+	 * Once this method returns, the index of the newly added node is equal to the
+	 * supplied index, unless it exceeded the number of child nodes - in which case
+	 * the node was added at the end as if {@link #add(AbstractNode)} had been
+	 * called.
+	 * 
+	 * @apiNote this method is thread safe.
+	 * 
+	 * @param index the index at which to insert the node
+	 * @param node  the node to be added, not null
+	 * @throws UnsupportedOperationException if add is not supported by this node
+	 * @throws IllegalArgumentException      if the supplied node is null, identical
+	 *                                       to this, or already has a parent node
+	 * @throws IndexOutOfBoundsException     if {@code index < 0}
+	 */
+	public void add(int index, T node) {
+
+		if (index < 0)
+			throw new IndexOutOfBoundsException("index must be non-negative");
+
+		if (node == null || node == this)
+			throw new IllegalArgumentException("child node must not be null or identical to this");
+
+		if (node.getParent() != null)
+			throw new IllegalArgumentException("node '" + node.getName() + "' already has a parent");
+
+		synchronized (this) {
+			if (nodes == null)
+				nodes = new ArrayList<T>();
+
+			if (index > nodes.size())
+				index = nodes.size(); // add at end if index is out of range
+			nodes.add(index, node);
+			/*
+			 * Safe cast assuming proper F-bounded polymorphism usage (T bound to
+			 * implementing type). See Javadoc of Node.getParent() and Node.root()
+			 */ @SuppressWarnings("unchecked")
+			T self = (T) this;
+			node.setParent(self);
+		}
 	}
 	
-
+	
 	/**
 	 * Removes a child node. This method ignores null references and nodes that are
 	 * not children of this node. It returns true only if this node was changed as a
@@ -141,7 +189,7 @@ public abstract class AbstractNode<T extends AbstractNode<T>> implements Node<T>
 	 * 
 	 * @param node the node to be removed from this node
 	 * @return true if this node contained the child node
-	 * @throws UnsupportedOperationException if remove() is not supported
+	 * @throws UnsupportedOperationException if remove is not supported by this node
 	 */
 	public boolean remove(T node) {
 
