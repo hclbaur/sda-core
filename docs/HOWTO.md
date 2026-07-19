@@ -38,7 +38,7 @@ SDA allows nodes to contain other nodes, creating a tree structure:
 DataNode person = new DataNode("person");
 person.add(new DataNode("firstName", "John"));
 person.add(new DataNode("lastName", "Kennedy"));
-person.add(1, new DataNode("middleName", "F."));
+person.add(new DataNode("middleName", "F."), 1);
 ```
 
 The last statement adds a node at index 1 rather than at the end, so the result will be:
@@ -46,7 +46,7 @@ The last statement adds a node at index 1 rather than at the end, so the result 
 ```
 person {
     firstName "John"
-	middleName "F."
+	 middleName "F."
     lastName "Kennedy"
 }
 ```
