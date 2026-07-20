@@ -2,14 +2,12 @@ package samples.editor.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.File;
 
 import javax.swing.JFrame;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 
 import samples.editor.controller.MainWindowAdapter;
-import samples.editor.controller.FileMenuListener;
 import samples.editor.model.SdaDocument;
 
 /**
@@ -24,74 +22,48 @@ public final class EditView extends JFrame {
 	private static final int LOCATION_X = (UI.SCREEN_SIZE.width-SIZE.width)/2;
 	private static final int LOCATION_Y = (UI.SCREEN_SIZE.height-SIZE.height)/2;
 
-	private JMenu fileMenu;     // the "File" menu in the menu bar
-	private JMenuItem openFile; // the menu item for opening a file
-	private JMenuItem saveFile; // the menu item for saving the current document
-	private JMenuItem saveAsFile; // the menu item for saving the document with a new name
 
-
-	/** Constructs a new EditView with a menu bar and sets its size and location on the screen. */
-	public EditView() {
+	/**
+	 * Constructs a new EditView with a menu bar and sets its size and location on
+	 * the screen. The initial close action is to exit the application, but this is
+	 * changed after a document has been loaded, to prevent loss of unsaved changes.
+	 * 
+	 * @param file the file to be opened initially, may be null
+	 */
+	public EditView(File file) {
 
 		setBounds(LOCATION_X, LOCATION_Y, SIZE.width, SIZE.height);
-
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		var fileMenu = new FileMenu(this, this::loadDocument, file);
 		JMenuBar menuBar = new JMenuBar();
-		fileMenu = new JMenu("File");
-		
-		openFile = new JMenuItem("Open...");
-		fileMenu.add(openFile);
-		
-		saveFile = new JMenuItem("Save");
-		saveFile.setEnabled(false); // initially disabled until a document is opened
-		fileMenu.add(saveFile);
-		
-		saveAsFile = new JMenuItem("Save as...");
-		saveAsFile.setEnabled(false); // initially disabled until a document is opened
-		fileMenu.add(saveAsFile);
-		
 		menuBar.add(fileMenu);
 		setJMenuBar(menuBar);
 	}
-	
 
-	/** Sets the action to be performed when the "Open ..." menu item is selected. */
-    public void setOpenFileAction(Runnable action) {
-        openFile.addActionListener(e -> action.run());
-    }
-    
-    /** Sets the action to be performed when the "Save" menu item is selected. */
-    public void setSaveFileAction(Runnable action) {
-        saveFile.addActionListener(e -> action.run());
-    }
-	
-
-    /** Sets the action to be performed when the "Save As" menu item is selected. */
-    public void setSaveAsFileAction(Runnable action) {
-        saveAsFile.addActionListener(e -> action.run());
-    }
-    
 
 	/*
-	 * Installs a FileMenuListener on the "File" menu to enable or disable the Save
-	 * (As) menu items based on the current document state.
-	 *
-	 * @param document the SdaDocument to monitor for changes
+	 * This method is called by the FileMenu to load an initial or selected file.
 	 */
-	private void installFileMenuListener(SdaDocument document) {
+	private SdaDocument loadDocument(File file) {
 		
-		for (var listener : fileMenu.getMenuListeners()) {
-			fileMenu.removeMenuListener(listener);
-		} // Remove any existing listeners to avoid duplicates
-		fileMenu.addMenuListener(new FileMenuListener(document, saveFile, saveAsFile));
+		SdaDocument document = null;
+		try {
+			document = new SdaDocument(file);
+		} catch (Exception e) {
+			UI.showExceptionDialog(this, "Failed to load " + file.toString(), e);
+		}
+		
+		if (document != null)
+			showDocument(document);
+		return document;
 	}
-	
+
 	
 	/*
 	 * Installs an EditWindowAdapter on the EditView to handle window closing events.
 	 * When the window is closed, it checks if the given document has unsaved changes
 	 * and prompts the user to save them before closing.
-	 *
-	 * @param document the SdaDocument to monitor for unsaved changes
 	 */
 	private void installWindowListener(SdaDocument document) {
 		
@@ -101,7 +73,7 @@ public final class EditView extends JFrame {
 		addWindowListener(new MainWindowAdapter(document, this));
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	}
-
+	
 
 	/**
 	 * Displays the given SdaDocument in the EditView, creating a TreeView on the
@@ -129,7 +101,6 @@ public final class EditView extends JFrame {
 	    // Install all listeners
 	    treeview.installMouseListener(textview);
 	    textview.installFocusListener(treeview);
-	    installFileMenuListener(document);
 	    installWindowListener(document);
 	    
 	    // Finally (re)paint the view

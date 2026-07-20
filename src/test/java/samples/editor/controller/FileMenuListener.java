@@ -1,10 +1,9 @@
 package samples.editor.controller;
 
-import javax.swing.JMenuItem;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
-import samples.editor.model.SdaDocument;
+import samples.editor.view.FileMenu;
 
 /**
  * The FileMenuListener class listens for events on the File menu in the
@@ -13,33 +12,21 @@ import samples.editor.model.SdaDocument;
  */
 public class FileMenuListener  implements MenuListener {
 
-	private SdaDocument document; // the current document being edited
-	private JMenuItem saveFile; // the Save menu item to enable/disable
-	private JMenuItem saveAsFile; // the Save As menu item to enable/disable
-
 	
+	private FileMenu fileMenu;
+
 	/**
-	 * Constructs a new FileMenuListener with the given SdaDocument and JMenuItem.
+	 * Constructs a new FileMenuListener.
 	 *
-	 * @param document the current SdaDocument being edited
-	 * @param saveFile the "Save" JMenuItem to enable or disable
+	 * @param fileMenu the menu this listener is associated with
 	 */
-	public FileMenuListener(SdaDocument document, JMenuItem saveFile, JMenuItem saveAsFile) {
-		this.document = document;
-		this.saveFile = saveFile;
-		this.saveAsFile = saveAsFile;
+	public FileMenuListener(FileMenu fileMenu) {
+		this.fileMenu = fileMenu;
 	}
 
 	@Override
 	public void menuSelected(MenuEvent e) {
-		
-		if (document == null) {
-			saveFile.setEnabled(false);
-			saveAsFile.setEnabled(false);
-		} else {
-			saveAsFile.setEnabled(true);
-			saveFile.setEnabled(document.isChanged());
-		}
+		fileMenu.selectMenu();
 	}
 
 	@Override
