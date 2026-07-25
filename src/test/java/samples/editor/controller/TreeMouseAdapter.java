@@ -197,9 +197,10 @@ public final class TreeMouseAdapter extends MouseAdapter {
 		var parentNode = ((DataNode) treeNode.getUserObject()).getParent();
 		var parentTreeNode = (MutableTreeNode) treeNode.getParent();
 		int index = parentTreeNode.getIndex(treeNode) + offset;
-		parentNode.add(dataNode, index);
-		model().insertNodeInto(new SdaTreeNode(dataNode), parentTreeNode, index);
-		textView.refresh(); // update the textual view as well
+		if (parentNode.add(dataNode, index)) { // never fails
+			model().insertNodeInto(new SdaTreeNode(dataNode), parentTreeNode, index);
+			textView.refresh(); // update the textual view as well
+		}
 	}
  
 
