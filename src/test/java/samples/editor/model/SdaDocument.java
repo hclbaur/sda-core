@@ -16,8 +16,17 @@ import be.baur.sda.io.ParseException;
 public final class SdaDocument {
 
     private DataNode root; // the root of the document's data structure (a tree of DataNodes)
-    private File file; // the file associated with this document (cannot be null)
+    private File file; // the file associated with this document (can be null if not saved)
     private String canonical; // canonical text representation (used for change detection)
+
+    
+	/**
+	 * Constructs a new SdaDocument with a default root node.
+	 */
+	public SdaDocument() {
+		root = new DataNode("root"); root.expand();
+		canonical = root.toString();
+	}
 
 
 	/**
@@ -61,11 +70,22 @@ public final class SdaDocument {
 	
 	
 	/**
+	 * Checks if the document has been associated with a file that it can be saved
+	 * to when changes are made.
+	 * 
+	 * @return true if the document is backed by a file, false otherwise
+	 */
+	public boolean isFile() {
+		return file != null;
+	}
+
+
+	/**
 	 * Checks if the document has been changed since it was last saved or loaded.
 	 * 
 	 * @return true if the document has been changed, false otherwise
 	 */
-	public boolean isChanged() {
+	public boolean hasChanges() {
 		return !root.toString().equals(canonical);
 	}
 
@@ -73,13 +93,18 @@ public final class SdaDocument {
 	/**
 	 * Saves the current document in SDA format (to the associated file).
 	 * 
-	 * @throws IOException if an I/O error occurs during saving
+	 * @throws IOException           if an I/O error occurs during saving
+	 * @throws IllegalStateException if the document is not backed by a file
 	 */
 	public void save() throws IOException {
+		
+		if (file == null)
+			throw new IllegalStateException("document is not backed by a file");
+
 		SDA.format(file, root);
 		canonical = root.toString(); // update canonical representation after saving
 	}
-	
+
 
 	/**
 	 * Saves the current document to the specified file in SDA format.
