@@ -199,4 +199,26 @@ public interface Node<T extends Node<T>> {
 		return 0;
 	}
 
+	
+	default List<T> select(String path) {
+		if (path == null || path.isEmpty()) {
+			throw new IllegalArgumentException("Path cannot be null or empty");
+		}
+		
+		String[] parts = path.split("/");
+		List<T> currentNodes = new ArrayList<>();
+		currentNodes.add((T) this); // Start with the current node
+		
+		for (String part : parts) {
+			if (part.isEmpty()) continue; // Skip empty parts
+			
+			List<T> nextNodes = new ArrayList<>();
+			for (T node : currentNodes) {
+				nextNodes.addAll(node.getAll(part));
+			}
+			currentNodes = nextNodes;
+		}
+		
+		return currentNodes;
+	}
 }
