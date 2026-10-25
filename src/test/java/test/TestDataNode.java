@@ -37,11 +37,17 @@ public final class TestDataNode {
 		t.s("S12", String.valueOf(numbers.remove(null)), "false");
 		t.s("S13", String.valueOf(numbers.remove(book)), "false");
 		t.s("S14", String.valueOf(numbers.remove(3)), "phonenumber \"06-44444444\"");
+		
 		DataNode first = (DataNode) numbers.get(0);
 		t.s("S15", String.valueOf(numbers.remove(first)), "true");
 		t.s("S16", String.valueOf(numbers.size()), "2"); // nodes 0 and 3 were removed
 		t.s("S17", String.valueOf(numbers.add(first)), "true"); // re-add node 0 at end
 		t.s("S18", String.valueOf(contacts.get(0).add(first)), "false"); // already a child
+		
+		t.s("S19", String.valueOf(book.select("kontact/phonenumber").size()), "0");
+		t.s("S20", String.valueOf(book.select("contact/phonenumber").size()), "4");
+		t.s("S21", String.valueOf(book.select("contact[2]/phonenumber").size()), "2");
+		t.s("S22", String.valueOf(book.select("contact/phonenumber[2]").size()), "2");
 		
 		t.checkFailures();
 	}

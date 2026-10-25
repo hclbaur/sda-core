@@ -199,26 +199,50 @@ public interface Node<T extends Node<T>> {
 		return 0;
 	}
 
-	
+
+	/**
+	 * Returns a list of descendant nodes that match the given path, or an empty
+	 * list if no such nodes are found. The path is specified in X-path style, and
+	 * allows for node names and optional position indicators in square
+	 * brackets. For example:
+	 * <p>
+	 * {@code contact/phonenumber} returns all phone numbers of all contacts,<br>
+	 * {@code contact[2]/phonenumber} returns all phone numbers of the 2nd
+	 * contact,<br>
+	 * {@code contact/phonenumber[2]} returns the second number of all contacts,
+	 * and<br>
+	 * {@code contact[2]/phonenumber[2]} returns the 2nd number of the 2nd
+	 * contact.<br>
+	 * 
+	 * @param path a path string
+	 * @return a list, not null
+	 */
 	default List<T> select(String path) {
+
 		if (path == null || path.isEmpty()) {
-			throw new IllegalArgumentException("Path cannot be null or empty");
+			throw new IllegalArgumentException("path cannot be null or empty");
 		}
 		
 		String[] parts = path.split("/");
-		List<T> currentNodes = new ArrayList<>();
-		currentNodes.add((T) this); // Start with the current node
+		var result = new ArrayList<T>();
 		
+		result.add((T) this); // Start with this as the initial result set
 		for (String part : parts) {
+			
 			if (part.isEmpty()) continue; // Skip empty parts
 			
-			List<T> nextNodes = new ArrayList<>();
-			for (T node : currentNodes) {
-				nextNodes.addAll(node.getAll(part));
+			var matching = new ArrayList<T>();
+			for (T node : result) {
+				matching.addAll(node.getAll(part));
 			}
-			currentNodes = nextNodes;
+			result = matching;
 		}
 		
-		return currentNodes;
+		return result;
+	}
+	
+	
+	static void main(String[] args) {
+		"contact/phonenumber".split("/");
 	}
 }
