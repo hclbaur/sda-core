@@ -206,13 +206,16 @@ public interface Node<T extends Node<T>> {
 	 * allows for node names and optional position indicators in square
 	 * brackets. For example:
 	 * <p>
-	 * {@code contact/phonenumber} returns all phone numbers of all contacts,<br>
-	 * {@code contact[2]/phonenumber} returns all phone numbers of the 2nd
+	 * {@code contact/phonenumber} selects all phone numbers of all contacts,<br>
+	 * {@code contact[2]/phonenumber} selects all phone numbers of the 2nd
 	 * contact,<br>
-	 * {@code contact/phonenumber[2]} returns the second number of all contacts,
+	 * {@code contact/phonenumber[2]} selects the second number of all contacts,
 	 * and<br>
-	 * {@code contact[2]/phonenumber[2]} returns the 2nd number of the 2nd
+	 * {@code contact[2]/phonenumber[2]} selects the 2nd number of the 2nd
 	 * contact.<br>
+	 * 
+	 * @implNote relies on the interface's F-bounded generic contract: implementations 
+	 * are expected to bind {@code T} to their concrete type.
 	 * 
 	 * @param path a path string
 	 * @return a list, not null
@@ -226,9 +229,13 @@ public interface Node<T extends Node<T>> {
 		String[] parts = path.split("/");
 		var result = new ArrayList<T>();
 		
-		result.add((T) this); // Start with this as the initial result set
+		@SuppressWarnings("unchecked")
+		var initial = (T) this;
+		result.add(initial); // start with this node
+		
 		for (String part : parts) {
 			
+			part = part.trim();
 			if (part.isEmpty()) continue; // Skip empty parts
 			
 			var matching = new ArrayList<T>();
@@ -242,7 +249,7 @@ public interface Node<T extends Node<T>> {
 	}
 	
 	
-	static void main(String[] args) {
-		"contact/phonenumber".split("/");
-	}
+//	static void main(String[] args) {
+//		"contact / phonenumber".split("/");
+//	}
 }
