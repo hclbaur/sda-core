@@ -3,6 +3,8 @@ package be.baur.sda;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A {@code Node} is an object in a tree-like structure that stems from a single
@@ -199,24 +201,34 @@ public interface Node<T extends Node<T>> {
 		return 0;
 	}
 
+	
+	/*
+	 * Returns a pre-compiled pattern to match a node name with an optional position
+	 * indicator in square brackets.
+	 */
+	private static Pattern pathPattern() {
+		return Pattern.compile("[^\\[]+(\\[(\\d+)\\])?");
+	}
 
 	/**
 	 * Returns a list of descendant nodes that match the given path, or an empty
 	 * list if no such nodes are found. The path is specified in X-path style, and
-	 * allows for node names and optional position indicators in square
-	 * brackets. For example:
+	 * allows for node names and optional position indicators in square brackets.
+	 * For example:
 	 * <p>
 	 * {@code contact/phonenumber} selects all phone numbers of all contacts,<br>
 	 * {@code contact[2]/phonenumber} selects all phone numbers of the 2nd
 	 * contact,<br>
-	 * {@code contact/phonenumber[2]} selects the second number of all contacts,
+	 * {@code contact/phonenumber[2]} selects the 2nd number of all contacts,
 	 * and<br>
 	 * {@code contact[2]/phonenumber[2]} selects the 2nd number of the 2nd
 	 * contact.<br>
 	 * 
-	 * @implNote relies on the interface's F-bounded generic contract: implementations 
-	 * are expected to bind {@code T} to their concrete type.
-	 * 
+	 * @implNote the specified path is matched against node names as returned by
+	 *           {@link #getName}, and may contain any character allowed in these
+	 *           names.
+	 * @implSpec assumes proper F-bounded polymorphism usage; subclasses should bind
+	 *           T to their own type.
 	 * @param path a path string
 	 * @return a list, not null
 	 */
@@ -237,6 +249,11 @@ public interface Node<T extends Node<T>> {
 			
 			part = part.trim();
 			if (part.isEmpty()) continue; // Skip empty parts
+			
+			Matcher matcher = pathPattern().matcher(part);
+			if (! matcher.matches()) {
+				throw new IllegalArgumentException("invalid path part: " + part);
+			}
 			
 			var matching = new ArrayList<T>();
 			for (T node : result) {
