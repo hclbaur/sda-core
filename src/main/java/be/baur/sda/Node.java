@@ -201,19 +201,14 @@ public interface Node<T extends Node<T>> {
 		return 0;
 	}
 
-	
-	/*
-	 * Returns a pre-compiled pattern to match a node name with an optional position
-	 * indicator in square brackets.
-	 */
-	private static Pattern pathPattern() {
-		return Pattern.compile("[^\\[]+(\\[(\\d+)\\])?");
-	}
 
 	/**
 	 * Returns a list of descendant nodes that match the given path, or an empty
-	 * list if no such nodes are found. The path is specified in X-path style, and
-	 * allows for node names and optional position indicators in square brackets.
+	 * list if no such nodes are found. The path is specified in a poor man's X-path
+	 * style, and allows for node names with optional position indicators in square
+	 * brackets. Other than that the path is interpreted literally, and does not
+	 * support wildcards or other X-Path features. The path is relative to this
+	 * node, and does not have to start with a slash.
 	 * For example:
 	 * <p>
 	 * {@code contact/phonenumber} selects all phone numbers of all contacts,<br>
@@ -234,6 +229,8 @@ public interface Node<T extends Node<T>> {
 	 */
 	default List<T> select(String path) {
 
+		final Pattern pattern = Pattern.compile("[^\\[\\]]+(\\[(\\d+)\\])?");
+		
 		if (path == null || path.isEmpty()) {
 			throw new IllegalArgumentException("path cannot be null or empty");
 		}
@@ -246,27 +243,37 @@ public interface Node<T extends Node<T>> {
 		result.add(initial); // start with this node
 		
 		for (String part : parts) {
-			
+
 			part = part.trim();
-			if (part.isEmpty()) continue; // Skip empty parts
-			
-			Matcher matcher = pathPattern().matcher(part);
-			if (! matcher.matches()) {
+			if (part.isEmpty())
+				continue; // Skip empty parts
+
+			Matcher matcher = pattern.matcher(part);
+			if (!matcher.matches()) {
 				throw new IllegalArgumentException("invalid path part: " + part);
 			}
-			
+
 			var matching = new ArrayList<T>();
 			for (T node : result) {
-				matching.addAll(node.getAll(part));
+
+				String position = matcher.group(2);
+				if (position != null) { // position specified in square brackets
+
+					String name = part.substring(0, part.indexOf('['));
+					int pos = Integer.parseInt(position);
+
+					List<T> nodes = node.getAll(name);
+					if (pos > 0 && pos <= nodes.size()) {
+						matching.add(nodes.get(pos - 1));
+					} // ignore if position is out of bounds
+
+				} else
+					matching.addAll(node.getAll(part));
 			}
 			result = matching;
 		}
 		
 		return result;
 	}
-	
-	
-//	static void main(String[] args) {
-//		"contact / phonenumber".split("/");
-//	}
+
 }
