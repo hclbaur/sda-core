@@ -49,6 +49,8 @@ public final class TestDataNode {
 		t.s("S21", String.valueOf(book.select("contact[2]/phonenumber").size()), "2");
 		t.s("S22", String.valueOf(book.select("contact/phonenumber[2]").size()), "2");
 		t.s("S23", String.valueOf(book.select("contact[2]/firstname").get(0).getValue()), "Bob");
+		t.s("S24", String.valueOf(book.select("contact/*").size()), "6");
+		t.s("S25", String.valueOf(book.select("contact/*[1]").get(0).getValue()), "Alice");
 		
 		t.checkFailures();
 	}

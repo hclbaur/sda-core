@@ -204,13 +204,14 @@ public interface Node<T extends Node<T>> {
 
 	/**
 	 * Returns a list of descendant nodes that match the given path, or an empty
-	 * list if no such nodes are found. The path is specified in a poor man's X-path
-	 * style, and allows for node names with optional position indicators in square
-	 * brackets. Other than that the path is interpreted literally, and does not
-	 * support wildcards or other X-Path features. The path is relative to this
-	 * node, and does not have to start with a slash.
-	 * For example:
+	 * list if no such nodes are found. The path is specified in X-path <i>style</i>,
+	 * selecting nodes by name (or wild card) with optional position indicators in
+	 * square brackets. Other than that the path is interpreted literally, and does
+	 * <i>not</i> support other X-Path features. The path is relative to this node, 
+	 * and does not have to start with a slash. For example:
 	 * <p>
+	 * {@code contact/*} selects all nodes of all contacts,<br>
+	 * {@code contact/*[1]} selects the first node of all contacts,<br>
 	 * {@code contact/phonenumber} selects all phone numbers of all contacts,<br>
 	 * {@code contact[2]/phonenumber} selects all phone numbers of the 2nd
 	 * contact,<br>
@@ -229,7 +230,7 @@ public interface Node<T extends Node<T>> {
 	 */
 	default List<T> select(String path) {
 
-		final Pattern pattern = Pattern.compile("[^\\[\\]]+(\\[(\\d+)\\])?");
+		final Pattern pattern = Pattern.compile("(\\*|[^\\[\\]]+)(\\[(\\d+)\\])?");
 		
 		if (path == null || path.isEmpty()) {
 			throw new IllegalArgumentException("path cannot be null or empty");
@@ -256,19 +257,21 @@ public interface Node<T extends Node<T>> {
 			var matching = new ArrayList<T>();
 			for (T node : result) {
 
-				String position = matcher.group(2);
+				String position = matcher.group(3);
+				String name = position == null ? part : part.substring(0, part.indexOf('['));
+				boolean wildcard = name.equals("*");
+				
 				if (position != null) { // position specified in square brackets
 
-					String name = part.substring(0, part.indexOf('['));
 					int pos = Integer.parseInt(position);
-
-					List<T> nodes = node.getAll(name);
+					var nodes = wildcard ? node.nodes() : node.getAll(name);
+					
 					if (pos > 0 && pos <= nodes.size()) {
 						matching.add(nodes.get(pos - 1));
 					} // ignore if position is out of bounds
 
 				} else
-					matching.addAll(node.getAll(part));
+					matching.addAll(wildcard ? node.nodes() : node.getAll(name));
 			}
 			result = matching;
 		}
