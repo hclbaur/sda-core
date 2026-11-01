@@ -145,17 +145,20 @@ DataNode root = new DataNode("root");
 List<DataNode> results = root.find(n -> n.getName().contains("id"));
 ```
 
-### Getting the Path to a Node
+### Getting the Path to a Node, or selecting it
 
 ```
-DataNode addressbook = new DataNode("addressbook");
+DataNode book = new DataNode("addressbook");
 DataNode contact = new DataNode("contact", "1");
 DataNode name = new DataNode("name", "Alice");
-contact.add(name);
-addressbook.add(contact);
+contact.add(name); book.add(contact);
 
 String path = name.path();  // Returns "/addressbook/contact/name"
+book.select("contact/name").get(0).getValue(); // Returns "Alice"
 ```
+
+The select() method supports a limited X-path style expression to select one or
+more nodes by their name and (optionally) position.
 
 ---
 

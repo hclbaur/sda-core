@@ -3,6 +3,8 @@ package be.baur.sda;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A {@code Node} is an object in a tree-like structure that stems from a single
@@ -166,6 +168,7 @@ public interface Node<T extends Node<T>> {
 	 *           names. If name is empty, an asterisk (*) is used instead.
 	 * 
 	 * @return the path to this node, for example {@code /root/message[2]/text[1]}
+	 * @see #select(String)
 	 */
 	default String path() {
 		
@@ -197,6 +200,93 @@ public interface Node<T extends Node<T>> {
 			if (list.get(i) == this)
 				return ++i;
 		return 0;
+	}
+
+
+	/**
+	 * Returns a list of descendant nodes that match the given path, or an empty
+	 * list if no such nodes are found. The path should be specified in X-path
+	 * <i>style</i>, and selects nodes by name (or wild card) with optional position
+	 * indicators in square brackets. Other than this, the path is interpreted
+	 * literally, and does <i>not</i> support any other X-Path features.<br>
+	 * The path is considered relative to this node, even when it starts with a
+	 * slash. Subsequent slashes have no special meaning and a path consisting of a
+	 * single slash will select this.<br>
+	 * For example:
+	 * <p>
+	 * {@code contact/*} selects all nodes of all contacts,<br>
+	 * {@code contact/*[1]} selects the first node of all contacts,<br>
+	 * {@code contact/phonenumber} selects all phone numbers of all contacts,<br>
+	 * {@code contact[2]/phonenumber} selects all phone numbers of the 2nd
+	 * contact,<br>
+	 * {@code contact/phonenumber[2]} selects the 2nd number of all contacts,
+	 * and<br>
+	 * {@code contact[2]/phonenumber[2]} selects the 2nd number of the 2nd
+	 * contact.<br>
+	 * <p>
+	 * This method will throw an IllegalArgumentException only if the path is null,
+	 * empty or syntactically invalid. A path that is syntactically valid but
+	 * selects no nodes will return an empty list.
+	 * 
+	 * @implNote the specified path is matched against node names as returned by
+	 *           {@link #getName}, and may contain any character allowed in these
+	 *           names, except '[' and ']'.
+	 * @implSpec assumes proper F-bounded polymorphism usage; subclasses should bind
+	 *           T to their own type.
+	 * @param path a path string
+	 * @return a list, not null
+	 * @throws IllegalArgumentException if the path is null, empty or invalid
+	 * @see #path()
+	 */
+	default List<T> select(String path) {
+
+		final Pattern pattern = Pattern.compile("(\\*|[^\\[\\]]+)(\\[(\\d+)\\])?");
+		
+		if (path == null || path.isEmpty()) {
+			throw new IllegalArgumentException("path cannot be null or empty");
+		}
+		
+		String[] parts = path.split("/");
+		var result = new ArrayList<T>();
+		
+		@SuppressWarnings("unchecked")
+		var initial = (T) this;
+		result.add(initial); // start with this node
+		
+		for (String part : parts) {
+
+			part = part.trim();
+			if (part.isEmpty())
+				continue; // Skip empty parts
+
+			Matcher matcher = pattern.matcher(part);
+			if (!matcher.matches()) {
+				throw new IllegalArgumentException("invalid path part: " + part);
+			}
+
+			var matching = new ArrayList<T>();
+			for (T node : result) {
+
+				String position = matcher.group(3);
+				String name = position == null ? part : part.substring(0, part.indexOf('['));
+				boolean wildcard = name.equals("*");
+				
+				if (position != null) { // position specified in square brackets
+
+					int pos = Integer.parseInt(position);
+					var nodes = wildcard ? node.nodes() : node.getAll(name);
+					
+					if (pos > 0 && pos <= nodes.size()) {
+						matching.add(nodes.get(pos - 1));
+					} // ignore if position is out of bounds
+
+				} else
+					matching.addAll(wildcard ? node.nodes() : node.getAll(name));
+			}
+			result = matching;
+		}
+		
+		return result;
 	}
 
 }

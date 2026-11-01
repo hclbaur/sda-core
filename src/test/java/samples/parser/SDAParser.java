@@ -11,7 +11,7 @@ import be.baur.sda.io.Parser;
 
 /**
  * Alternative SDA parser (actually the first one I wrote, and lacking support
- * for SDA 2.0, mind you). For example, when processing the following SDA input:
+ * for SDA 2, mind you). For example, when processing the following SDA input:
  * 
  * <pre>
  * greeting { message "hello" }

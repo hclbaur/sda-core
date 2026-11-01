@@ -3,7 +3,9 @@
 ## [2.4.1] - In development
 
 - Added AbstractNode.add(node, index).
-- Added a (simple) visual SDA editor.
+- Added a (simple) visual SDA editor in samples.
+- Added Node.select(path), mirroring Node.path().
+- Closed issue #15 (select a node(set) using some sort of expression). 
 
 ## Compatibility
 
